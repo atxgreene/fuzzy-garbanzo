@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Austin Greene — atxgreene.io</title>
+<meta name="description" content="Austin Greene — independent researcher and builder. AI memory systems, agent routing, autonomous trading, and applied math." />
+<meta name="author" content="Austin Greene" />
+<meta name="theme-color" content="#f1ede4" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://atxgreene.io/" />
+<meta property="og:title" content="Austin Greene — atxgreene.io" />
+<meta property="og:description" content="Independent researcher and builder. AI memory systems, agent routing, autonomous trading, and applied math." />
+<meta property="og:image" content="https://atxgreene.io/og.png" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@atxgreene" />
+<meta name="twitter:creator" content="@atxgreene" />
+<meta name="twitter:title" content="Austin Greene — atxgreene.io" />
+<meta name="twitter:description" content="Independent researcher and builder. AI memory systems, agent routing, autonomous trading, and applied math." />
+<meta name="twitter:image" content="https://atxgreene.io/og.png" />
+
+<link rel="canonical" href="https://atxgreene.io/" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #f1ede4;
+    --paper: #f7f4ec;
+    --ink: #101014;
+    --muted: #4a4640;
+    --rule: #1a1a1e;
+    --hot: #ff4d1a;
+    --lime: #c8ff4d;
+    --blue: #4d7dff;
+    --lilac: #c4a9ff;
+    --shadow: 6px 6px 0 var(--rule);
+    --shadow-hover: 8px 8px 0 var(--rule);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--hot); outline-offset: 3px; border-radius: 4px; }
+
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 28px 24px 72px; }
+  @media (min-width: 680px) { .wrap { padding: 36px 32px 96px; } }
+
+  /* Dotted paper texture */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: radial-gradient(rgba(0,0,0,.055) 1px, transparent 1px);
+    background-size: 6px 6px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .wrap > * { position: relative; z-index: 1; }
+
+  /* ───── Nav ───── */
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px;
+    border: 2px solid var(--rule); border-radius: 999px;
+    padding: 8px 18px;
+    background: var(--paper);
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+  nav .brand { font-weight: 700; font-size: 13px; letter-spacing: 0.02em; }
+  nav .status { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--muted); }
+  nav .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--lime); border: 1.5px solid var(--rule);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.3); } }
+  nav ul { list-style: none; display: flex; gap: 18px; margin: 0; padding: 0; font-size: 12px; }
+  nav a { text-decoration: none; }
+  nav a:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+
+  /* ───── Hero ───── */
+  .hero {
+    margin-bottom: 72px;
+    padding-top: 28px;
+    position: relative;
+  }
+  .hero .label {
+    display: inline-block; padding: 5px 12px;
+    background: var(--hot); color: #fff;
+    border: 2px solid var(--rule); border-radius: 999px;
+    font-weight: 700; font-size: 11px; letter-spacing: 0.08em;
+    margin-bottom: 20px; transform: rotate(-2deg);
+    box-shadow: 3px 3px 0 var(--rule);
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(56px, 11vw, 148px);
+    line-height: 0.9;
+    font-weight: 500;
+    letter-spacing: -0.045em;
+    margin: 0;
+  }
+  .hero h1 .wiggle {
+    display: inline-block; color: var(--hot);
+    font-style: italic; font-variation-settings: 'SOFT' 100;
+  }
+  .hero h1 .small { font-size: 0.45em; vertical-align: super; font-weight: 400; color: var(--muted); }
+  .hero .bio {
+    margin-top: 28px; max-width: 58ch;
+    font-size: 15px; line-height: 1.55;
+  }
+  .hero .bio strong { background: var(--lime); padding: 1px 5px; border-radius: 3px; }
+  .hero .blob {
+    position: absolute;
+    top: 6px; right: -20px;
+    width: 180px; height: 180px;
+    background: var(--lilac);
+    border: 2px solid var(--rule);
+    border-radius: 50%;
+    transform: rotate(-6deg);
+    z-index: -1;
+  }
+  .hero .sticker {
+    position: absolute;
+    right: 8px; bottom: -26px;
+    background: var(--lime);
+    border: 2px solid var(--rule);
+    border-radius: 10px;
+    padding: 9px 14px;
+    font-weight: 700; font-size: 12px;
+    transform: rotate(4deg);
+    box-shadow: 4px 4px 0 var(--rule);
+  }
+  @media (max-width: 640px) {
+    .hero .blob { width: 120px; height: 120px; right: -30px; }
+    .hero .sticker { right: 4px; bottom: -18px; padding: 7px 11px; font-size: 11px; }
+  }
+
+  /* ───── Sections ───── */
+  section { margin-bottom: 88px; }
+  .section-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 28px; padding-bottom: 10px;
+    border-bottom: 2px solid var(--rule);
+  }
+  .section-head h2 {
+    font-family: 'Fraunces', serif; font-weight: 500;
+    font-size: clamp(28px, 4.5vw, 36px);
+    letter-spacing: -0.02em; margin: 0; font-style: italic;
+  }
+  .section-head .num { font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: 0.05em; }
+
+  /* ───── Project grid ───── */
+  .grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; }
+  @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .grid { grid-template-columns: 1fr; } }
+
+  .card {
+    grid-column: span 3;
+    background: var(--paper);
+    border: 2px solid var(--rule);
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    transition: transform .18s ease, box-shadow .18s ease;
+    box-shadow: var(--shadow);
+    display: flex; flex-direction: column;
+  }
+  .card:hover { transform: translate(-2px, -2px); box-shadow: var(--shadow-hover); }
+  .card.big { grid-column: span 4; }
+  .card.small { grid-column: span 2; }
+  @media (max-width: 900px) { .card, .card.big, .card.small { grid-column: span 1; } }
+
+  .cover {
+    padding: 24px 24px 36px;
+    border-bottom: 2px solid var(--rule);
+    position: relative;
+    min-height: 150px;
+    display: flex; align-items: flex-end;
+    overflow: hidden;
+  }
+  .cover .badge {
+    position: absolute; top: 14px; right: 14px;
+    font-size: 10px; font-weight: 700; padding: 4px 8px;
+    border: 2px solid var(--rule); border-radius: 999px;
+    background: var(--paper);
+    letter-spacing: 0.04em;
+  }
+  .cover .symbol {
+    font-family: 'Fraunces', serif; font-style: italic;
+    font-size: 54px; line-height: 1; font-weight: 500;
+  }
+
+  /* Per-project covers */
+  .c-mnemosyne { background: var(--lilac); }
+  .c-tugboat { background: var(--blue); color: #fff; }
+  .c-apex { background: var(--lime); }
+  .c-eternal { background: var(--hot); color: #fff; }
+  .c-ben {
+    background: var(--paper);
+    background-image:
+      linear-gradient(45deg, rgba(26,26,30,.9) 25%, transparent 25%, transparent 75%, rgba(26,26,30,.9) 75%),
+      linear-gradient(45deg, rgba(26,26,30,.9) 25%, transparent 25%, transparent 75%, rgba(26,26,30,.9) 75%);
+    background-size: 16px 16px;
+    background-position: 0 0, 8px 8px;
+  }
+  .c-ben .symbol {
+    background: var(--paper); padding: 4px 12px;
+    border: 2px solid var(--rule); border-radius: 6px;
+  }
+  .c-workforce {
+    background: #fff;
+    background-image: linear-gradient(var(--rule) 1px, transparent 1px);
+    background-size: 100% 14px;
+  }
+  .c-workforce .symbol { background: var(--lime); padding: 2px 10px; border: 2px solid var(--rule); border-radius: 6px; }
+
+  .body { padding: 18px 22px 22px; display: flex; flex-direction: column; flex: 1; }
+  .body h3 {
+    font-family: 'Fraunces', serif; font-size: 22px;
+    font-weight: 500; margin: 0 0 6px; letter-spacing: -0.01em;
+  }
+  .body .desc {
+    font-size: 13px; color: var(--muted);
+    margin: 0 0 16px; line-height: 1.55;
+    flex: 1;
+  }
+  .body .tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+  .body .tag {
+    font-size: 10px; font-weight: 700;
+    padding: 3px 8px;
+    border: 1.5px solid var(--rule); border-radius: 999px;
+    text-transform: uppercase; letter-spacing: 0.04em;
+    background: var(--bg);
+  }
+  .body .cta { display: flex; gap: 14px; font-size: 12px; font-weight: 700; flex-wrap: wrap; }
+  .body .cta a {
+    color: var(--ink); text-decoration: none;
+    border-bottom: 2px solid var(--rule);
+    padding-bottom: 1px;
+    transition: background .12s ease, color .12s ease, border-color .12s ease;
+  }
+  .body .cta a:hover { background: var(--hot); color: #fff; border-color: var(--hot); }
+
+  /* ───── Writing list ───── */
+  .writing-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+  .writing-list li {
+    display: grid; grid-template-columns: 70px 1fr auto;
+    gap: 20px; align-items: baseline;
+    background: var(--paper);
+    border: 2px solid var(--rule); border-radius: 12px;
+    padding: 16px 20px;
+    box-shadow: 4px 4px 0 var(--rule);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .writing-list li:hover { transform: translate(-1px,-1px); box-shadow: 5px 5px 0 var(--rule); }
+  .writing-list .when {
+    font-size: 11px; font-weight: 700;
+    color: var(--muted); letter-spacing: 0.04em;
+  }
+  .writing-list h4 {
+    font-family: 'Fraunces', serif; font-size: 19px;
+    font-weight: 500; margin: 0; letter-spacing: -0.01em;
+  }
+  .writing-list p { margin: 4px 0 0; font-size: 13px; color: var(--muted); }
+  .writing-list .link {
+    font-weight: 700; font-size: 12px;
+    text-decoration: none; color: var(--ink);
+    border-bottom: 2px solid var(--rule);
+    white-space: nowrap;
+    padding-bottom: 1px;
+  }
+  .writing-list .link:hover { background: var(--lime); }
+  @media (max-width: 560px) {
+    .writing-list li { grid-template-columns: 1fr; gap: 6px; }
+    .writing-list .when { order: -1; }
+  }
+
+  /* ───── Footer ───── */
+  footer {
+    margin-top: 80px;
+    padding: 24px 26px;
+    background: var(--rule); color: var(--paper);
+    border-radius: 16px;
+    display: flex; justify-content: space-between;
+    align-items: center; flex-wrap: wrap; gap: 16px;
+    font-size: 12px;
+    box-shadow: var(--shadow);
+  }
+  footer a {
+    color: var(--paper); text-decoration: none;
+    margin-left: 16px; font-weight: 700;
+  }
+  footer a:hover { color: var(--lime); }
+  footer .brand { font-family: 'Fraunces', serif; font-style: italic; font-size: 18px; font-weight: 500; }
+  footer a:first-of-type { margin-left: 0; }
+
+  .sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+</style>
+</head>
+<body>
+  <a class="sr" href="#work">Skip to projects</a>
+
+  <div class="wrap">
+    <nav aria-label="Primary">
+      <span class="brand">atxgreene.io</span>
+      <ul>
+        <li><a href="#work">work</a></li>
+        <li><a href="#writing">writing</a></li>
+        <li><a href="#contact">contact</a></li>
+      </ul>
+      <span class="status" aria-label="Availability"><span class="dot" aria-hidden="true"></span>available for collabs</span>
+    </nav>
+
+    <header class="hero">
+      <div class="blob" aria-hidden="true"></div>
+      <span class="label">Independent researcher &amp; builder</span>
+      <h1>Austin <span class="wiggle">Greene</span><span class="small" aria-hidden="true">↗</span></h1>
+      <p class="bio">
+        I build <strong>AI memory systems</strong>, agent routers, autonomous trading engines, and the occasional slice of spectral geometry.
+        Most of it runs <strong>local-first</strong> with stdlib-only dependencies. Based in Austin, TX.
+      </p>
+      <div class="sticker">still shipping :)</div>
+    </header>
+
+    <section id="work" aria-labelledby="work-h">
+      <div class="section-head">
+        <h2 id="work-h">selected work</h2>
+        <span class="num">06 / projects</span>
+      </div>
+      <div class="grid">
+
+        <article class="card big">
+          <div class="cover c-mnemosyne"><span class="badge">2025 — now</span><span class="symbol">Mnemosyne</span></div>
+          <div class="body">
+            <h3>Mnemosyne</h3>
+            <p class="desc">Cognitive OS for local-first agents. 6-tier Integrated Cognitive Memory System, inner-dialogue roles (Planner / Critic / Doer / Evaluator), dream consolidation, self-improvement loop, and 19 model backends — all stdlib Python.</p>
+            <div class="tags"><span class="tag">Python</span><span class="tag">SQLite</span><span class="tag">MCP</span><span class="tag">stdlib</span></div>
+            <div class="cta"><a href="https://github.com/atxgreene/Mnemosyne">GitHub ↗</a></div>
+          </div>
+        </article>
+
+        <article class="card small">
+          <div class="cover c-tugboat"><span class="badge">2026</span><span class="symbol">Tugboat</span></div>
+          <div class="body">
+            <h3>Tugboat</h3>
+            <p class="desc">Declarative routing for agent harnesses. Four axes, markdown policies. 1.2k LOC, 34 tests, zero dependencies.</p>
+            <div class="tags"><span class="tag">Python</span><span class="tag">stdlib</span></div>
+            <div class="cta"><a href="https://github.com/atxgreene/tugboat">GitHub ↗</a></div>
+          </div>
+        </article>
+
+        <article class="card small">
+          <div class="cover c-apex"><span class="badge">2025 — now</span><span class="symbol">APEX</span></div>
+          <div class="body">
+            <h3>APEX</h3>
+            <p class="desc">Autonomous Kalshi + Polymarket trader with cross-platform arbitrage and meta-thinking validation.</p>
+            <div class="tags"><span class="tag">Python</span><span class="tag">async</span><span class="tag">fintech</span></div>
+            <div class="cta"><a href="#">Case study ↗</a></div>
+          </div>
+        </article>
+
+        <article class="card big">
+          <div class="cover c-workforce"><span class="badge">2026</span><span class="symbol">Payroll, automated.</span></div>
+          <div class="body">
+            <h3>Autonomous Workforce</h3>
+            <p class="desc">Full-stack payroll &amp; HR infrastructure. Hire → run payroll → IRS brackets + FICA → approve. Admin console, employee self-service portal, and a 4-page UI walkthrough.</p>
+            <div class="tags"><span class="tag">TypeScript</span><span class="tag">Next.js</span><span class="tag">Python API</span></div>
+            <div class="cta"><a href="#">Case study ↗</a></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="cover c-eternal"><span class="badge">2026</span><span class="symbol">∞</span></div>
+          <div class="body">
+            <h3>Eternal Context</h3>
+            <p class="desc">Hybrid AI agent with infinite persistent memory. Hermes 3 + cloud APIs on top of the ICMS/SDI memory stack.</p>
+            <div class="tags"><span class="tag">Python</span><span class="tag">JavaScript</span><span class="tag">Hermes 3</span></div>
+            <div class="cta"><a href="https://github.com/atxgreene/eternal-context">GitHub ↗</a></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="cover c-ben"><span class="badge">in progress</span><span class="symbol">B.E.N.</span></div>
+          <div class="body">
+            <h3>BEN</h3>
+            <p class="desc">Routing agent navigator — a persona-forward front-end to the Mnemosyne / Tugboat stack. Currently in active development.</p>
+            <div class="tags"><span class="tag">Python</span><span class="tag">agents</span></div>
+            <div class="cta"><a href="#">Notes ↗</a></div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <section id="writing" aria-labelledby="writing-h">
+      <div class="section-head">
+        <h2 id="writing-h">writing &amp; research</h2>
+        <span class="num">02 / pieces</span>
+      </div>
+      <ul class="writing-list">
+        <li>
+          <span class="when">2026</span>
+          <div>
+            <h4>A closed-form a₃ for transmission boundary conditions</h4>
+            <p>Heat-kernel coefficient for the pure-κ-jump transmission Laplacian. Targeting <em>Letters in Mathematical Physics</em>.</p>
+          </div>
+          <a class="link" href="#">draft ↗</a>
+        </li>
+        <li>
+          <span class="when">ongoing</span>
+          <div>
+            <h4>Substack</h4>
+            <p>Working notes on agents, memory, trading, and applied math.</p>
+          </div>
+          <a class="link" href="https://atxgreene.substack.com">read ↗</a>
+        </li>
+      </ul>
+    </section>
+
+    <footer id="contact">
+      <span class="brand">atxgreene</span>
+      <span>
+        <a href="https://github.com/atxgreene">github</a>
+        <a href="https://x.com/atxgreene">x</a>
+        <a href="https://linkedin.com/in/atxgreene">linkedin</a>
+        <a href="https://atxgreene.substack.com">substack</a>
+      </span>
+    </footer>
+  </div>
+</body>
+</html>
