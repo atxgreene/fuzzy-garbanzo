@@ -243,6 +243,15 @@
   }
   .c-workforce .symbol { background: var(--lime); color:#0b0820; padding: 2px 10px; border-radius: 6px; }
 
+  /* Image covers (real brand key art) */
+  .cover.art { min-height: 210px; background-size: cover; background-position: center; }
+  .cover.art::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(7,5,20,0.9) 0%, rgba(7,5,20,0.15) 55%, rgba(7,5,20,0.4) 100%);
+  }
+  .cover.art .badge, .cover.art .symbol { position: relative; z-index: 1; }
+  .cover.art .symbol { color: #fff; font-size: 30px; text-shadow: 0 2px 14px rgba(0,0,0,0.7); }
+
   .body { padding: 18px 22px 22px; display: flex; flex-direction: column; flex: 1; }
   .body h3 { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 500; margin: 0 0 6px; letter-spacing: -0.01em; }
   .body .desc { font-size: 13px; color: var(--muted); margin: 0 0 16px; line-height: 1.55; flex: 1; }
@@ -344,7 +353,7 @@
     <section id="work" aria-labelledby="work-h">
       <div class="section-head">
         <h2 id="work-h">selected work</h2>
-        <span class="num">06 / projects</span>
+        <span class="num">08 / projects</span>
       </div>
       <div class="grid">
 
@@ -405,6 +414,26 @@
             <p class="desc">Routing agent navigator — a persona-forward front-end to the Mnemosyne / Tugboat stack. Currently in active development.</p>
             <div class="tags"><span class="tag">Python</span><span class="tag">agents</span></div>
             <div class="cta"><a href="#">Notes ↗</a></div>
+          </div>
+        </article>
+
+        <article class="card big">
+          <div class="cover art" style="background-image:url('assets/projects/shadow-of-the-watchers.jpg')"><span class="badge">2026 · playable</span></div>
+          <div class="body">
+            <h3>Shadow of the Watchers</h3>
+            <p class="desc">Browser-based, StarCraft-style asymmetric RTS set in a mythic pre-flood world. Three genuinely asymmetric factions — Covenant Cities, Watcher Remnant, Nephilim Clans — with fog of war, A* pathfinding, full economy/tech trees, and a reactive AI opponent. 100% procedural: every model, sound, and map is generated in code, zero external assets.</p>
+            <div class="tags"><span class="tag">Three.js</span><span class="tag">Vite</span><span class="tag">WebGL</span><span class="tag">RTS</span></div>
+            <div class="cta"><a href="https://atxgreene.github.io/Ugh-Guys-/">Play ↗</a><a href="https://github.com/atxgreene/Ugh-Guys-">GitHub ↗</a></div>
+          </div>
+        </article>
+
+        <article class="card small">
+          <div class="cover art" style="background-image:url('assets/projects/watchers-fall-of-the-giants.jpg')"><span class="badge">2026 · vertical slice</span></div>
+          <div class="body">
+            <h3>The Watchers: Fall of the Giants</h3>
+            <p class="desc">Isometric action-roguelike. You are the Appointed Witness, hunting the fallen Watchers and Nephilim across the Desert of Azazel. Hades-style combat with Diablo-flavored pressure and "disclosure as progression" — the loot is knowledge. Built in Godot; sprites, VFX, and music all synthesized procedurally.</p>
+            <div class="tags"><span class="tag">Godot</span><span class="tag">GDScript</span><span class="tag">roguelike</span></div>
+            <div class="cta"><a href="https://atxgreene.github.io/giants/play/">Play ↗</a><a href="https://github.com/atxgreene/giants">GitHub ↗</a></div>
           </div>
         </article>
 
@@ -492,7 +521,7 @@
   var CACHE_KEY = 'gh_repos_v1';
   var CACHE_TTL = 60 * 60 * 1000; // 1 hour — keeps us well under the 60 req/hr unauthenticated limit
   // Repos already featured above (lowercased) — skip them in the live feed to avoid duplicates.
-  var FEATURED = ['mnemosyne', 'tugboat', 'eternal-context', 'fuzzy-garbanzo', 'fantastic-disco'];
+  var FEATURED = ['mnemosyne', 'tugboat', 'eternal-context', 'fuzzy-garbanzo', 'fantastic-disco', 'ugh-guys-', 'giants'];
   var LANG_COLORS = {
     Python: '#3572A5', JavaScript: '#f1e05a', TypeScript: '#3178c6', HTML: '#e34c26',
     CSS: '#563d7c', Rust: '#dea584', Go: '#00ADD8', Shell: '#89e051', 'Jupyter Notebook': '#DA5B0B',
