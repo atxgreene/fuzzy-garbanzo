@@ -202,7 +202,9 @@
   .card:hover { transform: translate(-2px, -2px); box-shadow: var(--shadow-hover); border-color: rgba(212,175,55,0.45); }
   .card.big { grid-column: span 4; }
   .card.small { grid-column: span 2; }
-  @media (max-width: 900px) { .card, .card.big, .card.small { grid-column: span 1; } }
+  .card.full { grid-column: span 6; }
+  .card.full .cover.art { min-height: 300px; }
+  @media (max-width: 900px) { .card, .card.big, .card.small, .card.full { grid-column: span 1; } }
 
   .cover {
     padding: 24px 24px 36px;
@@ -353,7 +355,7 @@
     <section id="work" aria-labelledby="work-h">
       <div class="section-head">
         <h2 id="work-h">selected work</h2>
-        <span class="num">08 / projects</span>
+        <span class="num">09 / projects</span>
       </div>
       <div class="grid">
 
@@ -434,6 +436,16 @@
             <p class="desc">Isometric action-roguelike. You are the Appointed Witness, hunting the fallen Watchers and Nephilim across the Desert of Azazel. Hades-style combat with Diablo-flavored pressure and "disclosure as progression" — the loot is knowledge. Built in Godot; sprites, VFX, and music all synthesized procedurally.</p>
             <div class="tags"><span class="tag">Godot</span><span class="tag">GDScript</span><span class="tag">roguelike</span></div>
             <div class="cta"><a href="https://atxgreene.github.io/giants/play/">Play ↗</a><a href="https://github.com/atxgreene/giants">GitHub ↗</a></div>
+          </div>
+        </article>
+
+        <article class="card full">
+          <div class="cover art" style="background-image:url('assets/projects/greene-halls.jpg')"><span class="badge">2026 · interactive</span></div>
+          <div class="body">
+            <h3>Greene Halls</h3>
+            <p class="desc">Twin WebGL exhibits — the Hall of the Watchers and the Hall of the Archangels — rendered in Three.js with 3D models, Doré engraving backdrops, and narrated voice-over for all 24 fallen Watchers and 12 archangels. A served, walk-through companion to the Greene Paleogenomic Museum VR.</p>
+            <div class="tags"><span class="tag">Three.js</span><span class="tag">WebGL</span><span class="tag">glTF</span><span class="tag">audio</span></div>
+            <div class="cta"><a href="https://atxgreene.github.io/greene-halls/">Enter ↗</a><a href="https://github.com/atxgreene/greene-halls">GitHub ↗</a></div>
           </div>
         </article>
 
@@ -518,10 +530,10 @@
 
   /* ── Live GitHub repos ── */
   var GH_USER = 'atxgreene';
-  var CACHE_KEY = 'gh_repos_v1';
+  var CACHE_KEY = 'gh_repos_v2';
   var CACHE_TTL = 60 * 60 * 1000; // 1 hour — keeps us well under the 60 req/hr unauthenticated limit
   // Repos already featured above (lowercased) — skip them in the live feed to avoid duplicates.
-  var FEATURED = ['mnemosyne', 'tugboat', 'eternal-context', 'fuzzy-garbanzo', 'fantastic-disco', 'ugh-guys-', 'giants'];
+  var FEATURED = ['mnemosyne', 'tugboat', 'eternal-context', 'fuzzy-garbanzo', 'fantastic-disco', 'ugh-guys-', 'giants', 'greene-halls'];
   var LANG_COLORS = {
     Python: '#3572A5', JavaScript: '#f1e05a', TypeScript: '#3178c6', HTML: '#e34c26',
     CSS: '#563d7c', Rust: '#dea584', Go: '#00ADD8', Shell: '#89e051', 'Jupyter Notebook': '#DA5B0B',
@@ -558,7 +570,10 @@
   }
 
   function render(repos) {
-    if (!repos || !repos.length) { return fail('No public repositories found.'); }
+    // Re-apply the featured filter at render time so changes to FEATURED take
+    // effect even when an older cached list is being shown.
+    repos = (repos || []).filter(function (r) { return FEATURED.indexOf(r.name.toLowerCase()) === -1; });
+    if (!repos.length) { return fail('No public repositories found.'); }
     grid.innerHTML = '';
     repos.forEach(function (r) {
       var color = LANG_COLORS[r.language] || '#8a84a8';
