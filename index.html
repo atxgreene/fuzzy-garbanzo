@@ -238,12 +238,6 @@
     background-size: 16px 16px; background-position: 0 0, 8px 8px;
   }
   .c-ben .symbol { background: var(--gold); color:#150f02; padding: 4px 12px; border-radius: 6px; }
-  .c-workforce {
-    background: #0e0a24;
-    background-image: linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
-    background-size: 100% 14px;
-  }
-  .c-workforce .symbol { background: var(--lime); color:#0b0820; padding: 2px 10px; border-radius: 6px; }
 
   /* Image covers (real brand key art) */
   .cover.art { min-height: 210px; background-size: cover; background-position: center; }
@@ -253,6 +247,17 @@
   }
   .cover.art .badge, .cover.art .symbol { position: relative; z-index: 1; }
   .cover.art .symbol { color: #fff; font-size: 30px; text-shadow: 0 2px 14px rgba(0,0,0,0.7); }
+
+  /* Live site embed previews (showcase the deployed GitHub Pages build) */
+  .cover.embed { padding: 0; min-height: 220px; height: 220px; align-items: stretch; }
+  .cover.embed iframe {
+    position: absolute; top: 0; left: 0;
+    width: 250%; height: 250%;
+    transform: scale(0.4); transform-origin: top left;
+    border: 0; background: #0b0820; pointer-events: none;
+  }
+  .cover.embed .embed-link { position: absolute; inset: 0; z-index: 2; display: block; }
+  .cover.embed .badge { z-index: 3; }
 
   .body { padding: 18px 22px 22px; display: flex; flex-direction: column; flex: 1; }
   .body h3 { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 500; margin: 0 0 6px; letter-spacing: -0.01em; }
@@ -372,12 +377,16 @@
         </article>
 
         <article class="card">
-          <div class="cover c-mnemosyne"><span class="badge">2025 — now</span><span class="symbol">Mnemosyne</span></div>
+          <div class="cover c-mnemosyne embed">
+            <iframe src="https://atxgreene.github.io/Mnemosyne/" title="Mnemosyne live site preview" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
+            <a class="embed-link" href="https://atxgreene.github.io/Mnemosyne/" aria-label="Open the Mnemosyne live site"></a>
+            <span class="badge">2025 — now</span>
+          </div>
           <div class="body">
             <h3>Mnemosyne</h3>
             <p class="desc">Cognitive OS for local-first agents. 6-tier Integrated Cognitive Memory System, inner-dialogue roles (Planner / Critic / Doer / Evaluator), dream consolidation, self-improvement loop, and 19 model backends — all stdlib Python. The core memory architecture the rest of the agent work is built on.</p>
             <div class="tags"><span class="tag">Python</span><span class="tag">SQLite</span><span class="tag">MCP</span><span class="tag">stdlib</span></div>
-            <div class="cta"><a href="https://github.com/atxgreene/Mnemosyne">GitHub ↗</a></div>
+            <div class="cta"><a href="https://atxgreene.github.io/Mnemosyne/">Live ↗</a><a href="https://github.com/atxgreene/Mnemosyne">GitHub ↗</a></div>
           </div>
         </article>
 
@@ -412,12 +421,16 @@
         </article>
 
         <article class="card">
-          <div class="cover c-tugboat"><span class="badge">2026</span><span class="symbol">Tugboat</span></div>
+          <div class="cover c-tugboat embed">
+            <iframe src="https://atxgreene.github.io/tugboat/" title="Tugboat live site preview" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
+            <a class="embed-link" href="https://atxgreene.github.io/tugboat/" aria-label="Open the Tugboat live site"></a>
+            <span class="badge">2026</span>
+          </div>
           <div class="body">
             <h3>Tugboat</h3>
             <p class="desc">Declarative routing for agent harnesses. Four axes, markdown policies. 1.2k LOC, 34 tests, zero dependencies.</p>
             <div class="tags"><span class="tag">Python</span><span class="tag">stdlib</span></div>
-            <div class="cta"><a href="https://github.com/atxgreene/tugboat">GitHub ↗</a></div>
+            <div class="cta"><a href="https://atxgreene.github.io/tugboat/">Live ↗</a><a href="https://github.com/atxgreene/tugboat">GitHub ↗</a></div>
           </div>
         </article>
 
@@ -447,16 +460,6 @@
             <h3>APEX</h3>
             <p class="desc">Autonomous Kalshi + Polymarket trader with cross-platform arbitrage and meta-thinking validation.</p>
             <div class="tags"><span class="tag">Python</span><span class="tag">async</span><span class="tag">fintech</span></div>
-            <div class="cta"><span class="soon">private build · case study soon</span></div>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="cover c-workforce"><span class="badge">2026</span><span class="symbol">Payroll, automated.</span></div>
-          <div class="body">
-            <h3>Autonomous Workforce</h3>
-            <p class="desc">Full-stack payroll &amp; HR infrastructure. Hire → run payroll → IRS brackets + FICA → approve. Admin console, employee self-service portal, and a 4-page UI walkthrough.</p>
-            <div class="tags"><span class="tag">TypeScript</span><span class="tag">Next.js</span><span class="tag">Python API</span></div>
             <div class="cta"><span class="soon">private build · case study soon</span></div>
           </div>
         </article>
