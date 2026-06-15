@@ -238,6 +238,16 @@
     background-size: 16px 16px; background-position: 0 0, 8px 8px;
   }
   .c-ben .symbol { background: var(--gold); color:#150f02; padding: 4px 12px; border-radius: 6px; }
+  .c-snakepit { background: linear-gradient(135deg, var(--lime), #1f6f3a); }
+  .c-bluebonnet { background: linear-gradient(135deg, var(--blue), var(--lilac)); }
+  .c-hermes { background: linear-gradient(135deg, var(--gold), var(--hot)); }
+  .c-aboveblack {
+    background: #0a0814;
+    background-image: repeating-linear-gradient(0deg, rgba(200,255,77,0.10) 0 1px, transparent 1px 9px);
+  }
+  .c-aboveblack .symbol { color: var(--lime); }
+  .c-devils { background: linear-gradient(135deg, var(--hot), #7a1020); }
+  .c-devils .symbol { color: #fff; }
 
   /* Image covers (real brand key art) */
   .cover.art { min-height: 210px; background-size: cover; background-position: center; }
@@ -362,7 +372,7 @@
     <section id="work" aria-labelledby="work-h">
       <div class="section-head">
         <h2 id="work-h">selected work</h2>
-        <span class="num">05 / projects</span>
+        <span class="num">10 / projects</span>
       </div>
       <div class="grid">
 
@@ -421,6 +431,68 @@
             <p class="desc">Declarative routing for agent harnesses. Four axes, markdown policies. 1.2k LOC, 34 tests, zero dependencies.</p>
             <div class="tags"><span class="tag">Python</span><span class="tag">stdlib</span></div>
             <div class="cta"><a href="https://atxgreene.github.io/tugboat/">Live ↗</a><a href="https://github.com/atxgreene/tugboat">GitHub ↗</a></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="cover c-snakepit embed">
+            <iframe src="https://snakepit.dev/" title="snakepit.dev live site preview" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
+            <a class="embed-link" href="https://snakepit.dev/" aria-label="Open the snakepit.dev live site"></a>
+            <span class="badge">live</span>
+          </div>
+          <div class="body">
+            <h3>snakepit.dev</h3>
+            <p class="desc">AI operations command center — helps small and mid-market teams cut token burn, govern AI agents, and run local-first AI ops.</p>
+            <div class="tags"><span class="tag">Static site</span><span class="tag">Vanilla JS</span><span class="tag">Pages</span></div>
+            <div class="cta"><a href="https://snakepit.dev/">Live ↗</a><a href="https://github.com/atxgreene/snakepit-dev">GitHub ↗</a></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="cover c-bluebonnet embed">
+            <iframe src="https://atxgreene.github.io/bluebonnet-legacy/" title="Bluebonnet Legacy live site preview" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
+            <a class="embed-link" href="https://atxgreene.github.io/bluebonnet-legacy/" aria-label="Open the Bluebonnet Legacy live site"></a>
+            <span class="badge">live</span>
+          </div>
+          <div class="body">
+            <h3>Bluebonnet Legacy</h3>
+            <p class="desc">Helps owners and operators modernize business operations through reporting architecture, process design, incentive alignment, and responsible agentic AI.</p>
+            <div class="tags"><span class="tag">Static site</span><span class="tag">Vanilla JS</span><span class="tag">Pages</span></div>
+            <div class="cta"><a href="https://atxgreene.github.io/bluebonnet-legacy/">Live ↗</a><a href="https://github.com/atxgreene/bluebonnet-legacy">GitHub ↗</a></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="cover c-hermes embed">
+            <iframe src="https://atxgreene.github.io/hermes-play-sheet/" title="Hermes play sheet live site preview" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
+            <a class="embed-link" href="https://atxgreene.github.io/hermes-play-sheet/" aria-label="Open the Hermes play sheet live site"></a>
+            <span class="badge">live</span>
+          </div>
+          <div class="body">
+            <h3>Hermes Play Sheet</h3>
+            <p class="desc">A single-page command &amp; skill play sheet — a quick visual reference for Hermes agent commands and skills.</p>
+            <div class="tags"><span class="tag">Tailwind</span><span class="tag">Vanilla JS</span><span class="tag">Pages</span></div>
+            <div class="cta"><a href="https://atxgreene.github.io/hermes-play-sheet/">Live ↗</a><a href="https://github.com/atxgreene/hermes-play-sheet">GitHub ↗</a></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="cover c-aboveblack"><span class="badge">restoring</span><span class="symbol">Above Black</span></div>
+          <div class="body">
+            <h3>Above Black Trainer</h3>
+            <p class="desc">Local-first, offline-capable PWA for precision frequency resonance and progressive line-training protocols.</p>
+            <div class="tags"><span class="tag">PWA</span><span class="tag">Web Audio</span><span class="tag">Chart.js</span><span class="tag">Tailwind</span></div>
+            <div class="cta"><a href="https://github.com/atxgreene/above-black-trainer">GitHub ↗</a><span class="soon">live build · restoring</span></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="cover c-devils"><span class="badge">in progress</span><span class="symbol">♠</span></div>
+          <div class="body">
+            <h3>Project Devil's Ace</h3>
+            <p class="desc">Don't Bust. — a blackjack-style card game.</p>
+            <div class="tags"><span class="tag">JavaScript</span><span class="tag">game</span></div>
+            <div class="cta"><a href="https://github.com/atxgreene/Project_Devils_Ace">GitHub ↗</a><span class="soon">pages going live</span></div>
           </div>
         </article>
 
