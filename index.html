@@ -427,10 +427,72 @@
   footer .brand { font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 16px; font-weight: 600; color: var(--teal); }
 
   .sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+  /* ───── Motion & liquid-smooth flow ───── */
+  /* keep anchor targets clear of the sticky nav */
+  :target, section[id], #top { scroll-margin-top: 86px; }
+
+  /* nav condenses on scroll */
+  nav { transition: background .25s ease, box-shadow .25s ease, border-color .25s ease; }
+  nav.scrolled { background: rgba(6,18,26,0.92); box-shadow: 0 14px 40px rgba(0,0,0,0.45); border-color: rgba(18,201,183,0.22); }
+
+  /* animated aurora layer behind everything (sits with the starfield) */
+  #aurora {
+    position: fixed; inset: -25%; z-index: 0; pointer-events: none; opacity: .6;
+    background:
+      radial-gradient(38vmax 38vmax at 18% 22%, rgba(18,201,183,0.16), transparent 60%),
+      radial-gradient(34vmax 34vmax at 84% 16%, rgba(249,115,22,0.10), transparent 62%),
+      radial-gradient(40vmax 40vmax at 60% 96%, rgba(11,110,105,0.20), transparent 62%);
+    filter: blur(8px);
+    animation: aurora 26s ease-in-out infinite alternate;
+  }
+  @keyframes aurora {
+    0%   { transform: translate3d(0,0,0) scale(1); }
+    50%  { transform: translate3d(2.5%, -2%, 0) scale(1.06); }
+    100% { transform: translate3d(-2%, 2.5%, 0) scale(1.02); }
+  }
+
+  /* phoenix marks: gentle float + breathing glow */
+  .mark-badge { will-change: transform; animation: float 7.5s ease-in-out infinite; }
+  nav .brand img { transition: transform .3s ease, filter .3s ease; }
+  nav .brand:hover img { transform: translateY(-1px) scale(1.05); filter: drop-shadow(0 0 8px rgba(18,201,183,0.5)); }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+
+  /* reveal-on-scroll (only when JS is on; full content if no-JS or reduced motion) */
+  .js .reveal { opacity: 0; transform: translateY(20px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); will-change: opacity, transform; }
+  .js .reveal.in { opacity: 1; transform: none; }
+
+  /* liquid pointer glow on feature panels */
+  .hero-card, .mark-card { --mx: 50%; --my: 0%; }
+  .hero-card::after, .mark-card::after {
+    content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background: radial-gradient(420px circle at var(--mx) var(--my), rgba(18,201,183,0.16), transparent 42%);
+    opacity: 0; transition: opacity .3s ease;
+  }
+  .hero-card:hover::after, .mark-card:hover::after { opacity: 1; }
+  .hero-card > *, .mark-card > * { position: relative; z-index: 1; }
+
+  /* richer card + chip hover */
+  .card { transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+  .lane, .glass { transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+  .lane:hover { transform: translateY(-3px); border-color: rgba(18,201,183,0.5); box-shadow: var(--shadow-hover); }
+  .chip, .tag { transition: border-color .2s ease, background .2s ease, color .2s ease; }
+  .chip:hover { border-color: rgba(18,201,183,0.5); color: var(--ink); }
+  .btn.primary { position: relative; overflow: hidden; }
+  .btn.primary::after { content: ''; position: absolute; top: 0; left: -120%; width: 60%; height: 100%; background: linear-gradient(110deg, transparent, rgba(255,255,255,0.35), transparent); transform: skewX(-18deg); transition: left .6s ease; }
+  .btn.primary:hover::after { left: 140%; }
+
+  @media (prefers-reduced-motion: reduce) {
+    #aurora, .mark-badge { animation: none !important; }
+    .js .reveal { opacity: 1 !important; transform: none !important; }
+    .hero-card::after, .mark-card::after, .btn.primary::after { display: none; }
+  }
 </style>
 </head>
 <body>
+  <script>document.documentElement.classList.add('js');</script>
   <a class="sr" href="#work">Skip to projects</a>
+  <div id="aurora" aria-hidden="true"></div>
   <div id="stars" aria-hidden="true"></div>
 
   <div class="wrap">
@@ -910,6 +972,61 @@
     .catch(function () {
       fail('Live feed is taking a break (GitHub rate limit or offline).');
     });
+})();
+</script>
+
+<script>
+(function () {
+  "use strict";
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── Reveal on scroll (staggered, grouped by container) ── */
+  (function reveal() {
+    var groups = document.querySelectorAll('.hero-grid, .lanes, .ticker, .cluster .grid, .writing-list, .contact-card, .section-head');
+    var targets = [];
+    groups.forEach(function (g) {
+      var kids = g.classList.contains('section-head') || g.classList.contains('ticker') || g.classList.contains('contact-card')
+        ? [g] : g.children;
+      Array.prototype.forEach.call(kids, function (el, i) {
+        el.classList.add('reveal');
+        el.style.transitionDelay = Math.min(i * 70, 420) + 'ms';
+        targets.push(el);
+      });
+    });
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+      targets.forEach(function (el) { el.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+    targets.forEach(function (el) { io.observe(el); });
+  })();
+
+  /* ── Nav condenses on scroll ── */
+  (function navScroll() {
+    var nav = document.querySelector('nav');
+    if (!nav) return;
+    var tick = false;
+    function update() { nav.classList.toggle('scrolled', window.scrollY > 24); tick = false; }
+    window.addEventListener('scroll', function () {
+      if (!tick) { tick = true; window.requestAnimationFrame(update); }
+    }, { passive: true });
+    update();
+  })();
+
+  /* ── Liquid pointer glow on feature panels ── */
+  if (!reduceMotion && window.matchMedia('(hover: hover)').matches) {
+    document.querySelectorAll('.hero-card, .mark-card').forEach(function (card) {
+      card.addEventListener('pointermove', function (e) {
+        var r = card.getBoundingClientRect();
+        card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+        card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+      });
+    });
+  }
 })();
 </script>
 </body>
