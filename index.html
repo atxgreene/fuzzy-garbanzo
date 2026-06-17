@@ -24,7 +24,7 @@
 <meta name="twitter:image" content="https://atxgreene.com/og.png" />
 
 <link rel="canonical" href="https://atxgreene.com/" />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" type="image/png" href="/favicon.png" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -112,50 +112,62 @@
   nav {
     display: flex; align-items: center; justify-content: space-between;
     gap: 12px;
+    position: sticky; top: 12px; z-index: 50;
     font-family: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
-    border: 1px solid var(--rule); border-radius: 12px;
-    padding: 10px 18px;
-    background: rgba(8,28,38,0.7);
-    backdrop-filter: blur(10px);
+    border: 1px solid var(--rule); border-radius: 14px;
+    padding: 10px 16px;
+    background: rgba(7,25,35,0.82);
+    backdrop-filter: blur(12px);
     margin-bottom: 40px;
     flex-wrap: wrap;
   }
-  nav .brand { font-weight: 700; font-size: 14px; letter-spacing: 0.01em; }
+  nav .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; font-size: 14px; letter-spacing: 0.01em; text-decoration: none; }
+  nav .brand svg, nav .brand img { height: 30px; width: auto; display: block; flex: none; }
   nav .brand .b-atx { color: var(--teal); }
   nav .brand .b-greene { color: var(--bone); }
   nav .brand .b-com { color: var(--orange); }
-  nav .status { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--muted); }
+  nav .status { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; color: #d7fffb; border: 1px solid rgba(18,201,183,0.35); background: rgba(18,201,183,0.10); padding: 6px 12px; border-radius: 999px; }
   nav .dot {
     width: 8px; height: 8px; border-radius: 50%;
     background: var(--teal); box-shadow: 0 0 8px var(--teal);
     animation: pulse 2.4s ease-in-out infinite;
   }
   @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.3); } }
-  nav ul { list-style: none; display: flex; gap: 18px; margin: 0; padding: 0; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; }
-  nav a { text-decoration: none; }
+  nav ul { list-style: none; display: flex; gap: 16px; margin: 0; padding: 0; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; flex-wrap: wrap; }
+  nav a { text-decoration: none; color: var(--muted); }
   nav a:hover { color: var(--teal); }
+  @media (max-width: 720px) { nav ul { display: none; } }
 
-  /* ───── Hero ───── */
-  .hero { margin-bottom: 72px; padding-top: 28px; position: relative; }
-  .hero .label {
-    display: inline-block; padding: 6px 14px;
-    font-family: 'IBM Plex Mono', ui-monospace, monospace;
-    background: var(--orange); color: #1a0c02;
-    border-radius: 8px;
-    font-weight: 700; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
-    margin-bottom: 22px;
-    box-shadow: 0 6px 20px rgba(249,115,22,0.28);
+  /* ───── Glass utility (restrained — premium, not generic-AI) ───── */
+  .glass {
+    background: linear-gradient(150deg, rgba(18,201,183,0.06), rgba(244,241,232,0.02));
+    border: 1px solid var(--rule);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
   }
-  .hero h1 {
+
+  /* ───── Hero (two-column) ───── */
+  .hero { margin-bottom: 64px; padding-top: 14px; }
+  .hero-grid { display: grid; grid-template-columns: minmax(0,1.25fr) minmax(290px,.75fr); gap: 16px; align-items: stretch; }
+  @media (max-width: 940px) { .hero-grid { grid-template-columns: 1fr; } }
+  .hero-card { padding: 34px; position: relative; overflow: hidden; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 9px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600;
+    letter-spacing: 0.04em; color: #d6fffb;
+    background: rgba(18,201,183,0.10); border: 1px solid rgba(18,201,183,0.30);
+    padding: 7px 12px; border-radius: 999px;
+  }
+  .eyebrow .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 10px var(--teal); animation: pulse 2.4s ease-in-out infinite; }
+  .kicker { font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin: 22px 0 0; }
+  .hero-card h1 {
     font-family: 'Space Grotesk', system-ui, sans-serif;
-    font-size: clamp(56px, 11vw, 140px);
-    line-height: 0.92;
-    font-weight: 600;
-    letter-spacing: -0.04em;
-    margin: 0;
-    color: var(--bone);
+    font-size: clamp(42px, 6.6vw, 84px);
+    line-height: 0.92; font-weight: 600; letter-spacing: -0.04em;
+    margin: 8px 0 18px; color: var(--bone);
   }
-  .hero h1 .wiggle {
+  .wiggle {
     display: inline-block;
     background: linear-gradient(92deg, var(--teal), var(--orange-2));
     background-size: 220% 100%;
@@ -164,27 +176,65 @@
     animation: shimmer 8s linear infinite;
   }
   @keyframes shimmer { to { background-position: 220% 0; } }
-  .hero h1 .small { font-size: 0.4em; vertical-align: super; font-weight: 400; color: var(--teal); -webkit-text-fill-color: var(--teal); }
-  .hero .tagline {
-    font-family: 'Space Grotesk', system-ui, sans-serif;
-    font-size: clamp(20px, 3.4vw, 30px); font-weight: 500;
-    letter-spacing: -0.01em; margin: 22px 0 0; color: var(--bone);
+  .small { font-size: 0.4em; vertical-align: super; font-weight: 400; color: var(--teal); -webkit-text-fill-color: var(--teal); }
+  .lead { font-size: clamp(16px, 1.9vw, 20px); line-height: 1.45; color: var(--muted); max-width: 60ch; margin: 0 0 24px; }
+  .lead strong { color: var(--bone); font-weight: 600; }
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    border-radius: 10px; padding: 12px 18px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600;
+    border: 1px solid var(--rule); text-decoration: none; color: var(--ink);
+    transition: transform .15s ease, background .15s ease, color .15s ease, border-color .15s ease;
   }
-  .hero .tagline em { font-style: normal; color: var(--teal); }
-  .hero .bio { margin-top: 18px; max-width: 60ch; font-size: 15px; line-height: 1.6; color: #c5d2d7; }
-  .hero .bio strong { color: var(--navy); background: var(--teal); padding: 1px 6px; border-radius: 4px; font-weight: 600; }
-  .hero .sticker {
-    position: absolute;
-    right: 8px; bottom: -26px;
-    font-family: 'IBM Plex Mono', ui-monospace, monospace;
-    background: var(--teal); color: var(--navy);
-    border-radius: 8px;
-    padding: 9px 14px;
-    font-weight: 700; font-size: 12px; letter-spacing: 0.04em;
-    transform: rotate(-1.5deg);
-    box-shadow: 0 8px 22px rgba(18,201,183,0.25);
-  }
-  @media (max-width: 640px) { .hero .sticker { right: 4px; bottom: -18px; padding: 7px 11px; font-size: 11px; } }
+  .btn.primary { background: var(--teal); color: var(--navy); border-color: transparent; }
+  .btn.primary:hover { background: #2ad9c8; }
+  .btn.ghost { background: rgba(244,241,232,0.04); }
+  .btn.ghost:hover { border-color: var(--teal); color: var(--teal); }
+  .btn:hover { transform: translateY(-2px); }
+  .mini-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-top: 30px; }
+  @media (max-width: 560px) { .mini-row { grid-template-columns: 1fr; } }
+  .mini { border: 1px solid var(--rule); border-radius: 12px; padding: 14px; background: rgba(7,25,35,0.4); }
+  .mini b { display: block; font-family: 'Space Grotesk', sans-serif; font-size: 13px; color: var(--teal); margin-bottom: 6px; }
+  .mini span { display: block; font-size: 12px; line-height: 1.5; color: var(--muted); }
+
+  .side { display: grid; gap: 16px; grid-template-rows: 1fr auto; }
+  .mark-card { padding: 24px; display: flex; flex-direction: column; justify-content: space-between; gap: 18px; min-height: 230px; position: relative; overflow: hidden; }
+  .mark-card .side-title { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+  .mark-card h2 { font-family: 'Space Grotesk', sans-serif; font-size: 23px; line-height: 1.1; letter-spacing: -0.03em; margin: 8px 0 0; color: var(--bone); }
+  .mark-badge { height: 168px; width: auto; align-self: center; filter: drop-shadow(0 8px 26px rgba(18,201,183,0.22)); }
+  .mark-card::after { content: ''; position: absolute; inset: auto -20% -40% -20%; height: 220px; background: radial-gradient(ellipse at center, rgba(18,201,183,0.18), transparent 62%); pointer-events: none; }
+  .now-card { padding: 22px; display: grid; gap: 12px; }
+  .now-line { display: grid; grid-template-columns: 74px 1fr; gap: 12px; padding-top: 12px; border-top: 1px solid var(--rule); }
+  .now-line:first-of-type { border-top: 0; padding-top: 0; }
+  .now-line b { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); }
+  .now-line span { font-size: 13px; line-height: 1.5; color: var(--muted); }
+
+  /* ───── Lanes ───── */
+  .ticker { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 20px; }
+  .chip { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); border: 1px solid var(--rule); border-radius: 999px; padding: 6px 10px; background: rgba(18,201,183,0.04); }
+  .lanes { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+  @media (max-width: 940px) { .lanes { grid-template-columns: repeat(2,1fr); } }
+  @media (max-width: 520px) { .lanes { grid-template-columns: 1fr; } }
+  .lane { padding: 22px; min-height: 200px; display: flex; flex-direction: column; }
+  .lane .num { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.14em; color: var(--orange-2); }
+  .lane h3 { font-family: 'Space Grotesk', sans-serif; font-size: 19px; line-height: 1.1; letter-spacing: -0.02em; margin: 18px 0 10px; color: var(--bone); }
+  .lane p { font-size: 13px; line-height: 1.55; color: var(--muted); margin: 0; }
+
+  /* ───── Clusters within selected work ───── */
+  .cluster { margin-top: 34px; }
+  .cluster:first-of-type { margin-top: 6px; }
+  .cluster-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+  .cluster-head h3 { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--bone); margin: 0; display: inline-flex; align-items: center; gap: 10px; }
+  .cluster-head h3::before { content: ''; width: 11px; height: 11px; border-radius: 3px; background: var(--teal); box-shadow: 0 0 10px rgba(18,201,183,0.5); flex: none; }
+  .cluster-head p { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); margin: 0; }
+
+  /* ───── Contact card ───── */
+  .contact-card { padding: 34px; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; }
+  @media (max-width: 760px) { .contact-card { grid-template-columns: 1fr; } }
+  .contact-card h2 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(28px,4vw,46px); line-height: 1; letter-spacing: -0.03em; margin: 0 0 12px; color: var(--bone); }
+  .contact-card p { color: var(--muted); line-height: 1.55; max-width: 56ch; margin: 0; }
+  .contact-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 
   /* ───── Sections ───── */
   section { margin-bottom: 88px; }
@@ -365,20 +415,16 @@
 
   /* ───── Footer ───── */
   footer {
-    margin-top: 80px; padding: 24px 26px;
-    background: rgba(8,28,38,0.6); color: var(--ink);
+    margin-top: 24px; padding: 20px 26px;
+    background: rgba(8,28,38,0.6); color: var(--muted);
     border: 1px solid var(--rule);
     border-radius: 14px;
-    display: flex; justify-content: space-between;
-    align-items: center; flex-wrap: wrap; gap: 16px;
     font-family: 'IBM Plex Mono', monospace;
     font-size: 12px;
     box-shadow: var(--shadow);
   }
-  footer a { color: var(--ink); text-decoration: none; margin-left: 16px; font-weight: 600; }
-  footer a:hover { color: var(--teal); }
-  footer .brand { font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 18px; font-weight: 600; color: var(--teal); }
-  footer a:first-of-type { margin-left: 0; }
+  .footer-row { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+  footer .brand { font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 16px; font-weight: 600; color: var(--teal); }
 
   .sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 </style>
@@ -389,194 +435,285 @@
 
   <div class="wrap">
     <nav aria-label="Primary">
-      <span class="brand"><span class="b-atx">atx</span><span class="b-greene">greene</span><span class="b-com">.com</span></span>
+      <a class="brand" href="#top" aria-label="ATXGreene home">
+        <img src="assets/brand/phoenix-mark.png" alt="" aria-hidden="true" />
+        <span><span class="b-atx">ATX</span><span class="b-greene">Greene</span><span class="b-com">.com</span></span>
+      </a>
       <ul>
         <li><a href="#work">work</a></li>
-        <li><a href="#other">other</a></li>
+        <li><a href="#lanes">lanes</a></li>
+        <li><a href="#writing">research</a></li>
         <li><a href="#live">live</a></li>
-        <li><a href="#writing">writing</a></li>
         <li><a href="#contact">contact</a></li>
       </ul>
-      <span class="status" aria-label="Availability"><span class="dot" aria-hidden="true"></span>available for collabs</span>
+      <a class="status" href="#contact"><span class="dot" aria-hidden="true"></span>available for select builds</a>
     </nav>
 
-    <header class="hero">
-      <span class="label">Operator · Builder · Researcher</span>
-      <h1>Austin <span class="wiggle">Greene</span><span class="small" aria-hidden="true">↗</span></h1>
-      <p class="tagline">Build the edge. <em>Keep the soul.</em></p>
-      <p class="bio">
-        I build <strong>AI memory systems</strong>, agent routers, autonomous trading engines, and the occasional slice of spectral geometry.
-        Most of it runs <strong>local-first</strong> with stdlib-only dependencies — research-grade tools, shipped.
-      </p>
-      <div class="sticker">Austin, TX ★</div>
+    <header class="hero" id="top">
+      <div class="hero-grid">
+        <div class="hero-card glass">
+          <span class="eyebrow"><span class="dot" aria-hidden="true"></span> Operator · Builder · Researcher</span>
+          <p class="kicker">Austin Greene · Austin-rooted</p>
+          <h1>Build the edge.<br><span class="wiggle">Keep the soul.</span></h1>
+          <p class="lead">
+            I turn hard problems into working systems — <strong>local-first AI agents and memory</strong>,
+            AI-operations tooling for real teams, and immersive research worlds. My lane is the bridge between
+            <strong>operator judgment, hands-on building, and research</strong>.
+          </p>
+          <div class="cta-row">
+            <a class="btn primary" href="#work">View selected work →</a>
+            <a class="btn ghost" href="#contact">Start a conversation</a>
+            <a class="btn ghost" href="https://github.com/atxgreene" target="_blank" rel="noopener">GitHub ↗</a>
+          </div>
+          <div class="mini-row">
+            <div class="mini"><b>Operator</b><span>AI adoption &amp; enablement, operations modernization, and reporting / process design for real teams.</span></div>
+            <div class="mini"><b>Builder</b><span>Local-first agents, memory systems, routers, WebGL exhibits, games, and PWAs — shipped.</span></div>
+            <div class="mini"><b>Researcher</b><span>Spectral geometry &amp; boundary conditions, applied math, and disclosure-era lore.</span></div>
+          </div>
+        </div>
+
+        <aside class="side">
+          <div class="mark-card glass">
+            <div>
+              <div class="side-title">Identity core</div>
+              <h2>Operator brain.<br>Builder hands.<br>Researcher soul.</h2>
+            </div>
+            <img class="mark-badge" src="assets/brand/phoenix-mark.png" alt="ATXGreene phoenix mark" loading="lazy" />
+          </div>
+          <div class="now-card glass">
+            <div class="now-line"><b>Based</b><span>Austin-rooted · remote-capable. Public brand stays ATX; client work stays clean and executive-safe.</span></div>
+            <div class="now-line"><b>Now</b><span>Shipping local-first agent memory (Mnemosyne), agent routing (Tugboat), and AI-ops tooling (snakepit.dev).</span></div>
+            <div class="now-line"><b>Best fit</b><span>Teams that need someone to diagnose the operation, design the system, and ship the artifact.</span></div>
+          </div>
+        </aside>
+      </div>
     </header>
+
+    <section id="lanes" aria-labelledby="lanes-h">
+      <div class="section-head">
+        <h2 id="lanes-h">four lanes</h2>
+        <span class="num">one operating thesis</span>
+      </div>
+      <div class="ticker" aria-label="Skill stack">
+        <span class="chip">agentic AI</span><span class="chip">local-first</span><span class="chip">Python / SQLite</span><span class="chip">Three.js / WebGL</span><span class="chip">GitHub Pages</span><span class="chip">AI enablement</span><span class="chip">ops modernization</span><span class="chip">applied math</span>
+      </div>
+      <div class="lanes">
+        <article class="lane glass">
+          <div class="num">01 / FIELD OPS</div>
+          <h3>AI-enabled business execution</h3>
+          <p>Turn AI from a promise into an operating rhythm: adoption, enablement, reporting architecture, process design, and measurable change.</p>
+        </article>
+        <article class="lane glass">
+          <div class="num">02 / MEMORY</div>
+          <h3>Local-first agent architecture</h3>
+          <p>Memory, routing, and durable context so agents have continuity — without turning every problem into cloud bloat.</p>
+        </article>
+        <article class="lane glass">
+          <div class="num">03 / WORLDS</div>
+          <h3>Immersive research environments</h3>
+          <p>Turn difficult material — ancient texts, mythos, and research — into WebGL exhibits and playable worlds you can walk through.</p>
+        </article>
+        <article class="lane glass">
+          <div class="num">04 / SIGNAL</div>
+          <h3>Writing, synthesis &amp; applied math</h3>
+          <p>Convert scattered information into clear results: research notes, spectral-geometry work, and reusable operating sheets.</p>
+        </article>
+      </div>
+    </section>
 
     <section id="work" aria-labelledby="work-h">
       <div class="section-head">
         <h2 id="work-h">selected work</h2>
-        <span class="num">10 / projects</span>
+        <span class="num">13 / projects · clustered</span>
       </div>
-      <div class="grid">
 
-        <article class="card full">
-          <div class="cover art" style="background-image:url('assets/projects/greene-halls.jpg')"><span class="badge">2026 · interactive</span></div>
-          <div class="body">
-            <h3>Greene Halls</h3>
-            <p class="desc">Twin WebGL exhibits — the Hall of the Watchers and the Hall of the Archangels — rendered in Three.js with 3D models, Doré engraving backdrops, and narrated voice-over for all 24 fallen Watchers and 12 archangels. A served, walk-through companion to the Greene Paleogenomic Museum VR.</p>
-            <div class="tags"><span class="tag">Three.js</span><span class="tag">WebGL</span><span class="tag">glTF</span><span class="tag">audio</span></div>
-            <div class="cta"><a href="https://atxgreene.github.io/greene-halls/">Enter ↗</a><a href="https://github.com/atxgreene/greene-halls">GitHub ↗</a></div>
-          </div>
-        </article>
+      <div class="cluster">
+        <div class="cluster-head">
+          <h3>Agent memory &amp; infrastructure</h3>
+          <p>the technical spine the rest is built on</p>
+        </div>
+        <div class="grid">
 
-        <article class="card">
-          <div class="cover c-snakepit embed">
-            <iframe src="https://snakepit.dev/" title="snakepit.dev live site preview" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
-            <a class="embed-link" href="https://snakepit.dev/" aria-label="Open the snakepit.dev live site"></a>
-            <span class="badge">live</span>
-          </div>
-          <div class="body">
-            <h3>snakepit.dev</h3>
-            <p class="desc">AI operations command center — helps small and mid-market teams cut token burn, govern AI agents, and run local-first AI ops.</p>
-            <div class="tags"><span class="tag">Static site</span><span class="tag">Vanilla JS</span><span class="tag">Pages</span></div>
-            <div class="cta"><a href="https://snakepit.dev/">Live ↗</a><a href="https://github.com/atxgreene/snakepit-dev">GitHub ↗</a></div>
-          </div>
-        </article>
+          <article class="card">
+            <div class="cover c-mnemosyne embed">
+              <iframe src="https://atxgreene.github.io/Mnemosyne/" title="Mnemosyne live site preview" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
+              <a class="embed-link" href="https://atxgreene.github.io/Mnemosyne/" aria-label="Open the Mnemosyne live site"></a>
+              <span class="badge">2025 — now</span>
+            </div>
+            <div class="body">
+              <h3>Mnemosyne</h3>
+              <p class="desc">Cognitive OS for local-first agents. 6-tier Integrated Cognitive Memory System, inner-dialogue roles (Planner / Critic / Doer / Evaluator), dream consolidation, self-improvement loop, and 19 model backends — all stdlib Python. The core memory architecture the rest of the agent work is built on.</p>
+              <div class="tags"><span class="tag">Python</span><span class="tag">SQLite</span><span class="tag">MCP</span><span class="tag">stdlib</span></div>
+              <div class="cta"><a href="https://atxgreene.github.io/Mnemosyne/">Live ↗</a><a href="https://github.com/atxgreene/Mnemosyne">GitHub ↗</a></div>
+            </div>
+          </article>
 
-        <article class="card">
-          <div class="cover c-bluebonnet embed">
-            <iframe src="https://atxgreene.github.io/bluebonnet-legacy/" title="Bluebonnet Legacy live site preview" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
-            <a class="embed-link" href="https://atxgreene.github.io/bluebonnet-legacy/" aria-label="Open the Bluebonnet Legacy live site"></a>
-            <span class="badge">live</span>
-          </div>
-          <div class="body">
-            <h3>Bluebonnet Legacy</h3>
-            <p class="desc">Helps owners and operators modernize business operations through reporting architecture, process design, incentive alignment, and responsible agentic AI.</p>
-            <div class="tags"><span class="tag">Static site</span><span class="tag">Vanilla JS</span><span class="tag">Pages</span></div>
-            <div class="cta"><a href="https://atxgreene.github.io/bluebonnet-legacy/">Live ↗</a><a href="https://github.com/atxgreene/bluebonnet-legacy">GitHub ↗</a></div>
-          </div>
-        </article>
+          <article class="card">
+            <div class="cover c-tugboat embed">
+              <iframe src="https://atxgreene.github.io/tugboat/" title="Tugboat live site preview" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
+              <a class="embed-link" href="https://atxgreene.github.io/tugboat/" aria-label="Open the Tugboat live site"></a>
+              <span class="badge">2026</span>
+            </div>
+            <div class="body">
+              <h3>Tugboat</h3>
+              <p class="desc">Declarative routing for agent harnesses. Four axes, markdown policies. 1.2k LOC, 34 tests, zero dependencies.</p>
+              <div class="tags"><span class="tag">Python</span><span class="tag">stdlib</span></div>
+              <div class="cta"><a href="https://atxgreene.github.io/tugboat/">Live ↗</a><a href="https://github.com/atxgreene/tugboat">GitHub ↗</a></div>
+            </div>
+          </article>
 
-        <article class="card">
-          <div class="cover c-mnemosyne embed">
-            <iframe src="https://atxgreene.github.io/Mnemosyne/" title="Mnemosyne live site preview" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
-            <a class="embed-link" href="https://atxgreene.github.io/Mnemosyne/" aria-label="Open the Mnemosyne live site"></a>
-            <span class="badge">2025 — now</span>
-          </div>
-          <div class="body">
-            <h3>Mnemosyne</h3>
-            <p class="desc">Cognitive OS for local-first agents. 6-tier Integrated Cognitive Memory System, inner-dialogue roles (Planner / Critic / Doer / Evaluator), dream consolidation, self-improvement loop, and 19 model backends — all stdlib Python. The core memory architecture the rest of the agent work is built on.</p>
-            <div class="tags"><span class="tag">Python</span><span class="tag">SQLite</span><span class="tag">MCP</span><span class="tag">stdlib</span></div>
-            <div class="cta"><a href="https://atxgreene.github.io/Mnemosyne/">Live ↗</a><a href="https://github.com/atxgreene/Mnemosyne">GitHub ↗</a></div>
-          </div>
-        </article>
+          <article class="card">
+            <div class="cover c-eternal"><span class="badge">2026</span><span class="symbol">∞</span></div>
+            <div class="body">
+              <h3>Eternal Context</h3>
+              <p class="desc">Hybrid AI agent with infinite persistent memory. Hermes 3 + cloud APIs on top of the ICMS/SDI memory stack — the foundation Mnemosyne grew from.</p>
+              <div class="tags"><span class="tag">Python</span><span class="tag">JavaScript</span><span class="tag">Hermes 3</span></div>
+              <div class="cta"><a href="https://github.com/atxgreene/eternal-context">GitHub ↗</a></div>
+            </div>
+          </article>
 
-        <article class="card">
-          <div class="cover art" style="background-image:url('assets/projects/shadow-of-the-watchers.jpg')"><span class="badge">2026 · playable</span><a class="embed-link" href="https://atxgreene.github.io/Ugh-Guys-/" aria-label="Play Shadow of the Watchers"></a></div>
-          <div class="body">
-            <h3>Shadow of the Watchers</h3>
-            <p class="desc">Browser-based, StarCraft-style asymmetric RTS set in a mythic pre-flood world. Three genuinely asymmetric factions — Covenant Cities, Watcher Remnant, Nephilim Clans — with fog of war, A* pathfinding, full economy/tech trees, and a reactive AI opponent. 100% procedural: every model, sound, and map is generated in code, zero external assets.</p>
-            <div class="tags"><span class="tag">Three.js</span><span class="tag">Vite</span><span class="tag">WebGL</span><span class="tag">RTS</span></div>
-            <div class="cta"><a href="https://atxgreene.github.io/Ugh-Guys-/">Play ↗</a><a href="https://github.com/atxgreene/Ugh-Guys-">GitHub ↗</a></div>
-          </div>
-        </article>
+          <article class="card">
+            <div class="cover c-ben"><span class="badge">in progress</span><span class="symbol">B.E.N.</span></div>
+            <div class="body">
+              <h3>BEN</h3>
+              <p class="desc">Routing agent navigator — a persona-forward front-end to the Mnemosyne / Tugboat stack. Currently in active development.</p>
+              <div class="tags"><span class="tag">Python</span><span class="tag">agents</span></div>
+              <div class="cta"><a href="#">Notes ↗</a></div>
+            </div>
+          </article>
 
-        <article class="card">
-          <div class="cover art" style="background-image:url('assets/projects/watchers-fall-of-the-giants.jpg')"><span class="badge">2026 · vertical slice</span><a class="embed-link" href="https://atxgreene.github.io/giants/play/" aria-label="Play The Watchers: Fall of the Giants"></a></div>
-          <div class="body">
-            <h3>The Watchers: Fall of the Giants</h3>
-            <p class="desc">Isometric action-roguelike. You are the Appointed Witness, hunting the fallen Watchers and Nephilim across the Desert of Azazel. Hades-style combat with Diablo-flavored pressure and "disclosure as progression" — the loot is knowledge. Built in Godot; sprites, VFX, and music all synthesized procedurally.</p>
-            <div class="tags"><span class="tag">Godot</span><span class="tag">GDScript</span><span class="tag">roguelike</span></div>
-            <div class="cta"><a href="https://atxgreene.github.io/giants/play/">Play ↗</a><a href="https://github.com/atxgreene/giants">GitHub ↗</a></div>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="cover c-tugboat embed">
-            <iframe src="https://atxgreene.github.io/tugboat/" title="Tugboat live site preview" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
-            <a class="embed-link" href="https://atxgreene.github.io/tugboat/" aria-label="Open the Tugboat live site"></a>
-            <span class="badge">2026</span>
-          </div>
-          <div class="body">
-            <h3>Tugboat</h3>
-            <p class="desc">Declarative routing for agent harnesses. Four axes, markdown policies. 1.2k LOC, 34 tests, zero dependencies.</p>
-            <div class="tags"><span class="tag">Python</span><span class="tag">stdlib</span></div>
-            <div class="cta"><a href="https://atxgreene.github.io/tugboat/">Live ↗</a><a href="https://github.com/atxgreene/tugboat">GitHub ↗</a></div>
-          </div>
-        </article>
-
-        <article class="card full">
-          <div class="cover c-hermes live">
-            <iframe src="https://atxgreene.github.io/hermes-play-sheet/" title="Hermes play sheet — embedded agent reference" loading="lazy"></iframe>
-            <span class="badge">live · embedded</span>
-          </div>
-          <div class="body">
-            <h3>Hermes Play Sheet</h3>
-            <p class="desc">A single-page command &amp; skill play sheet — a quick visual reference for Hermes agent commands and skills, embedded live above for in-place reading.</p>
-            <div class="tags"><span class="tag">Tailwind</span><span class="tag">Vanilla JS</span><span class="tag">Pages</span></div>
-            <div class="cta"><a href="https://atxgreene.github.io/hermes-play-sheet/">Open full ↗</a><a href="https://github.com/atxgreene/hermes-play-sheet">GitHub ↗</a></div>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="cover c-aboveblack"><span class="badge">restoring</span><span class="symbol">Above Black</span></div>
-          <div class="body">
-            <h3>Above Black Trainer</h3>
-            <p class="desc">Local-first, offline-capable PWA for precision frequency resonance and progressive line-training protocols.</p>
-            <div class="tags"><span class="tag">PWA</span><span class="tag">Web Audio</span><span class="tag">Chart.js</span><span class="tag">Tailwind</span></div>
-            <div class="cta"><a href="https://github.com/atxgreene/above-black-trainer">GitHub ↗</a><span class="soon">live build · restoring</span></div>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="cover c-devils"><span class="badge">in progress</span><span class="symbol">♠</span></div>
-          <div class="body">
-            <h3>Project Devil's Ace</h3>
-            <p class="desc">Don't Bust. — a blackjack-style card game.</p>
-            <div class="tags"><span class="tag">JavaScript</span><span class="tag">game</span></div>
-            <div class="cta"><a href="https://github.com/atxgreene/Project_Devils_Ace">GitHub ↗</a><span class="soon">pages going live</span></div>
-          </div>
-        </article>
-
+        </div>
       </div>
-    </section>
 
-    <section id="other" aria-labelledby="other-h">
-      <div class="section-head">
-        <h2 id="other-h">other projects</h2>
-        <span class="num">concepts &amp; case studies</span>
+      <div class="cluster">
+        <div class="cluster-head">
+          <h3>AI operations &amp; business</h3>
+          <p>the consulting &amp; enablement edge</p>
+        </div>
+        <div class="grid">
+
+          <article class="card">
+            <div class="cover c-snakepit embed">
+              <iframe src="https://snakepit.dev/" title="snakepit.dev live site preview" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
+              <a class="embed-link" href="https://snakepit.dev/" aria-label="Open the snakepit.dev live site"></a>
+              <span class="badge">live</span>
+            </div>
+            <div class="body">
+              <h3>snakepit.dev</h3>
+              <p class="desc">AI operations command center — helps small and mid-market teams cut token burn, govern AI agents, and run local-first AI ops.</p>
+              <div class="tags"><span class="tag">Static site</span><span class="tag">Vanilla JS</span><span class="tag">Pages</span></div>
+              <div class="cta"><a href="https://snakepit.dev/">Live ↗</a><a href="https://github.com/atxgreene/snakepit-dev">GitHub ↗</a></div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="cover c-bluebonnet embed">
+              <iframe src="https://atxgreene.github.io/bluebonnet-legacy/" title="Bluebonnet Legacy live site preview" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
+              <a class="embed-link" href="https://atxgreene.github.io/bluebonnet-legacy/" aria-label="Open the Bluebonnet Legacy live site"></a>
+              <span class="badge">live</span>
+            </div>
+            <div class="body">
+              <h3>Bluebonnet Legacy</h3>
+              <p class="desc">Helps owners and operators modernize business operations through reporting architecture, process design, incentive alignment, and responsible agentic AI.</p>
+              <div class="tags"><span class="tag">Static site</span><span class="tag">Vanilla JS</span><span class="tag">Pages</span></div>
+              <div class="cta"><a href="https://atxgreene.github.io/bluebonnet-legacy/">Live ↗</a><a href="https://github.com/atxgreene/bluebonnet-legacy">GitHub ↗</a></div>
+            </div>
+          </article>
+
+          <article class="card full">
+            <div class="cover c-hermes live">
+              <iframe src="https://atxgreene.github.io/hermes-play-sheet/" title="Hermes play sheet — embedded agent reference" loading="lazy"></iframe>
+              <span class="badge">live · embedded</span>
+            </div>
+            <div class="body">
+              <h3>Hermes Play Sheet</h3>
+              <p class="desc">A single-page command &amp; skill play sheet — a quick visual reference for Hermes agent commands and skills, embedded live above for in-place reading.</p>
+              <div class="tags"><span class="tag">Tailwind</span><span class="tag">Vanilla JS</span><span class="tag">Pages</span></div>
+              <div class="cta"><a href="https://atxgreene.github.io/hermes-play-sheet/">Open full ↗</a><a href="https://github.com/atxgreene/hermes-play-sheet">GitHub ↗</a></div>
+            </div>
+          </article>
+
+        </div>
       </div>
-      <div class="grid">
 
-        <article class="card">
-          <div class="cover c-apex"><span class="badge">2025 — now</span><span class="symbol">APEX</span></div>
-          <div class="body">
-            <h3>APEX</h3>
-            <p class="desc">Autonomous Kalshi + Polymarket trader with cross-platform arbitrage and meta-thinking validation.</p>
-            <div class="tags"><span class="tag">Python</span><span class="tag">async</span><span class="tag">fintech</span></div>
-            <div class="cta"><span class="soon">private build · case study soon</span></div>
-          </div>
-        </article>
+      <div class="cluster">
+        <div class="cluster-head">
+          <h3>Immersive worlds &amp; research</h3>
+          <p>research made explorable</p>
+        </div>
+        <div class="grid">
 
-        <article class="card">
-          <div class="cover c-eternal"><span class="badge">2026</span><span class="symbol">∞</span></div>
-          <div class="body">
-            <h3>Eternal Context</h3>
-            <p class="desc">Hybrid AI agent with infinite persistent memory. Hermes 3 + cloud APIs on top of the ICMS/SDI memory stack — the foundation Mnemosyne grew from.</p>
-            <div class="tags"><span class="tag">Python</span><span class="tag">JavaScript</span><span class="tag">Hermes 3</span></div>
-            <div class="cta"><a href="https://github.com/atxgreene/eternal-context">GitHub ↗</a></div>
-          </div>
-        </article>
+          <article class="card full">
+            <div class="cover art" style="background-image:url('assets/projects/greene-halls.jpg')"><span class="badge">2026 · interactive</span><a class="embed-link" href="https://atxgreene.github.io/greene-halls/" aria-label="Enter Greene Halls"></a></div>
+            <div class="body">
+              <h3>Greene Halls</h3>
+              <p class="desc">Twin WebGL exhibits — the Hall of the Watchers and the Hall of the Archangels — rendered in Three.js with 3D models, Doré engraving backdrops, and narrated voice-over for all 24 fallen Watchers and 12 archangels. A served, walk-through companion to the Greene Paleogenomic Museum VR.</p>
+              <div class="tags"><span class="tag">Three.js</span><span class="tag">WebGL</span><span class="tag">glTF</span><span class="tag">audio</span></div>
+              <div class="cta"><a href="https://atxgreene.github.io/greene-halls/">Enter ↗</a><a href="https://github.com/atxgreene/greene-halls">GitHub ↗</a></div>
+            </div>
+          </article>
 
-        <article class="card">
-          <div class="cover c-ben"><span class="badge">in progress</span><span class="symbol">B.E.N.</span></div>
-          <div class="body">
-            <h3>BEN</h3>
-            <p class="desc">Routing agent navigator — a persona-forward front-end to the Mnemosyne / Tugboat stack. Currently in active development.</p>
-            <div class="tags"><span class="tag">Python</span><span class="tag">agents</span></div>
-            <div class="cta"><a href="#">Notes ↗</a></div>
-          </div>
-        </article>
+          <article class="card">
+            <div class="cover art" style="background-image:url('assets/projects/shadow-of-the-watchers.jpg')"><span class="badge">2026 · playable</span><a class="embed-link" href="https://atxgreene.github.io/Ugh-Guys-/" aria-label="Play Shadow of the Watchers"></a></div>
+            <div class="body">
+              <h3>Shadow of the Watchers</h3>
+              <p class="desc">Browser-based, StarCraft-style asymmetric RTS set in a mythic pre-flood world. Three genuinely asymmetric factions — Covenant Cities, Watcher Remnant, Nephilim Clans — with fog of war, A* pathfinding, full economy/tech trees, and a reactive AI opponent. 100% procedural: every model, sound, and map is generated in code, zero external assets.</p>
+              <div class="tags"><span class="tag">Three.js</span><span class="tag">Vite</span><span class="tag">WebGL</span><span class="tag">RTS</span></div>
+              <div class="cta"><a href="https://atxgreene.github.io/Ugh-Guys-/">Play ↗</a><a href="https://github.com/atxgreene/Ugh-Guys-">GitHub ↗</a></div>
+            </div>
+          </article>
 
+          <article class="card">
+            <div class="cover art" style="background-image:url('assets/projects/watchers-fall-of-the-giants.jpg')"><span class="badge">2026 · vertical slice</span><a class="embed-link" href="https://atxgreene.github.io/giants/play/" aria-label="Play The Watchers: Fall of the Giants"></a></div>
+            <div class="body">
+              <h3>The Watchers: Fall of the Giants</h3>
+              <p class="desc">Isometric action-roguelike. You are the Appointed Witness, hunting the fallen Watchers and Nephilim across the Desert of Azazel. Hades-style combat with Diablo-flavored pressure and "disclosure as progression" — the loot is knowledge. Built in Godot; sprites, VFX, and music all synthesized procedurally.</p>
+              <div class="tags"><span class="tag">Godot</span><span class="tag">GDScript</span><span class="tag">roguelike</span></div>
+              <div class="cta"><a href="https://atxgreene.github.io/giants/play/">Play ↗</a><a href="https://github.com/atxgreene/giants">GitHub ↗</a></div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+
+      <div class="cluster">
+        <div class="cluster-head">
+          <h3>Autonomous systems &amp; experiments</h3>
+          <p>smaller proofs the thesis ships</p>
+        </div>
+        <div class="grid">
+
+          <article class="card small">
+            <div class="cover c-apex"><span class="badge">2025 — now</span><span class="symbol">APEX</span></div>
+            <div class="body">
+              <h3>APEX</h3>
+              <p class="desc">Autonomous Kalshi + Polymarket trader with cross-platform arbitrage and meta-thinking validation.</p>
+              <div class="tags"><span class="tag">Python</span><span class="tag">async</span><span class="tag">fintech</span></div>
+              <div class="cta"><span class="soon">private build · case study soon</span></div>
+            </div>
+          </article>
+
+          <article class="card small">
+            <div class="cover c-aboveblack"><span class="badge">restoring</span><span class="symbol">Above Black</span></div>
+            <div class="body">
+              <h3>Above Black Trainer</h3>
+              <p class="desc">Local-first, offline-capable PWA for precision frequency resonance and progressive line-training protocols.</p>
+              <div class="tags"><span class="tag">PWA</span><span class="tag">Web Audio</span><span class="tag">Chart.js</span><span class="tag">Tailwind</span></div>
+              <div class="cta"><a href="https://github.com/atxgreene/above-black-trainer">GitHub ↗</a><span class="soon">live build · restoring</span></div>
+            </div>
+          </article>
+
+          <article class="card small">
+            <div class="cover c-devils"><span class="badge">in progress</span><span class="symbol">♠</span></div>
+            <div class="body">
+              <h3>Project Devil's Ace</h3>
+              <p class="desc">Don't Bust. — a blackjack-style card game.</p>
+              <div class="tags"><span class="tag">JavaScript</span><span class="tag">game</span></div>
+              <div class="cta"><a href="https://github.com/atxgreene/Project_Devils_Ace">GitHub ↗</a><span class="soon">pages going live</span></div>
+            </div>
+          </article>
+
+        </div>
       </div>
     </section>
 
@@ -618,14 +755,27 @@
       </ul>
     </section>
 
-    <footer id="contact">
-      <span class="brand">Build the edge. Keep the soul.</span>
-      <span>
-        <a href="https://github.com/atxgreene">github</a>
-        <a href="https://x.com/atxgreene">x</a>
-        <a href="https://linkedin.com/in/atxgreene">linkedin</a>
-        <a href="https://atxgreene.substack.com">substack</a>
-      </span>
+    <section id="contact" aria-labelledby="contact-h">
+      <div class="contact-card glass">
+        <div>
+          <h2 id="contact-h">Build something useful from complexity.</h2>
+          <p>Open to AI operations &amp; enablement, local-first agent systems, immersive builds, and research-to-product collaborations. Tell me what you're operating, building, or researching.</p>
+        </div>
+        <div class="contact-actions">
+          <a class="btn primary" href="mailto:atxgreene@gmail.com?subject=ATXGreene%20inquiry">Email Austin</a>
+          <a class="btn ghost" href="https://github.com/atxgreene" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn ghost" href="https://x.com/atxgreene" target="_blank" rel="noopener">X</a>
+          <a class="btn ghost" href="https://linkedin.com/in/atxgreene" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="btn ghost" href="https://atxgreene.substack.com" target="_blank" rel="noopener">Substack</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-row">
+        <span class="brand">Build the edge. Keep the soul.</span>
+        <span>© 2026 Austin Greene · Austin, TX</span>
+      </div>
     </footer>
   </div>
 
