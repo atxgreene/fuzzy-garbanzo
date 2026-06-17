@@ -24,7 +24,7 @@
 <meta name="twitter:image" content="https://atxgreene.com/og.png" />
 
 <link rel="canonical" href="https://atxgreene.com/" />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" type="image/png" href="/favicon.png" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -122,7 +122,7 @@
     flex-wrap: wrap;
   }
   nav .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; font-size: 14px; letter-spacing: 0.01em; text-decoration: none; }
-  nav .brand svg { width: 30px; height: 30px; display: block; flex: none; }
+  nav .brand svg, nav .brand img { height: 30px; width: auto; display: block; flex: none; }
   nav .brand .b-atx { color: var(--teal); }
   nav .brand .b-greene { color: var(--bone); }
   nav .brand .b-com { color: var(--orange); }
@@ -202,7 +202,7 @@
   .mark-card { padding: 24px; display: flex; flex-direction: column; justify-content: space-between; gap: 18px; min-height: 230px; position: relative; overflow: hidden; }
   .mark-card .side-title { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
   .mark-card h2 { font-family: 'Space Grotesk', sans-serif; font-size: 23px; line-height: 1.1; letter-spacing: -0.03em; margin: 8px 0 0; color: var(--bone); }
-  .mark-badge { width: 116px; height: 116px; align-self: center; }
+  .mark-badge { height: 168px; width: auto; align-self: center; filter: drop-shadow(0 8px 26px rgba(18,201,183,0.22)); }
   .mark-card::after { content: ''; position: absolute; inset: auto -20% -40% -20%; height: 220px; background: radial-gradient(ellipse at center, rgba(18,201,183,0.18), transparent 62%); pointer-events: none; }
   .now-card { padding: 22px; display: grid; gap: 12px; }
   .now-line { display: grid; grid-template-columns: 74px 1fr; gap: 12px; padding-top: 12px; border-top: 1px solid var(--rule); }
@@ -436,12 +436,7 @@
   <div class="wrap">
     <nav aria-label="Primary">
       <a class="brand" href="#top" aria-label="ATXGreene home">
-        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <circle cx="16" cy="16" r="14" stroke="#12C9B7" stroke-width="2"/>
-          <polygon points="16,5 17,8 20.2,8 17.6,9.9 18.6,13 16,11.1 13.4,13 14.4,9.9 11.8,8 15,8" fill="#F97316"/>
-          <text x="16" y="21" text-anchor="middle" fill="#12C9B7" font-family="'Space Grotesk',sans-serif" font-size="10.5" font-weight="700">ATX</text>
-          <path d="M7 25 Q11.5 22.5 16 25 Q20.5 27.5 25 25" stroke="#12C9B7" stroke-width="1.4" stroke-linecap="round" fill="none" opacity="0.55"/>
-        </svg>
+        <img src="assets/brand/phoenix-mark.png" alt="" aria-hidden="true" />
         <span><span class="b-atx">ATX</span><span class="b-greene">Greene</span><span class="b-com">.com</span></span>
       </a>
       <ul>
@@ -483,12 +478,7 @@
               <div class="side-title">Identity core</div>
               <h2>Operator brain.<br>Builder hands.<br>Researcher soul.</h2>
             </div>
-            <svg class="mark-badge" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <circle cx="16" cy="16" r="14" stroke="#12C9B7" stroke-width="1.4"/>
-              <polygon points="16,5 17,8 20.2,8 17.6,9.9 18.6,13 16,11.1 13.4,13 14.4,9.9 11.8,8 15,8" fill="#F97316"/>
-              <text x="16" y="21" text-anchor="middle" fill="#12C9B7" font-family="'Space Grotesk',sans-serif" font-size="10.5" font-weight="700">ATX</text>
-              <path d="M7 25 Q11.5 22.5 16 25 Q20.5 27.5 25 25" stroke="#12C9B7" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.55"/>
-            </svg>
+            <img class="mark-badge" src="assets/brand/phoenix-mark.png" alt="ATXGreene phoenix mark" loading="lazy" />
           </div>
           <div class="now-card glass">
             <div class="now-line"><b>Based</b><span>Austin-rooted · remote-capable. Public brand stays ATX; client work stays clean and executive-safe.</span></div>
