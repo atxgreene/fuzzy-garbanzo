@@ -462,6 +462,25 @@
     box-shadow: 0 0 12px rgba(18,201,183,0.5);
   }
 
+  /* phoenix embers rising in the hero */
+  .hero { position: relative; }
+  .hero-grid { position: relative; z-index: 1; }
+  #embers { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+
+  /* animated section dividers (inserted between sections by JS) */
+  .divider { position: relative; height: 1px; width: 100%; margin: -36px auto 52px; background: linear-gradient(90deg, transparent, rgba(18,201,183,0.30), transparent); }
+  .divider::before {
+    content: ''; position: absolute; top: -1px; left: 0; height: 3px; width: 120px; border-radius: 3px;
+    background: linear-gradient(90deg, transparent, var(--teal), transparent); filter: blur(0.5px);
+    animation: divsweep 7s linear infinite;
+  }
+  .divider::after {
+    content: ''; position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; margin: -3px 0 0 -3px;
+    border-radius: 50%; background: var(--teal); box-shadow: 0 0 12px var(--teal);
+    animation: pulse 2.6s ease-in-out infinite;
+  }
+  @keyframes divsweep { 0% { left: -140px; opacity: 0; } 12% { opacity: 1; } 88% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
+
   /* phoenix marks: gentle float + breathing glow */
   .mark-badge { will-change: transform; animation: float 7.5s ease-in-out infinite; }
   nav .brand img { transition: transform .3s ease, filter .3s ease; }
@@ -496,6 +515,8 @@
     #aurora, .mark-badge { animation: none !important; }
     .js .reveal { opacity: 1 !important; transform: none !important; }
     .hero-card::after, .mark-card::after, .btn.primary::after { display: none; }
+    .divider::before, .divider::after { animation: none; }
+    .divider::before { opacity: 0; }
   }
 </style>
 </head>
@@ -1144,6 +1165,79 @@
     window.addEventListener('pointermove', function (e) { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
     window.addEventListener('pointerleave', function () { mouse.x = mouse.y = -9999; });
     document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
+    start();
+  })();
+
+  /* ── Animated dividers between sections ── */
+  (function dividers() {
+    var secs = document.querySelectorAll('.wrap > section');
+    Array.prototype.forEach.call(secs, function (s) {
+      var d = document.createElement('div');
+      d.className = 'divider';
+      d.setAttribute('aria-hidden', 'true');
+      s.parentNode.insertBefore(d, s);
+    });
+  })();
+
+  /* ── Phoenix embers rising in the hero ── */
+  (function embers() {
+    var hero = document.querySelector('.hero');
+    if (!hero || !window.HTMLCanvasElement) return;
+    var canvas = document.createElement('canvas');
+    canvas.id = 'embers'; canvas.setAttribute('aria-hidden', 'true');
+    hero.insertBefore(canvas, hero.firstChild);
+    var ctx = canvas.getContext('2d');
+    var w, h, dpr, parts = [], raf = null, et = null, visible = true;
+
+    function size() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = canvas.width = Math.max(1, hero.clientWidth * dpr);
+      h = canvas.height = Math.max(1, hero.clientHeight * dpr);
+      canvas.style.width = hero.clientWidth + 'px';
+      canvas.style.height = hero.clientHeight + 'px';
+    }
+    function spawn() {
+      return {
+        x: Math.random() * w, y: h + Math.random() * 20 * dpr,
+        vy: -(Math.random() * 0.45 + 0.18) * dpr,
+        vx: (Math.random() - 0.5) * 0.25 * dpr,
+        r: (Math.random() * 1.7 + 0.6) * dpr,
+        life: 0, max: Math.random() * 170 + 130,
+        warm: Math.random() < 0.72
+      };
+    }
+    function init() {
+      var n = Math.max(12, Math.min(34, Math.round(hero.clientWidth / 42)));
+      parts = [];
+      for (var i = 0; i < n; i++) { var p = spawn(); p.y = Math.random() * h; p.life = Math.random() * p.max; parts.push(p); }
+    }
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+      ctx.shadowColor = 'rgba(249,115,22,0.6)'; ctx.shadowBlur = 6 * dpr;
+      for (var i = 0; i < parts.length; i++) {
+        var p = parts[i]; p.life++;
+        p.x += p.vx + Math.sin(p.life * 0.03) * 0.3 * dpr; p.y += p.vy;
+        if (p.y < -12 * dpr || p.life > p.max) { parts[i] = spawn(); continue; }
+        var t = p.life / p.max, a = (t < 0.15 ? t / 0.15 : (1 - t)) * 0.8;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(' + (p.warm ? '249,150,46' : '18,201,183') + ',' + a.toFixed(3) + ')';
+        ctx.fill();
+      }
+      ctx.shadowBlur = 0;
+    }
+    function loop() { draw(); raf = window.requestAnimationFrame(loop); }
+    function start() { if (!raf && visible) loop(); }
+    function stop() { if (raf) { window.cancelAnimationFrame(raf); raf = null; } }
+
+    size(); init();
+    if (reduceMotion) { draw(); return; }
+    window.addEventListener('resize', function () { clearTimeout(et); et = setTimeout(function () { size(); init(); }, 200); }, { passive: true });
+    document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) {
+        es.forEach(function (e) { visible = e.isIntersecting; visible ? start() : stop(); });
+      }, { threshold: 0 }).observe(hero);
+    }
     start();
   })();
 })();
