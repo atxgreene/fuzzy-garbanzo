@@ -14,8 +14,8 @@ auto-syncs recent repositories at page load.
 - `CNAME` — custom domain for GitHub Pages (`atxgreene.com`)
 - `.github/workflows/deploy.yml` — auto-deploys `main` to GitHub Pages
 
-Fonts (Fraunces + JetBrains Mono) load from Google Fonts at runtime. No build tooling,
-no package.json, no framework.
+Fonts (Space Grotesk display + Inter body + IBM Plex Mono) load from Google Fonts at
+runtime, following the ATXGreene brand. No build tooling, no package.json, no framework.
 
 ## Local preview
 
