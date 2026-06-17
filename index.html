@@ -452,6 +452,16 @@
     100% { transform: translate3d(-2%, 2.5%, 0) scale(1.02); }
   }
 
+  /* generative constellation canvas (the phoenix wing's star-map, alive) */
+  #net { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+  /* scroll progress indicator */
+  #progress {
+    position: fixed; top: 0; left: 0; height: 3px; width: 0; z-index: 100;
+    background: linear-gradient(90deg, var(--teal), var(--orange));
+    box-shadow: 0 0 12px rgba(18,201,183,0.5);
+  }
+
   /* phoenix marks: gentle float + breathing glow */
   .mark-badge { will-change: transform; animation: float 7.5s ease-in-out infinite; }
   nav .brand img { transition: transform .3s ease, filter .3s ease; }
@@ -492,8 +502,9 @@
 <body>
   <script>document.documentElement.classList.add('js');</script>
   <a class="sr" href="#work">Skip to projects</a>
+  <div id="progress" aria-hidden="true"></div>
   <div id="aurora" aria-hidden="true"></div>
-  <div id="stars" aria-hidden="true"></div>
+  <canvas id="net" aria-hidden="true"></canvas>
 
   <div class="wrap">
     <nav aria-label="Primary">
@@ -1027,6 +1038,114 @@
       });
     });
   }
+
+  /* ── Scroll progress bar ── */
+  (function progress() {
+    var bar = document.getElementById('progress');
+    if (!bar) return;
+    var tick = false;
+    function upd() {
+      var doc = document.documentElement;
+      var st = doc.scrollTop || document.body.scrollTop;
+      var sh = (doc.scrollHeight - doc.clientHeight) || 1;
+      bar.style.width = Math.max(0, Math.min(1, st / sh)) * 100 + '%';
+      tick = false;
+    }
+    window.addEventListener('scroll', function () { if (!tick) { tick = true; requestAnimationFrame(upd); } }, { passive: true });
+    upd();
+  })();
+
+  /* ── Magnetic primary buttons ── */
+  if (!reduceMotion && window.matchMedia('(hover: hover)').matches) {
+    document.querySelectorAll('.btn.primary').forEach(function (b) {
+      b.addEventListener('pointermove', function (e) {
+        var r = b.getBoundingClientRect();
+        var mx = e.clientX - (r.left + r.width / 2);
+        var my = e.clientY - (r.top + r.height / 2);
+        b.style.transform = 'translate(' + (mx * 0.18).toFixed(1) + 'px,' + (my * 0.3 - 2).toFixed(1) + 'px)';
+      });
+      b.addEventListener('pointerleave', function () { b.style.transform = ''; });
+    });
+  }
+
+  /* ── Generative constellation network ── */
+  (function net() {
+    var canvas = document.getElementById('net');
+    if (!canvas || !canvas.getContext) return;
+    var ctx = canvas.getContext('2d');
+    var w, h, dpr, nodes = [], raf = null, rt = null;
+    var mouse = { x: -9999, y: -9999 };
+    var TEAL = '18,201,183', ORANGE = '249,115,22', LINK = 132;
+
+    function size() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = canvas.width = Math.floor(window.innerWidth * dpr);
+      h = canvas.height = Math.floor(window.innerHeight * dpr);
+      canvas.style.width = window.innerWidth + 'px';
+      canvas.style.height = window.innerHeight + 'px';
+      build();
+    }
+    function build() {
+      var count = Math.max(26, Math.min(70, Math.round(window.innerWidth * window.innerHeight / 22000)));
+      nodes = [];
+      for (var i = 0; i < count; i++) {
+        nodes.push({
+          x: Math.random() * w, y: Math.random() * h,
+          vx: (Math.random() - 0.5) * 0.18 * dpr,
+          vy: (Math.random() - 0.5) * 0.18 * dpr,
+          r: (Math.random() * 1.4 + 0.6) * dpr,
+          warm: Math.random() < 0.12
+        });
+      }
+    }
+    function draw() {
+      var link = LINK * dpr, mx = mouse.x * dpr, my = mouse.y * dpr;
+      ctx.clearRect(0, 0, w, h);
+      var i, n;
+      for (i = 0; i < nodes.length; i++) {
+        n = nodes[i];
+        n.x += n.vx; n.y += n.vy;
+        if (n.x < 0 || n.x > w) n.vx *= -1;
+        if (n.y < 0 || n.y > h) n.vy *= -1;
+        var dxm = mx - n.x, dym = my - n.y;
+        if (dxm * dxm + dym * dym < (link * 1.6) * (link * 1.6)) { n.x += dxm * 0.0009; n.y += dym * 0.0009; }
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(' + (n.warm ? ORANGE : TEAL) + ',0.7)';
+        ctx.fill();
+      }
+      for (var a = 0; a < nodes.length; a++) {
+        var p = nodes[a];
+        for (var b = a + 1; b < nodes.length; b++) {
+          var q = nodes[b], dx = p.x - q.x, dy = p.y - q.y, d2 = dx * dx + dy * dy;
+          if (d2 < link * link) {
+            var al = (1 - Math.sqrt(d2) / link) * 0.22;
+            ctx.strokeStyle = 'rgba(' + TEAL + ',' + al.toFixed(3) + ')';
+            ctx.lineWidth = dpr;
+            ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.stroke();
+          }
+        }
+        var cdx = p.x - mx, cdy = p.y - my, cd2 = cdx * cdx + cdy * cdy, cl = link * 1.4;
+        if (cd2 < cl * cl) {
+          var cal = (1 - Math.sqrt(cd2) / cl) * 0.5;
+          ctx.strokeStyle = 'rgba(' + TEAL + ',' + cal.toFixed(3) + ')';
+          ctx.lineWidth = dpr;
+          ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(mx, my); ctx.stroke();
+        }
+      }
+    }
+    function loop() { draw(); raf = window.requestAnimationFrame(loop); }
+    function start() { if (!raf) loop(); }
+    function stop() { if (raf) { window.cancelAnimationFrame(raf); raf = null; } }
+
+    size();
+    if (reduceMotion) { draw(); return; }
+    window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(size, 200); }, { passive: true });
+    window.addEventListener('pointermove', function (e) { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
+    window.addEventListener('pointerleave', function () { mouse.x = mouse.y = -9999; });
+    document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
+    start();
+  })();
 })();
 </script>
 </body>
