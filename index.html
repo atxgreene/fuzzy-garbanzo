@@ -511,10 +511,37 @@
   .btn.primary::after { content: ''; position: absolute; top: 0; left: -120%; width: 60%; height: 100%; background: linear-gradient(110deg, transparent, rgba(255,255,255,0.35), transparent); transform: skewX(-18deg); transition: left .6s ease; }
   .btn.primary:hover::after { left: 140%; }
 
+  /* ── KokonutUI-inspired: border beam, marquee, spotlight cards ── */
+  @property --beam { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+  .beam { position: relative; }
+  .beam::before {
+    content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px;
+    background: conic-gradient(from var(--beam), transparent 0deg, transparent 250deg, var(--teal) 300deg, var(--orange) 330deg, transparent 360deg);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    pointer-events: none; z-index: 2;
+    animation: beamspin 7s linear infinite;
+  }
+  @keyframes beamspin { to { --beam: 360deg; } }
+
+  /* infinite marquee (replaces the wrapping chip row) */
+  .marquee { overflow: hidden; -webkit-mask: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
+  .marquee-track { display: inline-flex; gap: 8px; width: max-content; animation: marquee 30s linear infinite; }
+  .marquee:hover .marquee-track { animation-play-state: paused; }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+
+  /* spotlight that follows the cursor across project cards */
+  .card::after {
+    content: ''; position: absolute; inset: 0; z-index: 4; pointer-events: none; border-radius: inherit;
+    background: radial-gradient(280px circle at var(--mx, 50%) var(--my, -20%), rgba(18,201,183,0.12), transparent 42%);
+    opacity: 0; transition: opacity .3s ease;
+  }
+  .card:hover::after { opacity: 1; }
+
   @media (prefers-reduced-motion: reduce) {
-    #aurora, .mark-badge { animation: none !important; }
+    #aurora, .mark-badge, .beam::before, .marquee-track { animation: none !important; }
     .js .reveal { opacity: 1 !important; transform: none !important; }
-    .hero-card::after, .mark-card::after, .btn.primary::after { display: none; }
+    .hero-card::after, .mark-card::after, .btn.primary::after, .card::after { display: none; }
     .divider::before, .divider::after { animation: none; }
     .divider::before { opacity: 0; }
   }
@@ -545,7 +572,7 @@
 
     <header class="hero" id="top">
       <div class="hero-grid">
-        <div class="hero-card glass">
+        <div class="hero-card glass beam">
           <span class="eyebrow"><span class="dot" aria-hidden="true"></span> Operator · Builder · Researcher</span>
           <p class="kicker">Austin Greene · Austin-rooted</p>
           <h1>Build the edge.<br><span class="wiggle">Keep the soul.</span></h1>
@@ -588,8 +615,11 @@
         <h2 id="lanes-h">four lanes</h2>
         <span class="num">one operating thesis</span>
       </div>
-      <div class="ticker" aria-label="Skill stack">
-        <span class="chip">agentic AI</span><span class="chip">local-first</span><span class="chip">Python / SQLite</span><span class="chip">Three.js / WebGL</span><span class="chip">GitHub Pages</span><span class="chip">AI enablement</span><span class="chip">ops modernization</span><span class="chip">applied math</span>
+      <div class="ticker marquee" aria-label="Skill stack">
+        <div class="marquee-track">
+          <span class="chip">agentic AI</span><span class="chip">local-first</span><span class="chip">Python / SQLite</span><span class="chip">Three.js / WebGL</span><span class="chip">GitHub Pages</span><span class="chip">AI enablement</span><span class="chip">ops modernization</span><span class="chip">applied math</span>
+          <span class="chip" aria-hidden="true">agentic AI</span><span class="chip" aria-hidden="true">local-first</span><span class="chip" aria-hidden="true">Python / SQLite</span><span class="chip" aria-hidden="true">Three.js / WebGL</span><span class="chip" aria-hidden="true">GitHub Pages</span><span class="chip" aria-hidden="true">AI enablement</span><span class="chip" aria-hidden="true">ops modernization</span><span class="chip" aria-hidden="true">applied math</span>
+        </div>
       </div>
       <div class="lanes">
         <article class="lane glass">
@@ -850,7 +880,7 @@
     </section>
 
     <section id="contact" aria-labelledby="contact-h">
-      <div class="contact-card glass">
+      <div class="contact-card glass beam">
         <div>
           <h2 id="contact-h">Build something useful from complexity.</h2>
           <p>Open to AI operations &amp; enablement, local-first agent systems, immersive builds, and research-to-product collaborations. Tell me what you're operating, building, or researching.</p>
@@ -1051,7 +1081,7 @@
 
   /* ── Liquid pointer glow on feature panels ── */
   if (!reduceMotion && window.matchMedia('(hover: hover)').matches) {
-    document.querySelectorAll('.hero-card, .mark-card').forEach(function (card) {
+    document.querySelectorAll('.hero-card, .mark-card, .card').forEach(function (card) {
       card.addEventListener('pointermove', function (e) {
         var r = card.getBoundingClientRect();
         card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
