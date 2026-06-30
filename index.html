@@ -86,26 +86,6 @@
   .wrap { max-width: 1200px; margin: 0 auto; padding: 28px 24px 72px; }
   @media (min-width: 680px) { .wrap { padding: 36px 32px 96px; } }
 
-  /* Starfield layer (populated by JS) */
-  #stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
-  .star {
-    position: absolute; border-radius: 50%; background: var(--teal);
-    animation: twinkle var(--tw, 3s) ease-in-out infinite;
-  }
-  @keyframes twinkle { 0%,100% { opacity: .12; } 50% { opacity: .55; } }
-
-  /* Faint brand glow — minimal but slightly mythic */
-  body::before {
-    content: '';
-    position: fixed; inset: -20%;
-    background:
-      radial-gradient(closest-side, rgba(18,201,183,0.10), transparent 70%) 18% 26%/42vmax 42vmax no-repeat,
-      radial-gradient(closest-side, rgba(249,115,22,0.05), transparent 70%) 84% 68%/34vmax 34vmax no-repeat;
-    pointer-events: none; z-index: 0;
-    animation: drift 32s ease-in-out infinite alternate;
-  }
-  @keyframes drift { from { transform: translate3d(0,0,0); } to { transform: translate3d(-3%, 2%, 0); } }
-
   .wrap > * { position: relative; z-index: 1; }
 
   /* ───── Nav ───── */
@@ -906,29 +886,6 @@
 <script>
 (function () {
   "use strict";
-  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  /* ── Starfield ── */
-  (function stars() {
-    var host = document.getElementById('stars');
-    if (!host) return;
-    var density = Math.round((window.innerWidth || 1280) * (window.innerHeight || 800) / 9000);
-    var count = reduceMotion ? 24 : Math.min(90, Math.max(45, density));
-    var frag = document.createDocumentFragment();
-    for (var i = 0; i < count; i++) {
-      var s = document.createElement('div');
-      s.className = 'star';
-      var size = Math.random() * 2.2 + 0.6;
-      s.style.width = s.style.height = size.toFixed(2) + 'px';
-      s.style.left = (Math.random() * 100).toFixed(2) + '%';
-      s.style.top = (Math.random() * 100).toFixed(2) + '%';
-      s.style.opacity = (Math.random() * 0.6 + 0.2).toFixed(2);
-      s.style.setProperty('--tw', (Math.random() * 3 + 2).toFixed(2) + 's');
-      s.style.animationDelay = '-' + (Math.random() * 4).toFixed(2) + 's';
-      frag.appendChild(s);
-    }
-    host.appendChild(frag);
-  })();
 
   /* ── Live GitHub repos ── */
   var GH_USER = 'atxgreene';
