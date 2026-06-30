@@ -1,7 +1,8 @@
 # atxgreene.com
 
 Personal portfolio site for Austin Greene. Single-page, static, zero build step.
-Cosmic theme with an animated starfield and a **live "from GitHub" feed** that
+ATXGreene brand (Midnight Navy + Electric Teal, phoenix mark) with a generative
+constellation background, hero embers, and a **live "from GitHub" feed** that
 auto-syncs recent repositories at page load.
 
 ## Files
@@ -69,7 +70,8 @@ Cards size with grid spans: `.card.big` = 4 cols, `.card` = 3 cols, `.card.small
 - Color tokens live in `:root` at the top of the `<style>` block — change one line, every
   card using it updates.
 - Layout is responsive: 2-col below 900px, 1-col below 520px.
-- `prefers-reduced-motion` is respected — starfield, shimmer, and pulse animations stop,
-  and the starfield renders far fewer dots.
-- Open Graph + Twitter meta are set. Drop an `og.png` (1200×630) in the folder for rich
-  link previews (currently points at `https://atxgreene.com/og.png`).
+- `prefers-reduced-motion` is respected — the constellation/embers render a static frame
+  and all reveal, beam, marquee, and pulse animations stop.
+- Hero embers only run above 760px; the constellation pauses on hidden tabs.
+- Open Graph + Twitter meta are set; `og.png` (1200×630) ships at the repo root for rich
+  link previews (`https://atxgreene.com/og.png`).
