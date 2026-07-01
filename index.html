@@ -116,7 +116,26 @@
   nav ul { list-style: none; display: flex; gap: 16px; margin: 0; padding: 0; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; flex-wrap: wrap; }
   nav a { text-decoration: none; color: var(--muted); }
   nav a:hover { color: var(--teal); }
-  @media (max-width: 720px) { nav ul { display: none; } }
+  @media (max-width: 720px) {
+    nav { flex-wrap: wrap; gap: 8px 12px; padding: 10px 14px; }
+    nav .brand { flex: 1 1 auto; }
+    nav .status { order: 2; }
+    .status-more { display: none; }
+    nav ul { order: 3; flex: 1 1 100%; justify-content: space-between; gap: 8px; font-size: 11px; }
+  }
+  @media (max-width: 640px) {
+    .wrap { padding: 22px 16px 64px; }
+    section { margin-bottom: 60px; }
+    .hero { margin-bottom: 44px; padding-top: 8px; }
+    .hero-grid { gap: 14px; }
+    .hero-card, .mark-card, .now-card, .contact-card { padding: 22px; }
+    .lane { padding: 18px; }
+    .cta-row { flex-direction: column; align-items: stretch; }
+    .cta-row .btn { width: 100%; justify-content: center; }
+    .card.full .cover.art { min-height: 190px; }
+    .cover.live { min-height: 380px; height: 380px; }
+    .mark-badge { height: 132px; }
+  }
 
   /* ───── Glass utility (restrained — premium, not generic-AI) ───── */
   .glass {
@@ -545,7 +564,7 @@
         <li><a href="#live">live</a></li>
         <li><a href="#contact">contact</a></li>
       </ul>
-      <a class="status" href="#contact"><span class="dot" aria-hidden="true"></span>available for select builds</a>
+      <a class="status" href="#contact"><span class="dot" aria-hidden="true"></span>available<span class="status-more"> for select builds</span></a>
     </nav>
 
     <header class="hero" id="top">
