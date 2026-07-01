@@ -503,16 +503,16 @@
 
   /* phoenix marks: gentle float + breathing glow */
   /* ── Living phoenix: float + breathing glow + shine sweep + hover ── */
-  .phoenix-fx { position: relative; display: inline-block; align-self: center; will-change: transform; animation: intro-rise 1.1s cubic-bezier(.2,.8,.2,1) both, float 7.5s ease-in-out 1.1s infinite; }
+  .phoenix-fx { position: relative; display: inline-block; align-self: center; will-change: transform; animation: float 7.5s ease-in-out 2s infinite; }
   .phoenix-fx img { display: block; }
+  .ash-canvas { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
   .phoenix-fx::before {
     content: ''; position: absolute; left: 50%; top: 52%; width: 64%; aspect-ratio: 1;
     transform: translate(-50%,-50%); border-radius: 50%; z-index: -1; pointer-events: none;
-    background: radial-gradient(circle, rgba(249,115,22,0.55), rgba(18,201,183,0.22) 42%, transparent 68%);
-    animation: flare 1.7s ease-out .15s both;
+    background: radial-gradient(circle, rgba(249,115,22,0.6), rgba(18,201,183,0.24) 42%, transparent 68%);
+    animation: flare 1.5s ease-out 1.15s both;
   }
-  @keyframes intro-rise { 0% { opacity: 0; transform: translateY(36px) scale(.84); } 100% { opacity: 1; transform: none; } }
-  @keyframes flare { 0% { opacity: 0; transform: translate(-50%,-50%) scale(.25); } 28% { opacity: .85; } 100% { opacity: 0; transform: translate(-50%,-50%) scale(2.6); } }
+  @keyframes flare { 0% { opacity: 0; transform: translate(-50%,-50%) scale(.25); } 32% { opacity: .9; } 100% { opacity: 0; transform: translate(-50%,-50%) scale(2.7); } }
   .phoenix-fx::after {
     content: ''; position: absolute; inset: 0; pointer-events: none;
     -webkit-mask: url('assets/brand/phoenix-mark.png') center / contain no-repeat;
@@ -1202,6 +1202,92 @@
       entries.forEach(function (e) { if (e.isIntersecting) { run(e.target); io.unobserve(e.target); } });
     }, { threshold: 0.4 });
     heads.forEach(function (h) { io.observe(h); });
+  })();
+
+  /* ── Phoenix forms from pixelated ashes on load ── */
+  (function phoenixAshes() {
+    if (reduceMotion) return;
+    var fx = document.querySelector('.phoenix-fx');
+    var img = fx && fx.querySelector('.mark-badge');
+    if (!fx || !img) return;
+
+    var revealed = false;
+    function reveal() {
+      if (revealed) return; revealed = true;
+      img.style.transition = 'opacity .5s ease';
+      img.style.opacity = '1';
+    }
+    img.style.opacity = '0';
+    var safety = window.setTimeout(reveal, 3500); // never leave the phoenix hidden
+
+    var canvas, ctx, parts = [], W, H, dpr = Math.min(window.devicePixelRatio || 1, 2), t0 = null;
+    var DUR = 1500;
+    var src = new Image();
+    src.onerror = function () { window.clearTimeout(safety); reveal(); };
+    src.onload = function () { window.requestAnimationFrame(setup); };
+    src.src = img.currentSrc || img.src;
+
+    function setup() {
+      var rect = img.getBoundingClientRect();
+      W = Math.round(rect.width); H = Math.round(rect.height);
+      if (W < 2 || H < 2) { return window.requestAnimationFrame(setup); }
+
+      var off = document.createElement('canvas'); off.width = W; off.height = H;
+      var octx = off.getContext('2d');
+      octx.drawImage(src, 0, 0, W, H);
+      var data;
+      try { data = octx.getImageData(0, 0, W, H).data; }
+      catch (e) { window.clearTimeout(safety); reveal(); return; }
+
+      var stride = Math.max(2, Math.round(Math.sqrt(W * H / 1300)));
+      for (var y = 0; y < H; y += stride) {
+        for (var x = 0; x < W; x += stride) {
+          var idx = (y * W + x) * 4;
+          if (data[idx + 3] > 60) {
+            parts.push({
+              tx: x, ty: y,
+              x: x + (Math.random() - 0.5) * W * 0.45,
+              y: H + Math.random() * H * 0.6,
+              r: data[idx], g: data[idx + 1], b: data[idx + 2],
+              a: data[idx + 3] / 255,
+              d: Math.random() * 0.25
+            });
+          }
+        }
+      }
+      if (!parts.length) { window.clearTimeout(safety); reveal(); return; }
+
+      canvas = document.createElement('canvas');
+      canvas.className = 'ash-canvas'; canvas.setAttribute('aria-hidden', 'true');
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      fx.appendChild(canvas);
+      ctx = canvas.getContext('2d');
+      window.requestAnimationFrame(anim);
+    }
+
+    function anim(ts) {
+      if (t0 === null) t0 = ts;
+      var p = Math.min(1, (ts - t0) / DUR);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, W, H);
+      for (var i = 0; i < parts.length; i++) {
+        var q = parts[i];
+        var lp = Math.max(0, Math.min(1, (p - q.d) / (1 - q.d)));
+        var e = 1 - Math.pow(1 - lp, 3);
+        var cx = q.x + (q.tx - q.x) * e;
+        var cy = q.y + (q.ty - q.y) * e;
+        ctx.globalAlpha = q.a * Math.min(1, lp * 1.5);
+        ctx.fillStyle = 'rgb(' + Math.round(249 + (q.r - 249) * e) + ',' + Math.round(140 + (q.g - 140) * e) + ',' + Math.round(40 + (q.b - 40) * e) + ')';
+        ctx.fillRect(cx - 1, cy - 1, 2.2, 2.2);
+      }
+      if (p < 1) { window.requestAnimationFrame(anim); }
+      else {
+        window.clearTimeout(safety); reveal();
+        canvas.style.transition = 'opacity .5s ease';
+        canvas.style.opacity = '0';
+        window.setTimeout(function () { if (canvas && canvas.parentNode) canvas.parentNode.removeChild(canvas); }, 600);
+      }
+    }
   })();
 
   /* ── Custom glow cursor with a slight comet lag (desktop only) ── */
