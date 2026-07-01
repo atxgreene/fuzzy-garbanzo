@@ -7,13 +7,31 @@ auto-syncs recent repositories at page load.
 
 ## Files
 
-- `index.html` — the whole site in one file (HTML + inline CSS + a small vanilla JS block)
-- `favicon.svg` — the little tile icon
+- `index.html` — the whole site in one file (HTML + inline CSS + vanilla JS)
 - `404.html` — fallback page for missing URLs
+- `manifest.webmanifest` — PWA manifest (installable app metadata + icons)
+- `sw.js` — service worker: offline shell (network-first HTML, cache-first assets)
+- `favicon.png`, `apple-touch-icon.png`, `assets/brand/icon-{192,512}.png` — icons
 - `robots.txt` — allow crawlers, point to sitemap
 - `sitemap.xml` — single-URL sitemap
 - `CNAME` — custom domain for GitHub Pages (`atxgreene.com`)
 - `.github/workflows/deploy.yml` — auto-deploys `main` to GitHub Pages
+
+## Enterprise / production notes
+
+- **PWA** — installable and offline-capable via `sw.js` + `manifest.webmanifest`. The
+  worker is network-first for HTML (fresh deploys win when online) and cache-first for
+  same-origin static assets; cross-origin (fonts, GitHub API, embedded iframes) passes
+  through untouched. Bump `VERSION` in `sw.js` to invalidate the old cache.
+- **SEO** — JSON-LD structured data (`Person` + `WebSite`) in `<head>`, canonical URL,
+  Open Graph + Twitter cards, `og.png` (1200×630), robots + sitemap.
+- **Accessibility** — skip link, semantic landmarks, `prefers-reduced-motion` throughout,
+  stable accessible names on the scramble headings (`aria-label`), decorative canvases
+  and marks `aria-hidden`, visible `:focus-visible` states.
+- **Performance** — preloaded phoenix mark, explicit image dimensions (no layout shift),
+  `decoding="async"`, `font-display: swap`, and animation loops that idle when off-screen
+  or on hidden tabs.
+- **Security** — `referrer` policy, `rel="noopener noreferrer"` on external links.
 
 Fonts (Space Grotesk display + Inter body + IBM Plex Mono) load from Google Fonts at
 runtime, following the ATXGreene brand. No build tooling, no package.json, no framework.

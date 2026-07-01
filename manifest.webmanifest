@@ -1,0 +1,19 @@
+{
+  "name": "Austin Greene — ATXGreene",
+  "short_name": "ATXGreene",
+  "description": "Austin Greene — operator, builder, and researcher. Local-first AI agents and memory, AI-operations tooling, and immersive research worlds.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#071923",
+  "theme_color": "#071923",
+  "categories": ["portfolio", "technology", "productivity"],
+  "icons": [
+    { "src": "/assets/brand/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/brand/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/brand/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/assets/brand/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
