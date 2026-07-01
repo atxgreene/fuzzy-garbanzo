@@ -502,7 +502,27 @@
   @keyframes divsweep { 0% { left: -140px; opacity: 0; } 12% { opacity: 1; } 88% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
 
   /* phoenix marks: gentle float + breathing glow */
-  .mark-badge { will-change: transform; animation: float 7.5s ease-in-out infinite; }
+  /* ── Living phoenix: float + breathing glow + shine sweep + hover ── */
+  .phoenix-fx { position: relative; display: inline-block; align-self: center; will-change: transform; animation: float 7.5s ease-in-out infinite; }
+  .phoenix-fx img { display: block; }
+  .phoenix-fx::after {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    -webkit-mask: url('assets/brand/phoenix-mark.png') center / contain no-repeat;
+    mask: url('assets/brand/phoenix-mark.png') center / contain no-repeat;
+    background: linear-gradient(115deg, transparent 42%, rgba(255,255,255,0.6) 50%, transparent 58%);
+    background-size: 300% 100%; background-repeat: no-repeat; background-position: 130% 0;
+    mix-blend-mode: screen; animation: phxshine 6.5s ease-in-out infinite;
+  }
+  .mark-badge { will-change: filter; transition: transform .3s ease; animation: phxglow 4.5s ease-in-out infinite; }
+  .mark-card:hover .mark-badge { transform: scale(1.06); }
+  @keyframes phxglow {
+    0%,100% { filter: drop-shadow(0 8px 22px rgba(18,201,183,0.28)); }
+    50%     { filter: drop-shadow(0 0 26px rgba(249,115,22,0.42)); }
+  }
+  @keyframes phxshine { 0% { background-position: 130% 0; } 55%,100% { background-position: -40% 0; } }
+
+  /* 3D tilt toward the cursor (transform set by JS) */
+  .tilt { transform-style: preserve-3d; transition: transform .2s ease; will-change: transform; }
   nav .brand img { transition: transform .3s ease, filter .3s ease; }
   nav .brand:hover img { transform: translateY(-1px) scale(1.05); filter: drop-shadow(0 0 8px rgba(18,201,183,0.5)); }
   @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
@@ -559,8 +579,9 @@
   .card:hover::after { opacity: 1; }
 
   @media (prefers-reduced-motion: reduce) {
-    #aurora, .mark-badge, .beam::before, .marquee-track, .eternal-loop .loop-comet,
+    #aurora, .mark-badge, .phoenix-fx, .phoenix-fx::after, .beam::before, .marquee-track, .eternal-loop .loop-comet,
     .resonance-rings .ring, .cover.resonance .glyph, .cover.aces .halo, .cover.aces .spade, .cover.aces .chip { animation: none !important; }
+    .tilt { transform: none !important; }
     .js .reveal { opacity: 1 !important; transform: none !important; }
     .hero-card::after, .mark-card::after, .btn.primary::after, .card::after { display: none; }
     .divider::before, .divider::after { animation: none; }
@@ -609,12 +630,12 @@
         </div>
 
         <aside class="side">
-          <div class="mark-card glass">
+          <div class="mark-card glass tilt">
             <div>
               <div class="side-title">Identity core</div>
               <h2>Operator brain.<br>Builder hands.<br>Researcher soul.</h2>
             </div>
-            <img class="mark-badge" src="assets/brand/phoenix-mark.png" alt="ATXGreene phoenix mark" loading="lazy" />
+            <span class="phoenix-fx"><img class="mark-badge" src="assets/brand/phoenix-mark.png" alt="ATXGreene phoenix mark" loading="lazy" /></span>
           </div>
           <div class="now-card glass">
             <div class="now-line"><b>Based</b><span>Austin-rooted · remote-capable. Public brand stays ATX; client work stays clean and executive-safe.</span></div>
@@ -637,22 +658,22 @@
         </div>
       </div>
       <div class="lanes">
-        <article class="lane glass">
+        <article class="lane glass tilt">
           <div class="num">01 / FIELD OPS</div>
           <h3>AI-enabled business execution</h3>
           <p>Turn AI from a promise into an operating rhythm: adoption, enablement, reporting architecture, process design, and measurable change.</p>
         </article>
-        <article class="lane glass">
+        <article class="lane glass tilt">
           <div class="num">02 / MEMORY</div>
           <h3>Local-first agent architecture</h3>
           <p>Memory, routing, and durable context so agents have continuity — without turning every problem into cloud bloat.</p>
         </article>
-        <article class="lane glass">
+        <article class="lane glass tilt">
           <div class="num">03 / WORLDS</div>
           <h3>Immersive research environments</h3>
           <p>Turn difficult material — ancient texts, mythos, and research — into WebGL exhibits and playable worlds you can walk through.</p>
         </article>
-        <article class="lane glass">
+        <article class="lane glass tilt">
           <div class="num">04 / SIGNAL</div>
           <h3>Writing, synthesis &amp; applied math</h3>
           <p>Convert scattered information into clear results: research notes, spectral-geometry work, and reusable operating sheets.</p>
@@ -1112,6 +1133,17 @@
         card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
         card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
       });
+    });
+
+    /* ── 3D tilt toward the cursor ── */
+    document.querySelectorAll('.tilt').forEach(function (el) {
+      el.addEventListener('pointermove', function (e) {
+        var r = el.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width - 0.5;
+        var py = (e.clientY - r.top) / r.height - 0.5;
+        el.style.transform = 'perspective(900px) rotateY(' + (px * 7).toFixed(2) + 'deg) rotateX(' + (-py * 7).toFixed(2) + 'deg)';
+      });
+      el.addEventListener('pointerleave', function () { el.style.transform = ''; });
     });
   }
 
