@@ -290,8 +290,19 @@
   .c-tugboat { background: linear-gradient(135deg, var(--teal-deep), #06303a); }
   .c-tugboat .symbol { color: var(--bone); }
   .c-apex { background: linear-gradient(135deg, var(--orange), var(--orange-2)); }
-  .c-eternal { background: linear-gradient(135deg, var(--teal-deep), var(--slate)); }
+  .c-eternal { background: radial-gradient(120% 140% at 50% 50%, #0c3a41 0%, #071d26 70%); }
   .c-eternal .symbol { color: var(--bone); }
+  /* Eternal Context — endless lemniscate (a light circulating an ∞ forever) */
+  .cover.loop { display: flex; align-items: center; justify-content: center; padding: 22px; }
+  .eternal-loop { width: 82%; max-width: 300px; overflow: visible; }
+  .eternal-loop .loop-bg { fill: none; stroke: rgba(18,201,183,0.16); stroke-width: 2.4; }
+  .eternal-loop .loop-comet {
+    fill: none; stroke: url(#egrad); stroke-width: 2.8; stroke-linecap: round;
+    filter: url(#eglow); stroke-dasharray: 42 318;
+    animation: loopflow 3.4s linear infinite;
+  }
+  .eternal-loop .loop-comet.b { animation-delay: -1.7s; opacity: .85; }
+  @keyframes loopflow { from { stroke-dashoffset: 360; } to { stroke-dashoffset: 0; } }
   .c-ben {
     background: #07212c;
     background-image:
@@ -519,7 +530,7 @@
   .card:hover::after { opacity: 1; }
 
   @media (prefers-reduced-motion: reduce) {
-    #aurora, .mark-badge, .beam::before, .marquee-track { animation: none !important; }
+    #aurora, .mark-badge, .beam::before, .marquee-track, .eternal-loop .loop-comet { animation: none !important; }
     .js .reveal { opacity: 1 !important; transform: none !important; }
     .hero-card::after, .mark-card::after, .btn.primary::after, .card::after { display: none; }
     .divider::before, .divider::after { animation: none; }
@@ -667,7 +678,23 @@
           </article>
 
           <article class="card">
-            <div class="cover c-eternal"><span class="badge">2026</span><span class="symbol">∞</span></div>
+            <div class="cover c-eternal loop">
+              <svg class="eternal-loop" viewBox="0 0 100 60" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                <defs>
+                  <linearGradient id="egrad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#12c9b7"/><stop offset="0.55" stop-color="#7fe9dd"/><stop offset="1" stop-color="#ffb45b"/>
+                  </linearGradient>
+                  <filter id="eglow" x="-40%" y="-40%" width="180%" height="180%">
+                    <feGaussianBlur stdDeviation="1.4" result="b"/>
+                    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+                  </filter>
+                </defs>
+                <path class="loop-bg" d="M20,30 C20,11 41,11 50,30 C59,49 80,49 80,30 C80,11 59,11 50,30 C41,49 20,49 20,30 Z"/>
+                <path class="loop-comet" pathLength="360" d="M20,30 C20,11 41,11 50,30 C59,49 80,49 80,30 C80,11 59,11 50,30 C41,49 20,49 20,30 Z"/>
+                <path class="loop-comet b" pathLength="360" d="M20,30 C20,11 41,11 50,30 C59,49 80,49 80,30 C80,11 59,11 50,30 C41,49 20,49 20,30 Z"/>
+              </svg>
+              <span class="badge">2026</span>
+            </div>
             <div class="body">
               <h3>Eternal Context</h3>
               <p class="desc">Hybrid AI agent with infinite persistent memory. Hermes 3 + cloud APIs on top of the ICMS/SDI memory stack — the foundation Mnemosyne grew from.</p>
