@@ -328,6 +328,29 @@
   .c-devils { background: linear-gradient(135deg, var(--slate), #0c2733); }
   .c-devils .symbol { color: var(--orange-2); }
 
+  /* ── Above Black — animated resonance banner ── */
+  .cover.resonance { display: flex; align-items: center; justify-content: center; min-height: 300px; }
+  .resonance-rings { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; }
+  .resonance-rings .ring { position: absolute; width: 130px; height: 130px; border: 2px solid var(--teal); border-radius: 50%; opacity: 0; animation: abpulse 3.4s ease-out infinite; }
+  .resonance-rings .ring:nth-child(2) { animation-delay: .85s; }
+  .resonance-rings .ring:nth-child(3) { animation-delay: 1.7s; }
+  .resonance-rings .ring:nth-child(4) { animation-delay: 2.55s; }
+  @keyframes abpulse { 0% { transform: scale(.22); opacity: .85; } 100% { transform: scale(2.7); opacity: 0; } }
+  .cover.resonance .glyph { position: relative; z-index: 1; font-family: 'Space Grotesk', sans-serif; font-size: 68px; font-weight: 700; color: var(--teal); text-shadow: 0 0 28px rgba(18,201,183,.55); animation: abbreath 3.4s ease-in-out infinite; }
+  @keyframes abbreath { 0%,100% { transform: scale(1); opacity: .9; } 50% { transform: scale(1.09); opacity: 1; } }
+
+  /* ── Devil's Ace — animated aces banner ── */
+  .cover.aces { display: flex; align-items: center; justify-content: center; min-height: 300px; background: radial-gradient(120% 130% at 50% 40%, #14343f 0%, #081820 72%); }
+  .cover.aces .halo { position: absolute; width: 220px; height: 220px; border-radius: 50%; background: conic-gradient(from 0deg, transparent, rgba(255,180,91,.5), transparent 60%); filter: blur(7px); animation: spadespin 7.5s linear infinite; pointer-events: none; }
+  @keyframes spadespin { to { transform: rotate(360deg); } }
+  .cover.aces .spade { position: relative; z-index: 2; font-size: 100px; line-height: 1; color: var(--orange-2); text-shadow: 0 6px 26px rgba(0,0,0,.6), 0 0 34px rgba(255,180,91,.35); animation: acefloat 4.2s ease-in-out infinite; }
+  @keyframes acefloat { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-11px) rotate(2deg); } }
+  .cover.aces .chip { position: absolute; z-index: 1; font-family: 'IBM Plex Mono', monospace; font-weight: 700; font-size: 15px; color: var(--bone); background: rgba(7,25,35,.6); border: 1px solid rgba(255,180,91,.35); border-radius: 8px; padding: 4px 8px; backdrop-filter: blur(3px); animation: chipfloat 5.2s ease-in-out infinite; }
+  .cover.aces .chip.rd { color: #ff8b7a; }
+  .cover.aces .c1 { top: 24%; left: 13%; } .cover.aces .c2 { top: 62%; left: 19%; animation-delay: 1.3s; }
+  .cover.aces .c3 { top: 28%; right: 14%; animation-delay: .65s; } .cover.aces .c4 { top: 64%; right: 11%; animation-delay: 1.95s; }
+  @keyframes chipfloat { 0%,100% { transform: translateY(0); opacity: .7; } 50% { transform: translateY(-13px); opacity: 1; } }
+
   /* Image covers (real brand key art) */
   .cover.art { min-height: 210px; background-size: cover; background-position: center; }
   .cover.art::after {
@@ -536,7 +559,8 @@
   .card:hover::after { opacity: 1; }
 
   @media (prefers-reduced-motion: reduce) {
-    #aurora, .mark-badge, .beam::before, .marquee-track, .eternal-loop .loop-comet { animation: none !important; }
+    #aurora, .mark-badge, .beam::before, .marquee-track, .eternal-loop .loop-comet,
+    .resonance-rings .ring, .cover.resonance .glyph, .cover.aces .halo, .cover.aces .spade, .cover.aces .chip { animation: none !important; }
     .js .reveal { opacity: 1 !important; transform: none !important; }
     .hero-card::after, .mark-card::after, .btn.primary::after, .card::after { display: none; }
     .divider::before, .divider::after { animation: none; }
@@ -824,23 +848,34 @@
             </div>
           </article>
 
-          <article class="card small">
-            <div class="cover c-aboveblack"><span class="badge">restoring</span><span class="symbol">Above Black</span></div>
+          <article class="card full">
+            <div class="cover resonance c-aboveblack">
+              <div class="resonance-rings"><span class="ring"></span><span class="ring"></span><span class="ring"></span><span class="ring"></span></div>
+              <div class="glyph">∞</div>
+              <span class="badge">live · PWA</span>
+              <a class="embed-link" href="https://atxgreene.github.io/above-black-trainer/" aria-label="Open Above Black Trainer live"></a>
+            </div>
             <div class="body">
               <h3>Above Black Trainer</h3>
-              <p class="desc">Local-first, offline-capable PWA for precision frequency resonance and progressive line-training protocols.</p>
-              <div class="tags"><span class="tag">PWA</span><span class="tag">Web Audio</span><span class="tag">Chart.js</span><span class="tag">Tailwind</span></div>
-              <div class="cta"><a href="https://github.com/atxgreene/above-black-trainer">GitHub ↗</a><span class="soon">live build · restoring</span></div>
+              <p class="desc">Local-first, offline PWA for precision frequency resonance and progressive line training — multi-band Hemi-Sync (binaural + isochronic), Gateway Focus 10–27 protocols, energy-body work, one-click preset modes, and a session analytics dashboard.</p>
+              <div class="tags"><span class="tag">PWA</span><span class="tag">Web Audio</span><span class="tag">Chart.js</span><span class="tag">Hemi-Sync</span></div>
+              <div class="cta"><a href="https://atxgreene.github.io/above-black-trainer/">Live ↗</a><a href="https://github.com/atxgreene/above-black-trainer">GitHub ↗</a></div>
             </div>
           </article>
 
-          <article class="card small">
-            <div class="cover c-devils"><span class="badge">in progress</span><span class="symbol">♠</span></div>
+          <article class="card full">
+            <div class="cover aces">
+              <div class="halo"></div>
+              <span class="chip c1">A♠</span><span class="chip rd c2">K♥</span><span class="chip c3">TC +3</span><span class="chip rd c4">Q♦</span>
+              <div class="spade">♠</div>
+              <span class="badge">live · PWA</span>
+              <a class="embed-link" href="https://atxgreene.github.io/Project_Devils_Ace/" aria-label="Open Devil's Ace live"></a>
+            </div>
             <div class="body">
-              <h3>Project Devil's Ace</h3>
-              <p class="desc">Don't Bust. — a blackjack-style card game.</p>
-              <div class="tags"><span class="tag">JavaScript</span><span class="tag">game</span></div>
-              <div class="cta"><a href="https://github.com/atxgreene/Project_Devils_Ace">GitHub ↗</a><span class="soon">pages going live</span></div>
+              <h3>Devil's Ace</h3>
+              <p class="desc"><em>Don't Bust. Beat the House.</em> — a full blackjack advantage-play trainer: basic-strategy drills with instant feedback, six counting systems, true-count conversion, Illustrious 18 / Fab 4 index deviations, and a Monte-Carlo edge simulator. Offline, zero-dependency PWA.</p>
+              <div class="tags"><span class="tag">PWA</span><span class="tag">Vanilla JS</span><span class="tag">Blackjack</span><span class="tag">Monte-Carlo</span></div>
+              <div class="cta"><a href="https://atxgreene.github.io/Project_Devils_Ace/">Live ↗</a><a href="https://github.com/atxgreene/Project_Devils_Ace">GitHub ↗</a></div>
             </div>
           </article>
 
