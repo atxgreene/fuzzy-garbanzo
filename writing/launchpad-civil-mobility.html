@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>Launchpad and the Civil Mobility Compact — A Policy Proposal</title>
+<link rel="canonical" href="https://atxgreene.com/writing/launchpad-civil-mobility.html">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta name="description" content="A voluntary, time-limited, rights-protected public-private model for rebuilding economic mobility in the AI era.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme:light only;
+    --paper:#EEF0EA;
+    --paper-2:#E4E8DD;
+    --panel:#DDE2D3;
+    --ink:#1E221B;
+    --ink-soft:#4B5142;
+    --olive:#46553A;
+    --olive-deep:#2F3A26;
+    --signal:#AF6B1F;
+    --signal-soft:#C68A3C;
+    --line:#C8CEBC;
+    --line-soft:#D6DBCB;
+    --maxw:43rem;
+    --wide:64rem;
+  }
+
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;background:var(--paper);}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Newsreader",Georgia,serif;
+    font-size:1.225rem;
+    line-height:1.62;
+    font-optical-sizing:auto;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+
+  /* subtle page grain via layered gradients, kept very low contrast */
+  body::before{
+    content:"";
+    position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background:
+      radial-gradient(120% 80% at 85% -10%, rgba(70,85,58,0.06), transparent 60%),
+      radial-gradient(90% 70% at -10% 110%, rgba(175,107,31,0.05), transparent 55%);
+  }
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 1.5rem;}
+  .wide{max-width:var(--wide);margin:0 auto;padding:0 1.5rem;}
+
+  /* ---------- typography roles ---------- */
+  .eyebrow{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:0.74rem;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--olive);
+    font-weight:500;
+  }
+  h1,h2,h3{
+    font-family:"Archivo",sans-serif;
+    color:var(--ink);
+    line-height:1.06;
+    letter-spacing:-0.015em;
+    font-weight:800;
+  }
+  p{margin:0 0 1.15rem;}
+  a{color:var(--olive-deep);text-decoration-thickness:1px;text-underline-offset:2px;}
+
+  /* ---------- masthead ---------- */
+  header.masthead{
+    border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg,var(--paper-2),var(--paper));
+  }
+  .masthead-inner{
+    max-width:var(--wide);margin:0 auto;padding:1.1rem 1.5rem;
+    display:flex;justify-content:space-between;align-items:center;gap:1rem;
+    font-family:"IBM Plex Mono",monospace;font-size:0.72rem;letter-spacing:0.18em;
+    text-transform:uppercase;color:var(--ink-soft);
+  }
+  .masthead-inner .tag{color:var(--signal);font-weight:600;}
+
+  /* ---------- hero ---------- */
+  .hero{padding:4.5rem 0 3rem;}
+  .hero .eyebrow{margin-bottom:1.6rem;}
+  .hero h1{
+    font-size:clamp(2.5rem,7vw,4.6rem);
+    font-weight:900;
+    letter-spacing:-0.03em;
+    margin:0 0 1.4rem;
+  }
+  .hero h1 .lift{
+    color:var(--signal);
+    font-style:normal;
+  }
+  .hero .deck{
+    font-size:clamp(1.25rem,2.6vw,1.6rem);
+    line-height:1.4;
+    color:var(--ink-soft);
+    font-weight:400;
+    max-width:38rem;
+    margin:0;
+  }
+
+  /* trajectory figure */
+  figure.trajectory{
+    margin:2.8rem auto 0;
+    max-width:var(--wide);
+    padding:0 1.5rem;
+  }
+  .traj-card{
+    border:1px solid var(--line);
+    background:var(--paper-2);
+    border-radius:2px;
+    padding:1.4rem 1.4rem 1rem;
+  }
+  .traj-card svg{display:block;width:100%;height:auto;}
+  .traj-line{
+    fill:none;stroke:var(--olive);stroke-width:2.4;
+    stroke-linecap:round;
+  }
+  .traj-node{fill:var(--signal);}
+  .traj-base{stroke:var(--line);stroke-width:1.4;stroke-dasharray:3 5;}
+  .traj-label{
+    font-family:"IBM Plex Mono",monospace;font-size:11px;
+    letter-spacing:0.12em;text-transform:uppercase;fill:var(--ink-soft);
+  }
+  .traj-label.sig{fill:var(--signal);font-weight:600;}
+  figcaption.fig-cap{
+    font-family:"IBM Plex Mono",monospace;font-size:0.7rem;letter-spacing:0.1em;
+    text-transform:uppercase;color:var(--ink-soft);margin-top:0.9rem;
+    border-top:1px solid var(--line-soft);padding-top:0.75rem;
+  }
+
+  @media (prefers-reduced-motion:no-preference){
+    .traj-line{
+      stroke-dasharray:560;stroke-dashoffset:560;
+      animation:draw 2.2s cubic-bezier(.2,.7,.2,1) .25s forwards;
+    }
+    .traj-node{opacity:0;animation:pop .5s ease 2.0s forwards;}
+    @keyframes draw{to{stroke-dashoffset:0;}}
+    @keyframes pop{to{opacity:1;}}
+  }
+
+  /* ---------- abstract ---------- */
+  .abstract{
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    padding:2.6rem 0;margin-top:3.5rem;
+  }
+  .abstract .eyebrow{margin-bottom:1rem;}
+  .abstract p{
+    font-size:1.32rem;line-height:1.6;color:var(--ink);
+  }
+  .abstract p:last-child{margin-bottom:0;}
+  .abstract .lede{font-weight:500;}
+
+  /* ---------- sections ---------- */
+  section.body-section{padding:3rem 0 0.6rem;}
+  .sec-head{
+    display:flex;align-items:baseline;gap:1rem;margin-bottom:1.5rem;
+    border-top:1px solid var(--line);padding-top:1.4rem;
+  }
+  .sec-num{
+    font-family:"IBM Plex Mono",monospace;font-size:0.95rem;font-weight:600;
+    color:var(--signal);letter-spacing:0.05em;flex:none;line-height:1.3;
+    padding-top:0.2rem;
+  }
+  .sec-head h2{
+    font-size:clamp(1.55rem,3.4vw,2.05rem);
+    margin:0;font-weight:800;
+  }
+  .body-section h3{
+    font-size:1.18rem;font-weight:700;letter-spacing:-0.005em;
+    margin:2.1rem 0 0.7rem;color:var(--olive-deep);
+    font-family:"Archivo",sans-serif;
+  }
+  .body-section h3 .h3num{
+    font-family:"IBM Plex Mono",monospace;color:var(--ink-soft);
+    font-size:0.82rem;font-weight:500;margin-right:0.55rem;
+  }
+
+  /* lists */
+  ul.clean{list-style:none;margin:0 0 1.2rem;padding:0;}
+  ul.clean li{
+    position:relative;padding-left:1.5rem;margin-bottom:0.5rem;
+    line-height:1.5;
+  }
+  ul.clean li::before{
+    content:"";position:absolute;left:0;top:0.7em;
+    width:0.5rem;height:1px;background:var(--olive);
+  }
+  ol.terms{
+    list-style:none;counter-reset:t;margin:0 0 1.2rem;padding:0;
+  }
+  ol.terms li{
+    counter-increment:t;position:relative;padding-left:2.4rem;margin-bottom:0.6rem;
+    line-height:1.5;
+  }
+  ol.terms li::before{
+    content:counter(t,decimal-leading-zero);
+    position:absolute;left:0;top:0.18em;
+    font-family:"IBM Plex Mono",monospace;font-size:0.8rem;font-weight:600;
+    color:var(--olive);
+  }
+
+  /* ---------- "what it is not" negations ---------- */
+  .negations{
+    margin:1.4rem 0 0.4rem;
+    display:grid;gap:0.55rem;
+  }
+  .neg{
+    display:flex;gap:0.85rem;align-items:flex-start;
+    padding:0.6rem 0;border-bottom:1px solid var(--line-soft);
+    line-height:1.45;
+  }
+  .neg .x{
+    font-family:"IBM Plex Mono",monospace;font-size:0.72rem;font-weight:600;
+    letter-spacing:0.12em;color:var(--signal);flex:none;
+    border:1px solid var(--signal-soft);border-radius:2px;
+    padding:0.12rem 0.4rem;margin-top:0.15rem;
+  }
+  .neg span.t strong{font-weight:600;color:var(--ink);}
+
+  /* ---------- principle callouts ---------- */
+  .principle{
+    margin:2.4rem 0;padding:1.8rem 0 1.8rem 1.7rem;
+    border-left:4px solid var(--signal);
+  }
+  .principle .label{
+    font-family:"IBM Plex Mono",monospace;font-size:0.7rem;letter-spacing:0.2em;
+    text-transform:uppercase;color:var(--olive);display:block;margin-bottom:0.7rem;
+  }
+  .principle p{
+    font-family:"Archivo",sans-serif;font-weight:800;
+    font-size:clamp(1.5rem,3.6vw,2rem);line-height:1.12;letter-spacing:-0.02em;
+    color:var(--ink);margin:0;
+  }
+
+  /* ---------- instability stack diagram ---------- */
+  .stack-wrap{margin:1.8rem 0 1rem;}
+  .stack{display:flex;flex-direction:column;gap:3px;}
+  .layer{
+    background:var(--panel);border:1px solid var(--line);
+    border-left:3px solid var(--olive);
+    padding:0.6rem 0.9rem;
+    font-family:"IBM Plex Mono",monospace;font-size:0.82rem;
+    letter-spacing:0.02em;color:var(--olive-deep);
+    display:flex;justify-content:space-between;align-items:center;gap:0.6rem;
+  }
+  .layer .n{color:var(--ink-soft);font-size:0.72rem;}
+  .stack-cap{
+    margin-top:0.9rem;font-family:"IBM Plex Mono",monospace;font-size:0.72rem;
+    letter-spacing:0.1em;text-transform:uppercase;color:var(--signal);
+    text-align:center;
+  }
+
+  /* ---------- data callout ---------- */
+  .figure-stat{
+    margin:2rem 0;border:1px solid var(--line);background:var(--paper-2);
+    border-radius:2px;padding:1.6rem 1.5rem;text-align:center;
+  }
+  .figure-stat .num{
+    font-family:"Archivo",sans-serif;font-weight:900;
+    font-size:clamp(2rem,6vw,3rem);letter-spacing:-0.03em;color:var(--ink);
+    line-height:1;
+  }
+  .figure-stat .unit{
+    display:block;margin-top:0.7rem;font-family:"IBM Plex Mono",monospace;
+    font-size:0.74rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-soft);
+  }
+
+  /* ---------- panel (rights charter) ---------- */
+  .panel{
+    background:var(--paper-2);border:1px solid var(--line);border-radius:2px;
+    padding:1.7rem 1.6rem;margin:1.6rem 0;
+  }
+  .panel h3{margin-top:0;}
+  .prohibited{margin-top:1.4rem;}
+  .prohibited ul{list-style:none;margin:0;padding:0;}
+  .prohibited li{
+    position:relative;padding-left:1.6rem;margin-bottom:0.45rem;line-height:1.45;
+    font-size:1.08rem;
+  }
+  .prohibited li::before{
+    content:"\00D7";position:absolute;left:0;top:-0.02em;
+    color:var(--signal);font-weight:700;font-family:"IBM Plex Mono",monospace;
+  }
+
+  /* who-supports grid */
+  .stance-grid{display:grid;gap:0.9rem;margin:1.4rem 0;}
+  .stance{
+    border-top:2px solid var(--olive);padding-top:0.7rem;
+  }
+  .stance .who{
+    font-family:"IBM Plex Mono",monospace;font-size:0.72rem;letter-spacing:0.14em;
+    text-transform:uppercase;color:var(--signal);display:block;margin-bottom:0.3rem;
+  }
+  .stance p{margin:0;font-size:1.08rem;line-height:1.45;}
+
+  /* roadmap phases */
+  .phase{
+    border-left:2px solid var(--line);padding:0 0 0.2rem 1.3rem;margin:0 0 1.4rem;
+    position:relative;
+  }
+  .phase::before{
+    content:"";position:absolute;left:-5px;top:0.45rem;width:8px;height:8px;
+    background:var(--signal);border-radius:50%;
+  }
+  .phase .ph-label{
+    font-family:"Archivo",sans-serif;font-weight:800;font-size:1.08rem;
+    color:var(--olive-deep);margin-bottom:0.5rem;
+  }
+
+  /* ---------- closing ---------- */
+  .closing{
+    margin-top:3rem;border-top:1px solid var(--line);padding-top:2.6rem;
+  }
+  .closing .kicker{
+    font-family:"Archivo",sans-serif;font-weight:800;
+    font-size:clamp(1.7rem,4.5vw,2.4rem);letter-spacing:-0.025em;line-height:1.1;
+    color:var(--ink);margin:0 0 1.4rem;
+  }
+  .closing .kicker .lift{color:var(--signal);}
+
+  /* ---------- colophon / footer ---------- */
+  footer.colophon{
+    margin-top:4rem;border-top:1px solid var(--line);
+    background:linear-gradient(180deg,var(--paper),var(--paper-2));
+  }
+  .colophon-inner{
+    max-width:var(--maxw);margin:0 auto;padding:2.4rem 1.5rem 3rem;
+    font-family:"IBM Plex Mono",monospace;font-size:0.74rem;letter-spacing:0.08em;
+    color:var(--ink-soft);line-height:1.7;
+  }
+  .colophon-inner .doc-title{
+    color:var(--ink);text-transform:uppercase;letter-spacing:0.16em;
+    font-weight:600;margin-bottom:0.6rem;
+  }
+  .colophon-inner .rule{color:var(--signal);}
+
+  /* focus visibility */
+  a:focus-visible{outline:2px solid var(--signal);outline-offset:3px;border-radius:2px;}
+
+  @media (max-width:640px){
+    body{font-size:1.12rem;}
+    .sec-head{gap:0.7rem;}
+    .abstract p{font-size:1.18rem;}
+    .neg{flex-direction:column;gap:0.35rem;}
+  }
+
+  /* ============================================================
+     PRINT / PDF — File > Print > Save as PDF
+     Tuned for Letter or A4; respects the paper size you pick.
+     ============================================================ */
+  @page{
+    margin:18mm 16mm 16mm;
+  }
+
+  @media print{
+    :root{
+      --paper:#ffffff;
+      --paper-2:#ffffff;
+      --panel:#ffffff;
+    }
+    html{font-size:11.5pt;}
+    body{
+      background:#fff;color:#1b1f18;
+      font-size:11.5pt;line-height:1.5;
+    }
+    body::before{display:none !important;}   /* drop the fixed ambient wash */
+
+    /* keep accent ink even when "background graphics" is off */
+    .eyebrow,.sec-num,.h3num,.layer,.layer .n,.stance .who,
+    .principle .label,.figure-stat .unit,.fig-cap,.stack-cap,
+    .neg .x,.masthead-inner,.colophon-inner{
+      -webkit-print-color-adjust:exact;print-color-adjust:exact;
+    }
+
+    .wrap,.wide,.trajectory,.masthead-inner,.colophon-inner{
+      max-width:none;padding-left:0;padding-right:0;
+    }
+
+    /* masthead becomes a quiet running title, not a band */
+    header.masthead{background:none;border-bottom:1px solid #c8cebc;}
+    .masthead-inner{padding:0 0 6pt;}
+
+    /* hero scaled for the page */
+    .hero{padding:6pt 0 14pt;}
+    .hero h1{font-size:30pt;line-height:1.04;margin-bottom:10pt;}
+    .hero .deck{font-size:12.5pt;line-height:1.35;}
+    .hero .eyebrow{margin-bottom:10pt;}
+
+    figure.trajectory{margin-top:14pt;break-inside:avoid;}
+    .traj-card{background:none;}
+    .traj-line{
+      stroke-dashoffset:0 !important;animation:none !important;
+      -webkit-print-color-adjust:exact;print-color-adjust:exact;
+    }
+    .traj-node{opacity:1 !important;animation:none !important;}
+
+    .abstract{margin-top:16pt;padding:14pt 0;break-inside:avoid;}
+    .abstract p{font-size:12pt;line-height:1.45;}
+
+    /* section headings stay attached to their bodies */
+    section.body-section{padding-top:14pt;}
+    .sec-head{padding-top:10pt;break-after:avoid;}
+    .sec-head h2{font-size:16pt;}
+    h2,h3{break-after:avoid;break-inside:avoid;}
+    .body-section h3{margin-top:13pt;font-size:12.5pt;}
+
+    p{orphans:3;widows:3;}
+
+    /* never split these self-contained blocks across pages */
+    .principle,.panel,.figure-stat,.stack-wrap,.stack,
+    .stance,.phase,.neg,.figure-stat .num,figure,figcaption{
+      break-inside:avoid;
+    }
+
+    /* panels/stat read as outlined cards in print */
+    .panel,.figure-stat,.traj-card{
+      background:none;border:1px solid #b9c0aa;
+    }
+    .layer{background:none;border:1px solid #cdd3c1;border-left:3px solid #46553A;}
+    .principle{padding-top:12pt;padding-bottom:12pt;margin:16pt 0;}
+    .principle p{font-size:15pt;}
+
+    /* give the conclusion room of its own */
+    .closing{break-before:page;border-top:none;padding-top:0;}
+
+    footer.colophon{background:none;border-top:1px solid #c8cebc;margin-top:22pt;break-inside:avoid;}
+    .colophon-inner{padding:12pt 0 0;}
+
+    a{color:#2F3A26;text-decoration:none;}
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <span><a href="/" style="color:inherit;text-decoration:none">&larr; atxgreene.com</a> · Policy Proposal</span>
+    <span class="tag">Working Draft · June 2026</span>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="wrap">
+      <span class="eyebrow">The Hollow Middle · A Civil Mobility Compact</span>
+      <h1>America does not need a servant class.<br>It needs <span class="lift">launchpads</span>.</h1>
+      <p class="deck">A voluntary, time-limited, rights-protected public–private model that turns instability into independence — built for an era of AI-driven labor disruption, social fragmentation, and stalled mobility.</p>
+      <p class="eyebrow" style="margin-top:1.8rem">By Austin J. Greene</p>
+    </div>
+  </div>
+
+  <figure class="trajectory">
+    <div class="traj-card">
+      <svg viewBox="0 0 720 220" role="img" aria-label="A trajectory rising from instability, across the gap called the Hollow Middle, through a Launchpad node, up to independence.">
+        <!-- baseline -->
+        <line class="traj-base" x1="40" y1="180" x2="680" y2="180"></line>
+        <!-- rising trajectory -->
+        <path class="traj-line" d="M 48 178 C 200 176, 250 172, 320 150 C 400 124, 440 70, 672 30"></path>
+        <!-- launchpad node -->
+        <circle class="traj-node" cx="372" cy="124" r="6.5"></circle>
+        <!-- labels -->
+        <text class="traj-label" x="48" y="202">Instability</text>
+        <text class="traj-label" x="250" y="202" text-anchor="middle">The Hollow Middle</text>
+        <text class="traj-label sig" x="372" y="108" text-anchor="middle">Launchpad</text>
+        <text class="traj-label" x="672" y="20" text-anchor="end">Independence</text>
+      </svg>
+      <figcaption class="fig-cap">Fig. 1 — The bridge gap. Mobility fails not for lack of motivation, but for lack of transition infrastructure.</figcaption>
+    </div>
+  </figure>
+
+  <!-- ABSTRACT -->
+  <div class="abstract">
+    <div class="wrap">
+      <span class="eyebrow">Abstract</span>
+      <p class="lede">The United States faces a widening gap best described as the Hollow Middle: the space between survival and stability, between low-wage work and meaningful mobility, between public benefits and independent prosperity, between technical disruption and human belonging.</p>
+      <p>Millions of Americans are not simply unemployed or unmotivated. They are trapped in a layered instability stack — housing insecurity, weak transportation, limited credentials, low savings, social isolation, damaged credit, fragmented healthcare, unstable schedules, and shrinking opportunity networks. Traditional workforce programs address one barrier at a time, while the lived experience of poverty is cumulative and compounding.</p>
+      <p>This paper proposes the <strong>Launchpad Partnerships Initiative</strong>, implemented through a <strong>Civil Mobility Compact</strong>: a voluntary, time-limited, rights-protected model combining paid work, housing support, skill-building, mentorship, AI-era workforce training, financial coaching, and transition planning. The model is explicitly not servitude, ownership, debt bondage, unpaid domestic labor, compulsory service, or prison-labor expansion. Its purpose is to create structured bridges from instability to independence while preserving participant agency, wages, privacy, and exit rights — tested through a three-year, independently evaluated, multi-site pilot.</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <!-- 1 -->
+    <section class="body-section">
+      <div class="sec-head"><span class="sec-num">01</span><h2>The Hollow Middle</h2></div>
+      <p>America has become highly skilled at describing crisis after it becomes visible. Homelessness, incarceration, addiction, unemployment, family breakdown, debt, and civic distrust are treated as separate failures. Yet for many people, these are not separate problems. They are linked outcomes of a missing bridge.</p>
+      <p>The Hollow Middle is the gap between emergency support and durable independence. It is the place where people can technically work but cannot build stability; where a person holds a job but cannot afford housing; where a credential is required but too expensive to obtain; where training is available but transportation is not; where a young adult is told to network but has no professional network; where automation changes the labor market faster than communities can adapt.</p>
+      <p>The Hollow Middle is not defined only by poverty. It is defined by the absence of reliable transition infrastructure. A person may be too stable to qualify for the most intensive interventions, but too unstable to succeed through ordinary market participation.</p>
+      <p>The rise of artificial intelligence intensifies this challenge. AI may increase productivity, but productivity gains do not automatically become human mobility. Workers without credentials, networks, savings, and digital confidence may experience AI not as empowerment, but as displacement and isolation. The economy will still need trusted human beings in care, trades, logistics, community coordination, public works, education support, small-business operations, disaster response, and AI-assisted service roles. The question is whether people in the Hollow Middle will be trained, connected, and stabilized into those roles — or left to drift further from opportunity.</p>
+    </section>
+
+    <!-- 2 -->
+    <section class="body-section">
+      <div class="sec-head"><span class="sec-num">02</span><h2>Core Proposal</h2></div>
+      <p>The Launchpad Partnerships Initiative creates voluntary, time-limited, rights-protected pathways for people facing poverty, unstable work, weak networks, housing instability, limited credentials, or AI-era labor disruption. The operating vehicle is the <strong>Civil Mobility Compact</strong> — a structured agreement among four parties:</p>
+      <ol class="terms">
+        <li><strong>The participant</strong>, who voluntarily enters a pathway toward stability and independence.</li>
+        <li><strong>The program operator</strong> — a workforce board, nonprofit intermediary, community college, or public agency.</li>
+        <li><strong>The sponsor or host partner</strong> — an employer, nonprofit, training provider, faith/community organization, local department, or carefully vetted residential host.</li>
+        <li><strong>The evaluator or oversight partner</strong> — an independent ombudsman, legal-aid partner, university, or public accountability body.</li>
+      </ol>
+      <p>The participant receives paid work, training, mentorship, stability support, and transition planning. The sponsor provides structured opportunity, coaching, references, and community connection. The operator manages intake, matching, compliance, case management, grievance systems, emergency relocation, and public reporting. This model is not based on ownership, obedience, or compelled labor. It is temporary, accountable support that helps participants leave stronger than they arrived.</p>
+    </section>
+
+    <!-- 3 -->
+    <section class="body-section">
+      <div class="sec-head"><span class="sec-num">03</span><h2>What Launchpad Is Not</h2></div>
+      <p>Launchpad must be defined as much by its boundaries as by its ambitions.</p>
+      <div class="negations">
+        <div class="neg"><span class="x">Not</span><span class="t">indentured servitude.</span></div>
+        <div class="neg"><span class="x">Not</span><span class="t">a servant-class program.</span></div>
+        <div class="neg"><span class="x">Not</span><span class="t">unpaid domestic labor.</span></div>
+        <div class="neg"><span class="x">Not</span><span class="t">a work-for-room-and-board dependency scheme.</span></div>
+        <div class="neg"><span class="x">Not</span><span class="t">debt bondage.</span></div>
+        <div class="neg"><span class="x">Not</span><span class="t">compulsory national service.</span></div>
+        <div class="neg"><span class="x">Not</span><span class="t">prison-labor expansion.</span></div>
+        <div class="neg"><span class="x">Not</span><span class="t">a way for private households to control vulnerable people.</span></div>
+        <div class="neg"><span class="x">Not</span><span class="t">a way for employers to replace regular workers with underpaid participants.</span></div>
+      </div>
+      <p style="margin-top:1.4rem;">Launchpad succeeds only if participants gain more freedom, not less.</p>
+      <div class="principle">
+        <span class="label">Non-negotiable principle</span>
+        <p>Support shall never become possession.</p>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="body-section">
+      <div class="sec-head"><span class="sec-num">04</span><h2>The Instability Stack</h2></div>
+      <p>The Hollow Middle persists because instability compounds. Workforce systems often assume employment is the primary missing piece. In reality, employment collapses when the surrounding life infrastructure is weak. A participant may fail in a job not for lack of discipline, but because the stack underneath gives way:</p>
+      <div class="stack-wrap">
+        <div class="stack">
+          <div class="layer"><span>Unstable rent</span><span class="n">layer 01</span></div>
+          <div class="layer"><span>Transportation breakdown</span><span class="n">layer 02</span></div>
+          <div class="layer"><span>Inconsistent childcare</span><span class="n">layer 03</span></div>
+          <div class="layer"><span>Food insecurity &amp; health</span><span class="n">layer 04</span></div>
+          <div class="layer"><span>Untreated medical / mental health needs</span><span class="n">layer 05</span></div>
+          <div class="layer"><span>No bank account or savings buffer</span><span class="n">layer 06</span></div>
+          <div class="layer"><span>No reliable adult mentor</span><span class="n">layer 07</span></div>
+          <div class="layer"><span>Unfamiliar workplace norms</span><span class="n">layer 08</span></div>
+          <div class="layer"><span>No professional references</span><span class="n">layer 09</span></div>
+          <div class="layer"><span>Low digital skills / AI confidence</span><span class="n">layer 10</span></div>
+        </div>
+        <div class="stack-cap">One emergency, absorbed, ends the progress</div>
+      </div>
+      <p>Launchpad addresses the stack through a <strong>bundled model</strong> rather than a single-service model. The premise: temporary structure can accelerate independence if it is voluntary, rights-protected, and paired with real opportunity.</p>
+    </section>
+
+    <!-- 5 -->
+    <section class="body-section">
+      <div class="sec-head"><span class="sec-num">05</span><h2>Theory of Change</h2></div>
+      <p>If participants in the Hollow Middle receive temporary stability, paid work, skill-building, mentorship, peer support, AI literacy, financial coaching, and transition planning under enforceable rights protections, then they will be more likely to achieve sustained employment, higher earnings, credential completion, housing stability, savings growth, social connection, and long-term independence than comparable individuals receiving standard workforce services alone.</p>
+      <p>This theory rests on five assumptions:</p>
+      <ul class="clean">
+        <li>Mobility requires more than motivation. It requires conditions in which effort can compound.</li>
+        <li>Stability and responsibility are not opposites. Temporary support can increase accountability when expectations are clear and rights are protected.</li>
+        <li>Work should be developmental — building skills, references, confidence, and a future labor-market position.</li>
+        <li>Mentorship and networks matter. Many are excluded not only from education and capital, but from the informal guidance systems that help others advance.</li>
+        <li>AI-era transition requires human infrastructure. Digital tools alone will not solve displacement without stable access, training, confidence, and applied pathways.</li>
+      </ul>
+    </section>
+
+    <!-- 6 -->
+    <section class="body-section">
+      <div class="sec-head"><span class="sec-num">06</span><h2>Program Design</h2></div>
+
+      <h3><span class="h3num">6.1</span>Target Population</h3>
+      <p>The first pilot should serve adults ages 18–35, with a preferred first-cohort focus on ages 18–30. Priority groups may include:</p>
+      <ul class="clean">
+        <li>Foster-care alumni.</li>
+        <li>Rural underemployed adults.</li>
+        <li>Housing-unstable adults.</li>
+        <li>Workers displaced or destabilized by automation.</li>
+        <li>Adults with limited postsecondary credentials.</li>
+        <li>Justice-involved individuals, through a separate voluntary reentry track.</li>
+        <li>Low-to-moderate income adults without strong professional networks.</li>
+      </ul>
+      <p>Participation must be voluntary. No person should be coerced into Launchpad as a condition of survival benefits, parole, housing access, immigration status, family reunification, or legal relief without independent safeguards.</p>
+
+      <h3><span class="h3num">6.2</span>Pilot Scale</h3>
+      <ul class="clean">
+        <li>150–300 participants across 2–3 sites.</li>
+        <li>One metro site; one smaller city, manufacturing, or service-region site; one mixed rural/urban site if feasible.</li>
+        <li>6–9 months of planning; 12–18 months of active placement; 6 months of transition and alumni support.</li>
+        <li>Independent evaluation at 12, 24, and 36 months.</li>
+      </ul>
+      <p>The pilot should not scale nationally until it demonstrates measurable gains against comparison services.</p>
+
+      <h3><span class="h3num">6.3</span>Weekly Participant Model</h3>
+      <ul class="clean">
+        <li>20–30 hours of paid work or service.</li>
+        <li>8–12 hours of skill-building.</li>
+        <li>Weekly mentorship; peer cohort meetings every one to two weeks.</li>
+        <li>Monthly case-manager reviews; transition planning beginning in month one.</li>
+      </ul>
+      <p>This rhythm gives participants real work experience while preserving time for training, reflection, planning, and life stabilization.</p>
+    </section>
+
+    <!-- 7 -->
+    <section class="body-section">
+      <div class="sec-head"><span class="sec-num">07</span><h2>Program Components</h2></div>
+
+      <h3><span class="h3num">7.1</span>Paid Work or Service</h3>
+      <p>Participants should work in roles that build real skills, work history, references, and confidence. Potential role clusters: care-economy support; elder and youth community services; trades-helper roles; facilities and maintenance; logistics and operations; community coordination; local government and public works; disaster preparedness; AI-assisted administrative operations; digital-literacy support for nonprofits and small businesses; bookkeeping, payroll, and operations support; community health support.</p>
+      <p>Wages must be paid directly to participants. The program should avoid “work for room and board” as its main structure, because it blurs compensation and increases exploitation risk.</p>
+
+      <h3><span class="h3num">7.2</span>Skill-Building</h3>
+      <p>Skill-building combines general capability development with track-specific credentials. Core curriculum: AI literacy and practical tool use; financial literacy and savings behavior; communication and workplace norms; conflict resolution; digital productivity; career planning; legal, tenant, and worker-rights basics; health navigation and self-advocacy; professional conduct and reliability.</p>
+      <p>Track examples: care-support credential; trades safety and pre-apprenticeship; digital operations and AI coordinator; community health worker; logistics and inventory operations; bookkeeping and payroll basics; creative or hybrid project coordination.</p>
+
+      <h3><span class="h3num">7.3</span>Stability Layer</h3>
+      <p>Practical supports that prevent ordinary disruptions from becoming life-altering setbacks: housing stipend or vetted option; transportation support; childcare navigation; healthcare and mental-health navigation; ID and document support; matched savings; emergency stabilization fund; transition grant for education, tools, relocation, or emergency savings.</p>
+      <p>The goal is not permanent support. The goal is to build enough stability for effort to finally compound.</p>
+
+      <h3><span class="h3num">7.4</span>Mentorship and Community</h3>
+      <p>Participants should have access to a launch mentor, a program coach or case manager, peer cohort sessions, optional community-sponsor relationships, and an alumni network after completion. Mentors should not control participants. Their role is guidance, not authority over private life.</p>
+    </section>
+
+    <!-- 8 -->
+    <section class="body-section">
+      <div class="sec-head"><span class="sec-num">08</span><h2>Sponsor and Host Model</h2></div>
+      <p>Sponsors may include nonprofits, community colleges, training providers, small businesses, employers, local government departments, faith and community organizations with non-coercion safeguards, and — after higher vetting thresholds — stable families or individuals.</p>
+      <p>Version one should prioritize <strong>organizational sponsors first</strong>. Residential family hosts should be limited, capped, and introduced only where emergency relocation capacity exists. Sponsors may provide mentorship, structured work, training support, references, networking exposure, stable routines, and optional transportation or approved housing support.</p>
+      <p>Sponsors may not act as owners, guardians, probation officers, creditors, or controllers of a participant's private life.</p>
+    </section>
+
+    <!-- 9 -->
+    <section class="body-section">
+      <div class="sec-head"><span class="sec-num">09</span><h2>Participant Rights &amp; Anti-Exploitation Charter</h2></div>
+      <p>The charter is the constitutional center of the model. Every participant must have the right to:</p>
+      <div class="panel">
+        <ol class="terms">
+          <li>Voluntary enrollment.</li>
+          <li>Exit without debt penalty, term extension, wage forfeiture, criminal sanction, or retaliation.</li>
+          <li>Direct wages paid to the participant or a protected account.</li>
+          <li>Clear written terms in plain language.</li>
+          <li>Independent advocate or ombudsman access.</li>
+          <li>Control over personal documents, phone, passwords, bank cards, and legal papers.</li>
+          <li>Outside communication with family, friends, legal aid, medical providers, and program staff.</li>
+          <li>Privacy over personal space, communications, medical information, finances, and relationships.</li>
+          <li>Safe housing, if housing is included.</li>
+          <li>Medical and mental-health access.</li>
+          <li>Refusal of unsafe, illegal, sexual, humiliating, or non-program labor.</li>
+          <li>Freedom from abuse, harassment, discrimination, coercion, and retaliation.</li>
+          <li>Religious and political freedom.</li>
+          <li>Transition support after exit.</li>
+          <li>Data access, correction, and privacy.</li>
+        </ol>
+        <div class="prohibited">
+          <h3>Prohibited practices</h3>
+          <ul>
+            <li>Debt, fines, or withheld benefits used to force continued participation.</li>
+            <li>Term extensions as punishment.</li>
+            <li>Withholding wages, documents, phones, medication, transportation, or communication.</li>
+            <li>Unpaid domestic labor outside written terms.</li>
+            <li>Sexual, intimate, degrading, or humiliating labor.</li>
+            <li>Isolation from outside relationships.</li>
+            <li>Threats involving homelessness, police, parole, immigration, benefits, or reputation.</li>
+            <li>Housing conditional on obedience beyond lawful written terms.</li>
+            <li>Movement restrictions except lawful safety, workplace, or reentry-supervision requirements.</li>
+            <li>Replacement of regular employees with underpaid participants.</li>
+            <li>Surveillance, shaming, or unrelated use of participant data.</li>
+          </ul>
+        </div>
+      </div>
+      <p>The bottom line: participants should leave with more skills, more savings, more credentials, more references, more confidence, and more freedom.</p>
+    </section>
+
+    <!-- 10 -->
+    <section class="body-section">
+      <div class="sec-head"><span class="sec-num">10</span><h2>Governance and Oversight</h2></div>
+      <p>Launchpad should operate through a lean partnership rather than a large new bureaucracy: a local workforce board or state workforce agency, a nonprofit intermediary, a community-college or training partner, an employer and sponsor network, an independent ombudsman or legal-aid partner, a university research partner for evaluation, and a public reporting mechanism.</p>
+      <p>Oversight requirements: sponsor vetting and background checks; site or home assessments for residential placements; training on coercion, boundaries, trauma-informed mentoring, labor rules, and data privacy; regular participant check-ins; an anonymous grievance process; an emergency relocation plan; wage and labor compliance reviews; public aggregate reporting; an annual independent audit; and sponsor suspension and removal authority.</p>
+      <div class="principle">
+        <span class="label">Second operating principle</span>
+        <p>Power must be watched.</p>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="body-section">
+      <div class="sec-head"><span class="sec-num">11</span><h2>Evaluation Design</h2></div>
+      <p>Launchpad should be evidence-seeking, not evidence-pretending. The pilot should use a randomized controlled trial where feasible; where it is not, a quasi-experimental design with a matched comparison group and pre-registered outcomes.</p>
+      <p><strong>Primary outcomes:</strong> employment rate; earnings growth; credential completion; housing stability; savings accumulation; social connectedness; wellbeing; public-benefits usage; program retention; participant satisfaction.</p>
+      <p><strong>Secondary outcomes:</strong> AI-literacy gains; employer and sponsor satisfaction; cost per positive outcome; long-term follow-up through wage records where legally feasible; reduction in crisis-service usage; transition into education, apprenticeship, or stable employment; participant-reported sense of agency and confidence.</p>
+      <p>The evaluation should not ask only whether participants stayed in the program. Retention alone can become a dangerous metric if sponsors are rewarded for preventing exit. The real standard is whether participants become more independent.</p>
+    </section>
+
+    <!-- 12 -->
+    <section class="body-section">
+      <div class="sec-head"><span class="sec-num">12</span><h2>Budget and Funding</h2></div>
+      <div class="figure-stat">
+        <span class="num">$15K–$40K</span>
+        <span class="unit">per participant · per year (planning range)</span>
+      </div>
+      <p>The range depends on housing intensity, wage subsidy, case-management ratio, childcare support, training costs, and evaluation design. Major cost categories: participant wages or stipends; housing and stability support; training and credential fees; case management; transportation; childcare; sponsor training; ombudsman and legal aid; evaluation partner; data and reporting; emergency relocation capacity.</p>
+      <p>Potential funding sources: workforce-development funding; local workforce boards; community-college partnerships; state and federal pilot grants; philanthropy and foundations; employer contributions; sponsor reimbursement or tax credits; and pay-for-success models — only after baseline evidence exists. Launchpad should include a <strong>sunset clause</strong>: public continuation depends on measurable outcomes, participant satisfaction, abuse prevention, and cost-effectiveness.</p>
+    </section>
+
+    <!-- 13 -->
+    <section class="body-section">
+      <div class="sec-head"><span class="sec-num">13</span><h2>Political and Civic Case</h2></div>
+      <p>Launchpad can appeal across ideological lines because it does not fit neatly into old categories.</p>
+      <div class="stance-grid">
+        <div class="stance"><span class="who">Conservatives</span><p>Work, responsibility, family and community involvement, public safety, lower dependency, measurable outcomes, and local institutions.</p></div>
+        <div class="stance"><span class="who">Progressives</span><p>Housing stability, labor rights, anti-exploitation safeguards, education access, reentry justice, participant agency, and public accountability.</p></div>
+        <div class="stance"><span class="who">Technologists</span><p>It builds the human infrastructure for AI-era transition.</p></div>
+        <div class="stance"><span class="who">Employers</span><p>It builds more reliable, trained, supported workers.</p></div>
+        <div class="stance"><span class="who">Faith &amp; Civic Orgs</span><p>A lawful, dignified way to walk with people through transition — without owning, controlling, or exploiting them.</p></div>
+      </div>
+      <div class="principle">
+        <span class="label">The strongest public message</span>
+        <p>We are not bringing back old systems of dependency. We are building modern launchpads into independence.</p>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="body-section">
+      <div class="sec-head"><span class="sec-num">14</span><h2>Risks and Failure Modes</h2></div>
+      <p>Launchpad should be designed with humility, because the risks are real.</p>
+      <h3><span class="h3num">14.1</span>Exploitation Risk</h3>
+      <p>Any program involving vulnerable participants and sponsors can be abused. The response is not to ignore the risk, but to build rights, oversight, complaint channels, emergency relocation, and enforcement into the core design.</p>
+      <h3><span class="h3num">14.2</span>Dependency Risk</h3>
+      <p>Participants should not become dependent on sponsors. Transition planning must begin in month one. Success means exit into greater independence.</p>
+      <h3><span class="h3num">14.3</span>Cheap-Labor Risk</h3>
+      <p>Employers may try to use participants as low-cost replacements. Wage compliance, role design, and worker-displacement rules must prevent this.</p>
+      <h3><span class="h3num">14.4</span>Residential-Control Risk</h3>
+      <p>Residential placements create heightened risk. Version one should prioritize organizational placements and only test residential family hosts after safeguards are proven.</p>
+      <h3><span class="h3num">14.5</span>Political-Mislabeling Risk</h3>
+      <p>Opponents may frame the model as modern servitude. The program must avoid all language, structures, and incentives that support that interpretation.</p>
+      <h3><span class="h3num">14.6</span>Overclaiming Risk</h3>
+      <p>The evidence may support testing the model, but it does not prove the model works before evaluation. Public claims must remain disciplined.</p>
+    </section>
+
+    <!-- 15 -->
+    <section class="body-section">
+      <div class="sec-head"><span class="sec-num">15</span><h2>Implementation Roadmap</h2></div>
+      <div class="phase">
+        <div class="ph-label">Phase 1 — Design &amp; Legal Review</div>
+        <p>Finalize model language; conduct labor-law, housing-law, civil-rights, and constitutional review; build the participant rights charter; draft sponsor standards; design grievance and emergency-relocation systems; identify pilot jurisdictions.</p>
+      </div>
+      <div class="phase">
+        <div class="ph-label">Phase 2 — Partner Formation</div>
+        <p>Recruit a workforce board or public agency; select a nonprofit intermediary; identify training providers; recruit employers and community sponsors; secure a legal-aid or ombudsman partner; select an evaluation partner.</p>
+      </div>
+      <div class="phase">
+        <div class="ph-label">Phase 3 — Pilot Build</div>
+        <p>Create intake and matching; build curriculum; train sponsors; establish wage and housing compliance review; create a participant data-privacy policy; build a reporting dashboard; pre-register the evaluation design.</p>
+      </div>
+      <div class="phase">
+        <div class="ph-label">Phase 4 — Participant Launch</div>
+        <p>Enroll the first cohort; conduct informed consent; match participants to placements; begin paid work, training, mentorship, and case management; monitor weekly during early placement; offer rematch where needed.</p>
+      </div>
+      <div class="phase">
+        <div class="ph-label">Phase 5 — Evaluation &amp; Adjustment</div>
+        <p>Publish the 12-month implementation report; identify early safety or operational issues; adjust sponsor training and matching; continue participant feedback loops; publish the 24-month outcome report.</p>
+      </div>
+      <div class="phase">
+        <div class="ph-label">Phase 6 — Sunset or Scale</div>
+        <p>At 36 months, the pilot should sunset, redesign, or scale based on evidence. Minimum scale criteria: positive employment or earnings impact; credential gains; housing-stability improvement; participant satisfaction above benchmark; no serious unresolved abuse pattern; reproducible operations across at least two sites; and a cost-benefit case stronger than status-quo services.</p>
+      </div>
+    </section>
+
+    <!-- CLOSING -->
+    <section class="body-section closing">
+      <div class="sec-head" style="border-top:none;padding-top:0;"><span class="sec-num">16</span><h2>Conclusion</h2></div>
+      <p>The Hollow Middle is one of the defining problems of the AI era. It is not only an income gap. It is a bridge gap. People are falling between systems that were never designed to carry them from instability to independence. They are told to work, but not housed. Told to train, but not transported. Told to network, but not connected. Told to adapt to AI, but not taught how. Told to be responsible, but given no stable ground on which responsibility can compound.</p>
+      <p>Launchpad and the Civil Mobility Compact offer a practical, rights-protected response. The model does not romanticize hardship. It does not excuse dependency. It does not create a servant class. It does not ask vulnerable people to surrender freedom in exchange for help. It asks a better question:</p>
+      <p class="kicker">What if America built structured <span class="lift">launchpads</span> for people with potential but no bridge?</p>
+      <p>A successful participant leaves with wages earned, credentials gained, savings built, references secured, confidence restored, and a real path forward. A successful sponsor helps without controlling. A successful community grows stronger not because it extracted labor from the vulnerable, but because it converted instability into mobility.</p>
+      <p>America does not need to choose between compassion and accountability. It needs systems where both are real. The goal is not to manage poverty more efficiently. The goal is to make independence reachable again.</p>
+    </section>
+
+  </div><!-- /.wrap -->
+</main>
+
+<footer class="colophon">
+  <div class="colophon-inner">
+    <div class="doc-title">Launchpad &amp; the Civil Mobility Compact</div>
+    Rebuilding the Hollow Middle through rights-protected pathways to independence.<br>
+    <span class="rule">—</span> Working draft · June 2026<br>
+    By Austin J. Greene · <a href="https://atxgreene.com/">atxgreene.com</a>
+  </div>
+</footer>
+
+</body>
+</html>
