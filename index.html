@@ -481,6 +481,8 @@
     border-bottom: 2px solid var(--teal); white-space: nowrap; padding-bottom: 1px;
   }
   .writing-list .link:hover { background: var(--teal); color: var(--navy); }
+  .writing-list .link.pending { border-bottom-color: var(--orange-2); color: var(--muted); cursor: default; }
+  .writing-list .link.pending:hover { background: none; color: var(--muted); }
   @media (max-width: 560px) {
     .writing-list li { grid-template-columns: 1fr; gap: 6px; }
     .writing-list .when { order: -1; }
@@ -777,7 +779,7 @@
               <h3>Mnemosyne</h3>
               <p class="desc">Cognitive OS for local-first agents. 6-tier Integrated Cognitive Memory System, inner-dialogue roles (Planner / Critic / Doer / Evaluator), dream consolidation, self-improvement loop, and 19 model backends — all stdlib Python. The core memory architecture the rest of the agent work is built on.</p>
               <div class="tags"><span class="tag">Python</span><span class="tag">SQLite</span><span class="tag">MCP</span><span class="tag">stdlib</span></div>
-              <div class="cta"><a href="https://atxgreene.github.io/Mnemosyne/">Live ↗</a><a href="https://github.com/atxgreene/Mnemosyne">GitHub ↗</a></div>
+              <div class="cta"><a href="https://atxgreene.github.io/Mnemosyne/">Live ↗</a><a href="/writing/mnemosyne-brain.html">Essay ↗</a><a href="https://github.com/atxgreene/Mnemosyne">GitHub ↗</a></div>
             </div>
           </article>
 
@@ -993,16 +995,40 @@
     <section id="writing" aria-labelledby="writing-h">
       <div class="section-head">
         <h2 id="writing-h">writing &amp; research</h2>
-        <span class="num">02 / pieces</span>
+        <span class="num">05 / pieces</span>
       </div>
       <ul class="writing-list">
+        <li>
+          <span class="when">2026</span>
+          <div>
+            <h4>I Built a Brain for My AI Agent. Here's What I Learned.</h4>
+            <p>The Mnemosyne architecture in plain language — why memory must flow both directions, and how the dream cycle closes the loop. 14 min.</p>
+          </div>
+          <a class="link" href="/writing/mnemosyne-brain.html">read ↗</a>
+        </li>
+        <li>
+          <span class="when">2026</span>
+          <div>
+            <h4>Mnemosyne: A Six-Tier Bidirectional Cognitive Memory Architecture</h4>
+            <p>The paper — ICMS tiers, ACT-R decay, Hebbian reinforcement, and the Reflection→Instinct distillation loop. Zenodo DOI pending.</p>
+          </div>
+          <span class="link pending">preprint · soon</span>
+        </li>
+        <li>
+          <span class="when">2026</span>
+          <div>
+            <h4>Tugboat: Declarative Four-Axis Routing for Agent Harnesses</h4>
+            <p>Routing as a first-class, testable object — with regret() as a "PR diff for routing." Zenodo DOI pending.</p>
+          </div>
+          <span class="link pending">preprint · soon</span>
+        </li>
         <li>
           <span class="when">2026</span>
           <div>
             <h4>A closed-form a₃ for transmission boundary conditions</h4>
             <p>Heat-kernel coefficient for the pure-κ-jump transmission Laplacian. Targeting <em>Letters in Mathematical Physics</em>.</p>
           </div>
-          <a class="link" href="#">draft ↗</a>
+          <span class="link pending">draft · soon</span>
         </li>
         <li>
           <span class="when">ongoing</span>
