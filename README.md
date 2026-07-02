@@ -31,7 +31,15 @@ auto-syncs recent repositories at page load.
 - **Performance** — preloaded phoenix mark, explicit image dimensions (no layout shift),
   `decoding="async"`, `font-display: swap`, and animation loops that idle when off-screen
   or on hidden tabs.
-- **Security** — `referrer` policy, `rel="noopener noreferrer"` on external links.
+- **Security** — hashed **Content-Security-Policy** (script-src allows only the exact
+  inline scripts by SHA-256; frames/fonts/connect pinned to known origins), `referrer`
+  policy, `rel="noopener noreferrer"` on external links.
+  ⚠️ If you edit any inline `<script>` in `index.html`, re-run
+  `python3 scripts/verify.py --print-hashes` and update the CSP meta tag — CI fails
+  otherwise.
+- **CI** — `.github/workflows/ci.yml` runs `scripts/verify.py` on every PR/push:
+  CSP hash drift, JS syntax (`node --check`), manifest/JSON-LD validity, HTML tag
+  balance, and local asset references.
 
 Fonts (Space Grotesk display + Inter body + IBM Plex Mono) load from Google Fonts at
 runtime, following the ATXGreene brand. No build tooling, no package.json, no framework.
