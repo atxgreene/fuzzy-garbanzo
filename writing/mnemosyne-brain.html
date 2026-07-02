@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="canonical" href="https://atxgreene.com/writing/mnemosyne-brain.html">
+<meta name="description" content="How Mnemosyne closes the loop other AI memory systems leave open: a six-tier architecture where offline reflection reshapes the agent's fastest reactive layer.">
+<link rel="icon" type="image/png" href="/favicon.png">
+<title>I Built a Brain for My AI Agent. Here's What I Learned.</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1814;
+    --ink-mid: #3d3830;
+    --ink-light: #7a6f62;
+    --ink-faint: #c4bdb3;
+    --paper: #faf8f4;
+    --paper-warm: #f2ede6;
+    --accent: #c4521a;
+    --accent-light: #f0d5c0;
+    --teal: #0d6e6e;
+    --teal-light: #c2e0e0;
+    --gold: #9a7b1e;
+    --gold-light: #f0e8c4;
+    --serif: 'Playfair Display', Georgia, serif;
+    --body: 'Source Serif 4', Georgia, serif;
+    --mono: 'JetBrains Mono', monospace;
+    --col: 680px;
+  }
+
+  html { background: var(--paper); color: var(--ink); scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--body);
+    font-size: 19px;
+    line-height: 1.8;
+    color: var(--ink-mid);
+    background: var(--paper);
+  }
+
+  /* ── Header ─────────────────────────────────────────────────── */
+  .masthead {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0;
+    text-align: center;
+  }
+  .masthead-inner {
+    max-width: var(--col);
+    margin: 0 auto;
+    padding: 3rem 1.5rem 2.5rem;
+  }
+  .publication-name {
+    font-family: var(--serif);
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 2.5rem;
+  }
+  .hero-kicker {
+    font-family: var(--body);
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  h1.headline {
+    font-family: var(--serif);
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    font-weight: 900;
+    line-height: 1.1;
+    color: var(--paper);
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.02em;
+  }
+  h1.headline em {
+    font-style: italic;
+    color: var(--accent-light);
+  }
+  .deck {
+    font-family: var(--body);
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: #c4bdb3;
+    font-weight: 300;
+    font-style: italic;
+    max-width: 520px;
+    margin: 0 auto 2rem;
+  }
+  .byline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--ink-faint);
+    letter-spacing: 0.5px;
+  }
+  .byline-name { font-weight: 600; color: #e8e3dc; }
+  .byline-sep { opacity: 0.4; }
+
+  /* ── Hero image strip ────────────────────────────────────────── */
+  .hero-strip {
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(90deg, var(--teal), var(--accent), var(--gold));
+  }
+
+  /* ── Article body ────────────────────────────────────────────── */
+  article {
+    max-width: var(--col);
+    margin: 0 auto;
+    padding: 3rem 1.5rem 5rem;
+  }
+
+  p { margin-bottom: 1.4rem; }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 3rem 0 1rem;
+    line-height: 1.2;
+  }
+
+  h3 {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 2rem 0 0.75rem;
+    font-style: italic;
+  }
+
+  /* ── Drop cap ───────────────────────────────────────────────── */
+  .drop-cap::first-letter {
+    font-family: var(--serif);
+    font-size: 5.5rem;
+    font-weight: 900;
+    float: left;
+    line-height: 0.75;
+    padding-right: 0.12em;
+    padding-top: 0.08em;
+    color: var(--ink);
+  }
+
+  /* ── Pull quote ─────────────────────────────────────────────── */
+  .pullquote {
+    border-left: 4px solid var(--accent);
+    margin: 2.5rem 0;
+    padding: 0.5rem 0 0.5rem 1.5rem;
+  }
+  .pullquote p {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--ink);
+    margin: 0;
+  }
+  .pullquote cite {
+    display: block;
+    font-size: 13px;
+    font-style: normal;
+    color: var(--ink-light);
+    margin-top: 0.5rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* ── Code inline ────────────────────────────────────────────── */
+  code {
+    font-family: var(--mono);
+    font-size: 0.82em;
+    background: var(--paper-warm);
+    border: 1px solid var(--ink-faint);
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: var(--accent);
+  }
+
+  .codeblock {
+    background: var(--ink);
+    color: #b8c4c4;
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.7;
+    padding: 1.5rem;
+    border-radius: 6px;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    border-left: 3px solid var(--teal);
+  }
+  .codeblock .kw { color: #7dd3d3; }
+  .codeblock .cm { color: #6a7a7a; font-style: italic; }
+  .codeblock .nm { color: #e8b97e; }
+  .codeblock .st { color: #a8d8a8; }
+
+  /* ── Section divider ────────────────────────────────────────── */
+  .section-rule {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 3rem 0;
+    color: var(--ink-faint);
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .section-rule::before, .section-rule::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--ink-faint);
+  }
+
+  /* ── Callout box ────────────────────────────────────────────── */
+  .callout {
+    background: var(--gold-light);
+    border-left: 4px solid var(--gold);
+    padding: 1rem 1.25rem;
+    border-radius: 0 6px 6px 0;
+    margin: 2rem 0;
+    font-size: 0.92rem;
+    color: var(--ink-mid);
+  }
+  .callout strong { color: var(--gold); }
+
+  .callout-teal {
+    background: var(--teal-light);
+    border-left-color: var(--teal);
+  }
+  .callout-teal strong { color: var(--teal); }
+
+  /* ── Diagrams ───────────────────────────────────────────────── */
+  .diagram-wrap {
+    margin: 2.5rem -1rem;
+    background: var(--paper-warm);
+    border-top: 1px solid var(--ink-faint);
+    border-bottom: 1px solid var(--ink-faint);
+    padding: 2rem 1rem;
+    text-align: center;
+  }
+  .diagram-caption {
+    font-size: 13px;
+    color: var(--ink-light);
+    margin-top: 0.75rem;
+    font-style: italic;
+    text-align: center;
+  }
+
+  svg { max-width: 100%; height: auto; }
+
+  /* ── Stats row ──────────────────────────────────────────────── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  .stat-card {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 1.25rem 1rem;
+    border-radius: 6px;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: var(--serif);
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--accent-light);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  /* ── Peer review box ────────────────────────────────────────── */
+  .review-box {
+    border: 2px solid var(--ink);
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin: 2.5rem 0;
+    position: relative;
+  }
+  .review-box::before {
+    content: 'PEER REVIEW';
+    position: absolute;
+    top: -10px;
+    left: 1rem;
+    background: var(--paper);
+    padding: 0 8px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: var(--ink-light);
+  }
+  .review-verdict {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--teal);
+    margin-bottom: 0.5rem;
+  }
+  .review-quote {
+    font-style: italic;
+    color: var(--ink-mid);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  /* ── CTA ────────────────────────────────────────────────────── */
+  .cta-block {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 8px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    margin: 3rem 0;
+  }
+  .cta-block h3 {
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    color: var(--paper);
+    margin: 0 0 0.5rem;
+    font-style: normal;
+  }
+  .cta-block p { color: var(--ink-faint); font-size: 0.95rem; margin-bottom: 1.25rem; }
+  .cta-btn {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    padding: 0.7rem 1.75rem;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    margin: 0.4rem;
+    font-family: var(--body);
+  }
+  .cta-btn.secondary {
+    background: transparent;
+    border: 1px solid var(--ink-faint);
+    color: var(--ink-faint);
+  }
+
+  /* ── Footer ─────────────────────────────────────────────────── */
+  footer {
+    border-top: 1px solid var(--ink-faint);
+    max-width: var(--col);
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    font-size: 13px;
+    color: var(--ink-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  @media (max-width: 600px) {
+    h1.headline { font-size: 2rem; }
+    article { padding: 2rem 1rem 4rem; }
+    .diagram-wrap { margin: 2rem -0.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Masthead ─────────────────────────────────────────────────── -->
+<header class="masthead">
+  <div class="masthead-inner">
+    <div style="margin-bottom:1rem"><a href="/" style="color:#7a6f62;text-decoration:none;font-size:12px;letter-spacing:1px">&larr; ATXGREENE.COM</a></div>
+    <div class="publication-name">Minds & Machines · Independent Research</div>
+    <div class="hero-kicker">Agent Architecture · April 2026</div>
+    <h1 class="headline">I Built a Brain for My AI Agent.<br><em>Here's What I Learned.</em></h1>
+    <p class="deck">Every AI memory system makes the same mistake. After months of building Mnemosyne — a local-first cognitive OS for language agents — I think I know how to fix it.</p>
+    <div class="byline">
+      <span class="byline-name">Austin J. Greene</span>
+      <span class="byline-sep">·</span>
+      <span>Independent Researcher</span>
+      <span class="byline-sep">·</span>
+      <span>14 min read</span>
+    </div>
+  </div>
+</header>
+<div class="hero-strip"></div>
+
+<!-- ── Hero diagram: The problem ──────────────────────────────────── -->
+<div class="diagram-wrap" style="background: var(--ink); border: none; padding: 2.5rem 1rem;">
+  <svg viewBox="0 0 640 220" xmlns="http://www.w3.org/2000/svg" style="max-width:640px">
+    <defs>
+      <marker id="ah" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+        <polygon points="0 0, 8 3, 0 6" fill="#c4521a"/>
+      </marker>
+      <marker id="ah-gray" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+        <polygon points="0 0, 8 3, 0 6" fill="#6a7a7a"/>
+      </marker>
+    </defs>
+    <!-- Label -->
+    <text x="320" y="28" text-anchor="middle" fill="#c4bdb3" font-size="11" letter-spacing="2" font-family="'JetBrains Mono', monospace" text-transform="uppercase">HOW EVERY OTHER SYSTEM WORKS</text>
+
+    <!-- Boxes left to right -->
+    <rect x="20" y="60" width="120" height="48" rx="5" fill="#2a2520"/>
+    <text x="80" y="80" text-anchor="middle" fill="#c4521a" font-size="12" font-family="'Source Serif 4', serif" font-weight="600">Raw Turn</text>
+    <text x="80" y="98" text-anchor="middle" fill="#7a6f62" font-size="11" font-family="'Source Serif 4', serif">"what happened"</text>
+
+    <rect x="180" y="60" width="120" height="48" rx="5" fill="#2a2520"/>
+    <text x="240" y="80" text-anchor="middle" fill="#e8b97e" font-size="12" font-family="'Source Serif 4', serif" font-weight="600">Vector Store</text>
+    <text x="240" y="98" text-anchor="middle" fill="#7a6f62" font-size="11" font-family="'Source Serif 4', serif">embed + retrieve</text>
+
+    <rect x="340" y="60" width="120" height="48" rx="5" fill="#2a2520"/>
+    <text x="400" y="80" text-anchor="middle" fill="#7dd3d3" font-size="12" font-family="'Source Serif 4', serif" font-weight="600">Summary</text>
+    <text x="400" y="98" text-anchor="middle" fill="#7a6f62" font-size="11" font-family="'Source Serif 4', serif">compress → abstract</text>
+
+    <rect x="500" y="60" width="120" height="48" rx="5" fill="#2a2520"/>
+    <text x="560" y="80" text-anchor="middle" fill="#a8d8a8" font-size="12" font-family="'Source Serif 4', serif" font-weight="600">Response</text>
+    <text x="560" y="98" text-anchor="middle" fill="#7a6f62" font-size="11" font-family="'Source Serif 4', serif">context injected</text>
+
+    <!-- Arrows right -->
+    <line x1="142" y1="84" x2="178" y2="84" stroke="#c4521a" stroke-width="1.5" marker-end="url(#ah)"/>
+    <line x1="302" y1="84" x2="338" y2="84" stroke="#c4521a" stroke-width="1.5" marker-end="url(#ah)"/>
+    <line x1="462" y1="84" x2="498" y2="84" stroke="#c4521a" stroke-width="1.5" marker-end="url(#ah)"/>
+
+    <!-- The gap label -->
+    <text x="320" y="155" text-anchor="middle" fill="#c4521a" font-size="13" font-family="'Source Serif 4', serif" font-weight="600">↑ always one direction ↑</text>
+    <text x="320" y="178" text-anchor="middle" fill="#6a7a7a" font-size="12" font-family="'Source Serif 4', serif">Fast reactive behavior still driven by base model training — not by you.</text>
+    <text x="320" y="200" text-anchor="middle" fill="#6a7a7a" font-size="12" font-family="'Source Serif 4', serif">Every turn. Every conversation. Every agent.</text>
+  </svg>
+</div>
+
+<!-- ── Article body ──────────────────────────────────────────────── -->
+<article>
+
+<p class="drop-cap">There's a gap in every AI agent system that nobody talks about. It sits right at the beginning of every turn — the moment before any retrieval runs, before any context is loaded, before the model even sees your message. In that moment, what does your agent actually know about you?</p>
+
+<p>The answer, in virtually every system shipped today, is: only what it was trained on. Base model priors. The default behaviors of whatever LLM you're using. Not the patterns it learned from your conversations last week. Not the habits you've built together over months. Not the fact that you always prefer bullet points over prose, or that you're building a startup in Oklahoma City, or that you've mentioned your Ironman training seventeen times and it actually matters when you ask about recovery nutrition.</p>
+
+<p>All of that knowledge exists somewhere in the vector store. But it doesn't live in the fast path. The fast path is still the factory model.</p>
+
+<p>I've been building a system called <strong>Mnemosyne</strong> — a local-first cognitive memory architecture for language agents — for the past several months. And the single most important thing I've learned is this: the problem isn't that agents don't remember things. The problem is that memory only flows in one direction.</p>
+
+<div class="pullquote">
+  <p>"The problem isn't that agents don't remember things. The problem is that memory only flows in one direction."</p>
+</div>
+
+<div class="section-rule">The insight</div>
+
+<h2>Memory Has Always Had Two Directions. Agents Only Use One.</h2>
+
+<p>Think about how human expertise actually develops. When you learn to drive, you don't consciously retrieve "left foot = clutch, right foot = brake" on every turn. That knowledge gets consolidated — during sleep, during rest, during the brain's offline processing cycles — into fast automatic behavior. You just <em>do</em> it.</p>
+
+<p>Cognitive science has known this for decades. Anderson's ACT-R theory (1983) describes how memory activation decays over time and strengthens with use. Ebbinghaus's forgetting curve is in every intro psych textbook. The idea that consolidation happens <em>offline</em> — during sleep specifically — is one of the most replicated findings in neuroscience.</p>
+
+<p>Every agent memory system I've studied — MemGPT, Mem0, CoALA, Generative Agents — correctly implements the bottom-up direction: raw experience gets compressed into summaries, summaries become abstractions, abstractions persist. That's the right idea. But none of them close the loop. None of them push knowledge <em>back down</em> to where the agent acts first.</p>
+
+<p>Mnemosyne does. And the architecture for doing it is simpler than you might think.</p>
+
+<div class="section-rule">The Architecture</div>
+
+<h2>Six Tiers. Two Directions.</h2>
+
+<p>The Integrated Cognitive Memory System (ICMS) organizes memory across six tiers, each with a different access speed and decay rate:</p>
+
+<!-- Diagram: 6-tier ICMS -->
+<div class="diagram-wrap">
+  <svg viewBox="0 0 620 400" xmlns="http://www.w3.org/2000/svg" style="max-width:620px">
+    <defs>
+      <marker id="arr-up" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+        <polygon points="0 0, 8 3, 0 6" fill="#c4521a"/>
+      </marker>
+      <marker id="arr-down" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+        <polygon points="0 0, 8 3, 0 6" fill="#0d6e6e"/>
+      </marker>
+    </defs>
+
+    <!-- Tier rows -->
+    <!-- L6 Reflection -->
+    <rect x="80" y="20" width="400" height="44" rx="5" fill="#0d3d3d"/>
+    <rect x="80" y="20" width="6" height="44" rx="3" fill="#0d6e6e"/>
+    <text x="110" y="37" fill="#7dd3d3" font-size="11" font-family="'JetBrains Mono',monospace" font-weight="500">L6</text>
+    <text x="135" y="37" fill="#e8e3dc" font-size="13" font-family="'Source Serif 4',serif" font-weight="600">REFLECTION</text>
+    <text x="135" y="54" fill="#6a9a9a" font-size="11" font-family="'Source Serif 4',serif">Metacognition · user pattern distillation · temporal coherence</text>
+    <text x="452" y="46" fill="#0d6e6e" font-size="11" font-family="'JetBrains Mono',monospace" text-anchor="middle">OFFLINE ONLY</text>
+
+    <!-- L5 Identity -->
+    <rect x="80" y="76" width="400" height="44" rx="5" fill="#2a1f10"/>
+    <rect x="80" y="76" width="6" height="44" rx="3" fill="#9a7b1e"/>
+    <text x="110" y="93" fill="#e8b97e" font-size="11" font-family="'JetBrains Mono',monospace" font-weight="500">L5</text>
+    <text x="135" y="93" fill="#e8e3dc" font-size="13" font-family="'Source Serif 4',serif" font-weight="600">IDENTITY</text>
+    <text x="135" y="110" fill="#9a7b1e" font-size="11" font-family="'Source Serif 4',serif">Core values · unconditional injection · never decays · human-approved</text>
+
+    <!-- L4 Pattern -->
+    <rect x="80" y="132" width="400" height="44" rx="5" fill="#1e2520"/>
+    <rect x="80" y="132" width="6" height="44" rx="3" fill="#3d7a55"/>
+    <text x="110" y="149" fill="#7dd3a8" font-size="11" font-family="'JetBrains Mono',monospace" font-weight="500">L4</text>
+    <text x="135" y="149" fill="#e8e3dc" font-size="13" font-family="'Source Serif 4',serif" font-weight="600">PATTERN</text>
+    <text x="135" y="166" fill="#5a9a75" font-size="11" font-family="'Source Serif 4',serif">Recurring traits · muscle-memory behaviors · promoted by compactor</text>
+
+    <!-- L3 Cold -->
+    <rect x="80" y="188" width="400" height="44" rx="5" fill="#1f1e25"/>
+    <rect x="80" y="188" width="6" height="44" rx="3" fill="#5a4db5"/>
+    <text x="110" y="205" fill="#a89de8" font-size="11" font-family="'JetBrains Mono',monospace" font-weight="500">L3</text>
+    <text x="135" y="205" fill="#e8e3dc" font-size="13" font-family="'Source Serif 4',serif" font-weight="600">COLD</text>
+    <text x="135" y="222" fill="#7a6f9a" font-size="11" font-family="'Source Serif 4',serif">Historical episodic memory · full FTS5 search · ACT-R decay</text>
+
+    <!-- L2 Recent -->
+    <rect x="80" y="244" width="400" height="44" rx="5" fill="#201a18"/>
+    <rect x="80" y="244" width="6" height="44" rx="3" fill="#8a4a2a"/>
+    <text x="110" y="261" fill="#e8a87a" font-size="11" font-family="'JetBrains Mono',monospace" font-weight="500">L2</text>
+    <text x="135" y="261" fill="#e8e3dc" font-size="13" font-family="'Source Serif 4',serif" font-weight="600">RECENT</text>
+    <text x="135" y="278" fill="#9a6a4a" font-size="11" font-family="'Source Serif 4',serif">Warm / short-term · FTS5 search · default for new memories</text>
+
+    <!-- L1 Immediate -->
+    <rect x="80" y="300" width="400" height="44" rx="5" fill="#201a14"/>
+    <rect x="80" y="300" width="6" height="44" rx="3" fill="#c4521a"/>
+    <text x="110" y="317" fill="#f0a070" font-size="11" font-family="'JetBrains Mono',monospace" font-weight="500">L1</text>
+    <text x="135" y="317" fill="#e8e3dc" font-size="13" font-family="'Source Serif 4',serif" font-weight="600">IMMEDIATE</text>
+    <text x="135" y="334" fill="#8a5a3a" font-size="11" font-family="'Source Serif 4',serif">Hot / working memory · current session context · fastest SQLite path</text>
+
+    <!-- L0 Instinct — SPECIAL -->
+    <rect x="50" y="354" width="460" height="38" rx="5" fill="#1a0f08" stroke="#c4521a" stroke-width="1.5"/>
+    <rect x="50" y="354" width="8" height="38" rx="3" fill="#c4521a"/>
+    <text x="84" y="370" fill="#ff8a50" font-size="11" font-family="'JetBrains Mono',monospace" font-weight="500">L0</text>
+    <text x="110" y="370" fill="#faf8f4" font-size="13" font-family="'Source Serif 4',serif" font-weight="700">INSTINCT</text>
+    <text x="190" y="370" fill="#c4521a" font-size="11" font-family="'Source Serif 4',serif" font-weight="600">← CHECKED FIRST · sub-millisecond · in-process Python dict</text>
+    <text x="110" y="384" fill="#7a4a2a" font-size="10" font-family="'Source Serif 4',serif">Populated OFFLINE from L6. Never written during live turns.</text>
+
+    <!-- Up arrow (consolidation) -->
+    <line x1="30" y1="350" x2="30" y2="65" stroke="#c4521a" stroke-width="1.5" marker-end="url(#arr-up)" stroke-dasharray="4,3"/>
+    <text x="22" y="210" fill="#c4521a" font-size="10" font-family="'JetBrains Mono',monospace" transform="rotate(-90, 22, 210)" text-anchor="middle">BOTTOM-UP CONSOLIDATION</text>
+
+    <!-- Down arrow (Reflection → Instinct) -->
+    <line x1="590" y1="42" x2="590" y2="368" stroke="#0d6e6e" stroke-width="2" marker-end="url(#arr-down)"/>
+    <text x="598" y="210" fill="#0d6e6e" font-size="10" font-family="'JetBrains Mono',monospace" transform="rotate(90, 598, 210)" text-anchor="middle">L6 → L0 DURING DREAM CYCLES</text>
+  </svg>
+  <p class="diagram-caption">The six-tier ICMS. Orange arrows show bottom-up consolidation (standard in all systems). The teal arrow is what's new: L6 Reflection pushing distilled patterns down to L0 Instinct during offline dream cycles.</p>
+</div>
+
+<p>Each tier has a different half-life. Identity-class memories — your core values, your preferences, who you are — decay with a 70-day half-life. Operational memories — the tool call you made Tuesday, the error you got last session — decay in 2.3 days. This is grounded directly in Anderson's ACT-R base-level learning equation, not made up:</p>
+
+<div class="codeblock">
+<span class="cm"># ACT-R base-level approximation</span><br>
+B = ln(n) - <span class="kw">0.5</span> × ln(t_mean)<br>
+<span class="cm"># n = access count, t_mean = mean time since each access</span><br>
+<br>
+<span class="cm"># Kind-specific decay multipliers</span><br>
+KIND_DECAY_MULTIPLIERS = {<br>
+&nbsp;&nbsp;<span class="st">"core_value"</span>:    <span class="kw">0.1</span>,   <span class="cm"># 70-day half-life</span><br>
+&nbsp;&nbsp;<span class="st">"preference"</span>:    <span class="kw">0.3</span>,   <span class="cm"># 23-day half-life</span><br>
+&nbsp;&nbsp;<span class="st">"fact"</span>:          <span class="kw">1.0</span>,   <span class="cm"># 7-day half-life (baseline)</span><br>
+&nbsp;&nbsp;<span class="st">"failure_note"</span>:  <span class="kw">3.0</span>,   <span class="cm"># 2.3-day half-life</span><br>
+}
+</div>
+
+<p>Access strengthens memory via Hebbian asymptotic reinforcement: <code>new_s = s + 0.1 × (1.0 - s)</code>. The asymptotic form matters — it means a memory accessed thousands of times converges to strength=1.0 but can never exceed it. No runaway growth. What you use stays. What you don't, fades.</p>
+
+<div class="section-rule">The main contribution</div>
+
+<h2>The Dream Cycle: How the Loop Closes</h2>
+
+<p>This is the part I'm most excited about, and the part that I believe is genuinely new.</p>
+
+<p>Every ~50 turns, Mnemosyne runs what I call a dream cycle. It happens offline — never during a live conversation. Three things happen in sequence:</p>
+
+<!-- Dream cycle diagram -->
+<div class="diagram-wrap">
+  <svg viewBox="0 0 620 280" xmlns="http://www.w3.org/2000/svg" style="max-width:620px">
+    <defs>
+      <marker id="da" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+        <polygon points="0 0, 8 3, 0 6" fill="#0d6e6e"/>
+      </marker>
+    </defs>
+
+    <text x="310" y="25" text-anchor="middle" fill="#3d3830" font-size="12" letter-spacing="2" font-family="'JetBrains Mono',monospace">THE DREAM CYCLE — OFFLINE, EVERY ~50 TURNS</text>
+
+    <!-- Step 1 -->
+    <rect x="30" y="50" width="160" height="80" rx="6" fill="#f2ede6" stroke="#c4bdb3" stroke-width="1"/>
+    <text x="110" y="72" text-anchor="middle" fill="#9a7b1e" font-size="11" font-family="'JetBrains Mono',monospace" font-weight="500">STEP 1</text>
+    <text x="110" y="92" text-anchor="middle" fill="#1a1814" font-size="13" font-family="'Source Serif 4',serif" font-weight="700">Cluster</text>
+    <text x="110" y="110" text-anchor="middle" fill="#7a6f62" font-size="11" font-family="'Source Serif 4',serif">L3 cold memories →</text>
+    <text x="110" y="125" text-anchor="middle" fill="#7a6f62" font-size="11" font-family="'Source Serif 4',serif">semantic clusters</text>
+
+    <!-- Arrow 1→2 -->
+    <line x1="192" y1="90" x2="228" y2="90" stroke="#0d6e6e" stroke-width="1.5" marker-end="url(#da)"/>
+
+    <!-- Step 2 -->
+    <rect x="230" y="50" width="160" height="80" rx="6" fill="#f2ede6" stroke="#c4bdb3" stroke-width="1"/>
+    <text x="310" y="72" text-anchor="middle" fill="#9a7b1e" font-size="11" font-family="'JetBrains Mono',monospace" font-weight="500">STEP 2</text>
+    <text x="310" y="92" text-anchor="middle" fill="#1a1814" font-size="13" font-family="'Source Serif 4',serif" font-weight="700">Compact</text>
+    <text x="310" y="110" text-anchor="middle" fill="#7a6f62" font-size="11" font-family="'Source Serif 4',serif">Clusters → L4 patterns</text>
+    <text x="310" y="125" text-anchor="middle" fill="#7a6f62" font-size="11" font-family="'Source Serif 4',serif">via Jaccard similarity</text>
+
+    <!-- Arrow 2→3 -->
+    <line x1="392" y1="90" x2="428" y2="90" stroke="#0d6e6e" stroke-width="1.5" marker-end="url(#da)"/>
+
+    <!-- Step 3 - REFLECTION -->
+    <rect x="430" y="42" width="160" height="96" rx="6" fill="#0d3d3d" stroke="#0d6e6e" stroke-width="1.5"/>
+    <text x="510" y="64" text-anchor="middle" fill="#7dd3d3" font-size="11" font-family="'JetBrains Mono',monospace" font-weight="500">STEP 3 — KEY</text>
+    <text x="510" y="84" text-anchor="middle" fill="#faf8f4" font-size="13" font-family="'Source Serif 4',serif" font-weight="700">Reflection</text>
+    <text x="510" y="102" text-anchor="middle" fill="#6a9a9a" font-size="11" font-family="'Source Serif 4',serif">L6 reads L4 patterns.</text>
+    <text x="510" y="118" text-anchor="middle" fill="#6a9a9a" font-size="11" font-family="'Source Serif 4',serif">Extracts fast-path hints.</text>
+    <text x="510" y="131" text-anchor="middle" fill="#6a9a9a" font-size="11" font-family="'Source Serif 4',serif">Writes → L0 Instinct.</text>
+
+    <!-- Big arrow from step 3 down to L0 label -->
+    <line x1="510" y1="140" x2="510" y2="195" stroke="#0d6e6e" stroke-width="2" marker-end="url(#da)"/>
+
+    <!-- L0 box at bottom -->
+    <rect x="380" y="197" width="260" height="48" rx="5" fill="#1a0f08" stroke="#c4521a" stroke-width="1.5"/>
+    <text x="510" y="216" text-anchor="middle" fill="#ff8a50" font-size="12" font-family="'Source Serif 4',serif" font-weight="700">L0 INSTINCT UPDATED</text>
+    <text x="510" y="235" text-anchor="middle" fill="#8a5a3a" font-size="11" font-family="'Source Serif 4',serif">Ready for next turn's hot-path check.</text>
+
+    <!-- Prompt example -->
+    <rect x="30" y="170" width="320" height="90" rx="5" fill="#f8f5f0" stroke="#c4bdb3" stroke-width="1"/>
+    <text x="50" y="192" fill="#7a6f62" font-size="10" font-family="'JetBrains Mono',monospace">Example L6 prompt output →</text>
+    <text x="50" y="210" fill="#3d3830" font-size="11" font-family="'Source Serif 4',serif">"When user asks about Ironman training,</text>
+    <text x="50" y="226" fill="#3d3830" font-size="11" font-family="'Source Serif 4',serif">always surface wattage + nutrition context."</text>
+    <text x="50" y="242" fill="#3d3830" font-size="11" font-family="'Source Serif 4',serif">"User prefers bullet points over prose."</text>
+    <text x="50" y="256" fill="#3d3830" font-size="11" font-family="'Source Serif 4',serif">"Route code review tasks to cloud model."</text>
+
+    <line x1="350" y1="220" x2="378" y2="220" stroke="#c4521a" stroke-width="1.5" stroke-dasharray="3,2" marker-end="url(#da)"/>
+  </svg>
+  <p class="diagram-caption">The dream cycle: three-step offline process. The Reflection step (Step 3) is what closes the loop — distilling L4 patterns into L0 Instinct entries that are ready on the very next turn's hot path.</p>
+</div>
+
+<p>The result: on your next conversation, before any FTS5 search runs, before any vector retrieval, before the model even processes your message — the agent already knows that you're building a startup, that you prefer brevity, that you need wattage zones when you ask about cycling. Not because it retrieved that. Because it <em>consolidated</em> it.</p>
+
+<p>This is the same mechanism that turns a beginner driver into an expert. The knowledge doesn't just accumulate — it migrates to where it's needed fastest.</p>
+
+<div class="section-rule">Identity</div>
+
+<h2>The One Layer That Never Gets Retrieved</h2>
+
+<p>There's another tier that works differently from all the others: L5 Identity.</p>
+
+<p>Most memory systems treat identity like any other memory — something you retrieve when relevant. But identity isn't relevant — it's <em>always</em> relevant. The moment you make identity retrieval-dependent, you've created an agent that can forget who it is the second the query doesn't match.</p>
+
+<p>L5 in Mnemosyne is injected unconditionally into every system prompt. No query. No match threshold. No retrieval budget. If you've approved a value as L5 — a core principle, a non-negotiable, a defining characteristic — it appears in every single turn, guaranteed.</p>
+
+<p>The 4-layer identity lock (system preamble → IDENTITY.md → post-filter regex → jailbreak scenario testing) is tested against a 40-prompt jailbreak suite per model. The results: the model changes, the identity doesn't.</p>
+
+<div class="callout callout-teal">
+  <strong>Implementation note:</strong> L5 is the only tier that can't be modified by the agent's self-improvement loop. All changes to L5 require explicit human approval. The compactor explicitly refuses to write to L5. This is a hard architectural constraint, not a soft guideline.
+</div>
+
+<div class="section-rule">The self-improvement loop</div>
+
+<h2>The Agent That Watches Itself Fail</h2>
+
+<p>One of the things that separated the Meta-Harness paper (2026) from everything else I'd read was a simple observation: compressed feedback is the failure mode. If you summarize failures before the agent sees them, you lose the signal that matters.</p>
+
+<p>Mnemosyne writes every event raw to <code>events.jsonl</code> — every memory operation, tool call, model invocation, dream cycle, triage scan, avatar update. Never summarized at write time. The full telemetry is queryable via <code>mnemosyne-experiments</code>.</p>
+
+<p>The self-improvement loop runs offline:</p>
+
+<!-- Self-improvement loop diagram -->
+<div class="diagram-wrap">
+  <svg viewBox="0 0 580 160" xmlns="http://www.w3.org/2000/svg" style="max-width:580px">
+    <defs>
+      <marker id="la" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+        <polygon points="0 0, 8 3, 0 6" fill="#c4521a"/>
+      </marker>
+    </defs>
+    <!-- Boxes -->
+    <rect x="20" y="50" width="110" height="60" rx="5" fill="#f2ede6" stroke="#c4bdb3"/>
+    <text x="75" y="73" text-anchor="middle" fill="#c4521a" font-size="11" font-family="'JetBrains Mono',monospace" font-weight="600">TRIAGE</text>
+    <text x="75" y="92" text-anchor="middle" fill="#7a6f62" font-size="10" font-family="'Source Serif 4',serif">Cluster failures</text>
+    <text x="75" y="106" text-anchor="middle" fill="#7a6f62" font-size="10" font-family="'Source Serif 4',serif">score severity</text>
+
+    <line x1="132" y1="80" x2="158" y2="80" stroke="#c4521a" stroke-width="1.5" marker-end="url(#la)"/>
+
+    <rect x="160" y="50" width="110" height="60" rx="5" fill="#f2ede6" stroke="#c4bdb3"/>
+    <text x="215" y="73" text-anchor="middle" fill="#c4521a" font-size="11" font-family="'JetBrains Mono',monospace" font-weight="600">PROPOSER</text>
+    <text x="215" y="92" text-anchor="middle" fill="#7a6f62" font-size="10" font-family="'Source Serif 4',serif">Write markdown</text>
+    <text x="215" y="106" text-anchor="middle" fill="#7a6f62" font-size="10" font-family="'Source Serif 4',serif">change proposals</text>
+
+    <line x1="272" y1="80" x2="298" y2="80" stroke="#c4521a" stroke-width="1.5" marker-end="url(#la)"/>
+
+    <!-- Human review node -->
+    <rect x="300" y="38" width="110" height="84" rx="5" fill="#1a1814" stroke="#c4521a" stroke-width="1.5"/>
+    <text x="355" y="60" text-anchor="middle" fill="#c4521a" font-size="10" font-family="'JetBrains Mono',monospace" font-weight="600">YOU REVIEW</text>
+    <text x="355" y="79" text-anchor="middle" fill="#faf8f4" font-size="11" font-family="'Source Serif 4',serif" font-weight="600">Accept / Reject</text>
+    <text x="355" y="97" text-anchor="middle" fill="#7a6f62" font-size="10" font-family="'Source Serif 4',serif">Nothing deploys</text>
+    <text x="355" y="111" text-anchor="middle" fill="#7a6f62" font-size="10" font-family="'Source Serif 4',serif">without you.</text>
+
+    <line x1="412" y1="80" x2="438" y2="80" stroke="#c4521a" stroke-width="1.5" marker-end="url(#la)"/>
+
+    <rect x="440" y="50" width="110" height="60" rx="5" fill="#f2ede6" stroke="#c4bdb3"/>
+    <text x="495" y="73" text-anchor="middle" fill="#c4521a" font-size="11" font-family="'JetBrains Mono',monospace" font-weight="600">MEASURE</text>
+    <text x="495" y="92" text-anchor="middle" fill="#7a6f62" font-size="10" font-family="'Source Serif 4',serif">Re-run scenarios.</text>
+    <text x="495" y="106" text-anchor="middle" fill="#7a6f62" font-size="10" font-family="'Source Serif 4',serif">Pareto delta.</text>
+
+    <!-- Loop back arrow -->
+    <path d="M 495 112 Q 495 145 280 145 Q 75 145 75 112" fill="none" stroke="#c4bdb3" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#la)"/>
+    <text x="280" y="158" text-anchor="middle" fill="#c4bdb3" font-size="10" font-family="'Source Serif 4',serif" font-style="italic">back to triage on next cycle</text>
+  </svg>
+  <p class="diagram-caption">The triage → proposer → apply → measure loop. The human review step is not optional — nothing deploys automatically. The agent can observe and propose; only you can authorize change.</p>
+</div>
+
+<p>The six severity dimensions in triage — frequency, blast radius, recency, consistency, identity slip, cascade risk — are designed so that not all failures are equal. An identity slip (the agent forgetting who it is) gets blast_radius=0.9. A routing error gets 0.5. The severity score determines which proposals get written first.</p>
+
+<div class="section-rule">The numbers</div>
+
+<h2>What It Actually Looks Like In Practice</h2>
+
+<div class="stats-row">
+  <div class="stat-card">
+    <div class="stat-num">0</div>
+    <div class="stat-label">Runtime deps</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num">19</div>
+    <div class="stat-label">Model backends</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num">290+</div>
+    <div class="stat-label">Tests passing</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num">&lt;0.1ms</div>
+    <div class="stat-label">L0 lookup</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num">7ms</div>
+    <div class="stat-label">500-row compact</div>
+  </div>
+</div>
+
+<p>The continuity evaluation suite (50 cross-session scenarios) gives a dryrun baseline of 0.69 — measuring memory plumbing correctness without LLM involvement. The cross-session subset (true DB close/reopen between plant and probe) comes in at 0.57, which is where the hard work of persistence testing lives. Full live-LLM benchmarks against Mem0 and MemGPT on LOCOMO are running this week.</p>
+
+<p>The whole system is a clone away:</p>
+
+<div class="codeblock">
+git clone https://github.com/atxgreene/Mnemosyne<br>
+<br>
+<span class="cm"># Start the daemon + dashboard</span><br>
+mnemosyne-serve &<br>
+open http://127.0.0.1:8484/ui
+</div>
+
+<p>Zero runtime dependencies. Your data stays on your disk. SQLite + FTS5, human-readable JSONL, plain markdown for configuration. If Mnemosyne disappeared tomorrow, your knowledge survives as a directory of readable files.</p>
+
+<div class="section-rule">Honest limitations</div>
+
+<h2>What I Don't Know Yet</h2>
+
+<p>I want to be honest about what's missing. The LOCOMO and LongMemEval benchmarks against Mem0 and MemGPT are not published yet. I'll have numbers this week. Until then, the architecture is theoretically grounded and the implementation is clean, but the head-to-head comparison exists only as a design claim.</p>
+
+<p>The Reflection distillation quality is model-dependent. Smaller local models (7–9B parameters) produce less coherent instinct entries than larger ones. The Anthropic paper on introspective awareness (Macar et al., 2026) suggests that DPO training — not SFT — is what gives models genuine self-knowledge. If I get to fine-tuning, that's where I'll focus.</p>
+
+<p>Dream clustering uses TF-IDF by default, which captures about 30–40% of the semantic signal that sentence-transformers would give you. It works. It's not optimal. You can install the optional embeddings backend if you need better clustering.</p>
+
+<div class="callout">
+  <strong>The honest summary:</strong> This is a v0.9.4 system from an independent researcher, not a funded lab with a benchmark team. The architecture is the contribution. The numbers are coming. The code is open and the tests are green.
+</div>
+
+<div class="section-rule">The point</div>
+
+<h2>Why This Matters More Than Another Vector Store</h2>
+
+<p>The AI agent space is moving fast. Mem0, MemGPT, CoALA, A-MEM — these are all serious systems doing important work. I've learned from all of them.</p>
+
+<p>But I think the field has converged on a pattern — bottom-up only, vector retrieval as the primary interface, memory as something you load rather than something that shapes behavior — and that pattern has a fundamental limit. Your agent's first response will always be a base-model response until the fast path is shaped by user-specific learning.</p>
+
+<p>The Reflection→Instinct loop is one answer to that problem. Sleep-driven procedural consolidation, translated to software. Metacognitive processing that doesn't just compress experience but actively uses it to reshape reactive behavior.</p>
+
+<div class="pullquote">
+  <p>"Your agent's first response will always be a base-model response until the fast path is shaped by user-specific learning."</p>
+</div>
+
+<p>I built Mnemosyne because I wanted an agent that actually knows me — not one that retrieves facts about me. Those are different things. The first is what memory systems have been building. The second is what I wanted.</p>
+
+<p>After v0.9.4, I think I have it. The benchmarks will tell me how far.</p>
+
+<div class="cta-block">
+  <h3>Try It / Read The Paper</h3>
+  <p>Open source, MIT license. Installs in one command. Your data stays on your machine.</p>
+  <a class="cta-btn" href="https://github.com/atxgreene/Mnemosyne">GitHub →</a>
+  <a class="cta-btn secondary" href="/#writing">More research →</a>
+  <br><br>
+  <p style="font-size:12px; color:#7a6f62; margin:0">github.com/atxgreene/Mnemosyne · MIT</p>
+</div>
+
+</article>
+
+<footer>
+  <span>Austin J. Greene · April 2026 · Minds &amp; Machines</span>
+  <span style="color:var(--ink-faint)">github.com/atxgreene/Mnemosyne</span>
+</footer>
+
+</body>
+</html>
