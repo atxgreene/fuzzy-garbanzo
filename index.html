@@ -181,7 +181,6 @@
     .cta-row { flex-direction: column; align-items: stretch; }
     .cta-row .btn { width: 100%; justify-content: center; }
     .card.full .cover.art { min-height: 190px; }
-    .cover.live { min-height: 380px; height: 380px; }
     .mark-badge { height: 132px; }
   }
 
@@ -380,6 +379,8 @@
   .c-aboveblack .symbol { color: var(--teal); }
   .c-devils { background: linear-gradient(135deg, var(--slate), #0c2733); }
   .c-devils .symbol { color: var(--orange-2); }
+  .c-diagnostic { background: linear-gradient(135deg, var(--orange), var(--orange-2)); }
+  .c-diagnostic .symbol { font-size: 34px; }
 
   /* ── Above Black — animated resonance banner ── */
   .cover.resonance { display: flex; align-items: center; justify-content: center; min-height: 300px; }
@@ -425,10 +426,6 @@
   .cover.embed .badge { z-index: 3; }
   /* Make image (art) covers clickable through to the live build */
   .cover.art .embed-link { position: absolute; inset: 0; z-index: 2; display: block; }
-  /* Full, interactive live embed (used for reference pages meant to be read in place) */
-  .cover.live { padding: 0; min-height: 560px; height: 560px; align-items: stretch; }
-  .cover.live iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: var(--navy); }
-  .cover.live .badge { z-index: 3; }
 
   .body { padding: 18px 22px 22px; display: flex; flex-direction: column; flex: 1; }
   .body h3 { font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 21px; font-weight: 600; margin: 0 0 6px; letter-spacing: -0.01em; color: var(--bone); }
@@ -679,7 +676,7 @@
       </a>
       <ul>
         <li><a href="#work">work</a></li>
-        <li><a href="#lanes">lanes</a></li>
+        <li><a href="#lanes">stack</a></li>
         <li><a href="#writing">research</a></li>
         <li><a href="#live">live</a></li>
         <li><a href="#contact">contact</a></li>
@@ -690,12 +687,12 @@
     <header class="hero" id="top">
       <div class="hero-grid">
         <div class="hero-card glass beam">
-          <span class="eyebrow"><span class="dot" aria-hidden="true"></span> Operator · Builder · Researcher</span>
+          <span class="eyebrow"><span class="dot" aria-hidden="true"></span> Applied AI Architect · Operator · Builder</span>
           <p class="kicker">Austin Greene · Austin-rooted</p>
           <h1>Build the edge.<br><span class="wiggle">Keep the soul.</span></h1>
           <p class="lead">
-            I turn hard problems into working systems — <strong>local-first AI agents and memory</strong>,
-            AI-operations tooling, and immersive research worlds.
+            I help organizations adopt AI responsibly — designing the <strong>memory, routing, governance,
+            and workflow systems</strong> that turn models into operational capability.
           </p>
           <div class="cta-row">
             <a class="btn primary" href="#contact">Work with me →</a>
@@ -715,7 +712,7 @@
           <div class="now-card glass">
             <div class="now-line"><b>Based</b><span>Austin-rooted · remote-capable. Public brand stays ATX; client work stays clean and executive-safe.</span></div>
             <div class="now-line"><b>Now</b><span>Shipping local-first agent memory (Mnemosyne), agent routing (Tugboat), and AI-ops tooling (snakepit.dev).</span></div>
-            <div class="now-line"><b>Best fit</b><span>Teams that need someone to diagnose the operation, design the system, and ship the artifact.</span></div>
+            <div class="now-line"><b>Best fit</b><span>Customer-facing technical strategy and implementation — rooms where executives, operators, and engineers turn AI into working systems.</span></div>
           </div>
         </aside>
       </div>
@@ -723,35 +720,35 @@
 
     <section id="lanes" aria-labelledby="lanes-h">
       <div class="section-head">
-        <h2 id="lanes-h">four lanes</h2>
-        <span class="num">one operating thesis</span>
+        <h2 id="lanes-h">the stack</h2>
+        <span class="num">memory → routing → governance → deployment</span>
       </div>
       <div class="ticker marquee" aria-label="Skill stack">
         <div class="marquee-track">
-          <span class="chip">agentic AI</span><span class="chip">local-first</span><span class="chip">Python / SQLite</span><span class="chip">Three.js / WebGL</span><span class="chip">GitHub Pages</span><span class="chip">AI enablement</span><span class="chip">ops modernization</span><span class="chip">applied math</span>
-          <span class="chip" aria-hidden="true">agentic AI</span><span class="chip" aria-hidden="true">local-first</span><span class="chip" aria-hidden="true">Python / SQLite</span><span class="chip" aria-hidden="true">Three.js / WebGL</span><span class="chip" aria-hidden="true">GitHub Pages</span><span class="chip" aria-hidden="true">AI enablement</span><span class="chip" aria-hidden="true">ops modernization</span><span class="chip" aria-hidden="true">applied math</span>
+          <span class="chip">agent memory</span><span class="chip">routing</span><span class="chip">evals</span><span class="chip">AI governance</span><span class="chip">workflow modernization</span><span class="chip">adoption</span><span class="chip">local-first</span><span class="chip">MCP</span><span class="chip">Python / SQLite</span><span class="chip">Three.js / WebGL</span>
+          <span class="chip" aria-hidden="true">agent memory</span><span class="chip" aria-hidden="true">routing</span><span class="chip" aria-hidden="true">evals</span><span class="chip" aria-hidden="true">AI governance</span><span class="chip" aria-hidden="true">workflow modernization</span><span class="chip" aria-hidden="true">adoption</span><span class="chip" aria-hidden="true">local-first</span><span class="chip" aria-hidden="true">MCP</span><span class="chip" aria-hidden="true">Python / SQLite</span><span class="chip" aria-hidden="true">Three.js / WebGL</span>
         </div>
       </div>
       <div class="lanes">
         <article class="lane glass tilt">
-          <div class="num">01 / FIELD OPS</div>
-          <h3>AI-enabled business execution</h3>
-          <p>Turn AI from a promise into an operating rhythm: adoption, enablement, reporting architecture, process design, and measurable change.</p>
+          <div class="num">01 / MEMORY</div>
+          <h3>Mnemosyne remembers.</h3>
+          <p>Persistent, tiered agent memory — ACT-R decay, offline consolidation, evals, 19 model backends. Context that compounds instead of resetting.</p>
         </article>
         <article class="lane glass tilt">
-          <div class="num">02 / MEMORY</div>
-          <h3>Local-first agent architecture</h3>
-          <p>Memory, routing, and durable context so agents have continuity — without turning every problem into cloud bloat.</p>
+          <div class="num">02 / ROUTING</div>
+          <h3>Tugboat routes.</h3>
+          <p>Declarative, testable routing across memory, subagents, skills, and models — a PR diff for agent behavior, reviewable before deploy.</p>
         </article>
         <article class="lane glass tilt">
-          <div class="num">03 / WORLDS</div>
-          <h3>Immersive research environments</h3>
-          <p>Turn difficult material — ancient texts, mythos, and research — into WebGL exhibits and playable worlds you can walk through.</p>
+          <div class="num">03 / GOVERNANCE</div>
+          <h3>Snakepit governs.</h3>
+          <p>AI-ops discipline for teams running agents: token burn, model routing, guardrails, and observability — before the invoice teaches the lesson.</p>
         </article>
         <article class="lane glass tilt">
-          <div class="num">04 / SIGNAL</div>
-          <h3>Writing, synthesis &amp; applied math</h3>
-          <p>Convert scattered information into clear results: research notes, spectral-geometry work, and reusable operating sheets.</p>
+          <div class="num">04 / DEPLOYMENT</div>
+          <h3>Bluebonnet deploys.</h3>
+          <p>Where it lands in real organizations: workflow modernization, reporting architecture, incentive alignment, and responsible adoption.</p>
         </article>
       </div>
     </section>
@@ -759,26 +756,26 @@
     <section id="work" aria-labelledby="work-h">
       <div class="section-head">
         <h2 id="work-h">selected work</h2>
-        <span class="num">13 / projects · clustered</span>
+        <span class="num">one stack · curated</span>
       </div>
 
       <div class="cluster">
         <div class="cluster-head">
-          <h3>Agent memory &amp; infrastructure</h3>
-          <p>the technical spine the rest is built on</p>
+          <h3>Flagship AI systems</h3>
+          <p>memory → routing → governance, as running code</p>
         </div>
         <div class="grid">
 
-          <article class="card">
+          <article class="card full">
             <div class="cover c-mnemosyne embed">
               <iframe src="https://atxgreene.github.io/Mnemosyne/" title="Mnemosyne live site preview" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
               <a class="embed-link" href="https://atxgreene.github.io/Mnemosyne/" aria-label="Open the Mnemosyne live site"></a>
-              <span class="badge">2025 — now</span>
+              <span class="badge">flagship · 2025 — now</span>
             </div>
             <div class="body">
               <h3>Mnemosyne</h3>
-              <p class="desc">Cognitive OS for local-first agents. 6-tier Integrated Cognitive Memory System, inner-dialogue roles (Planner / Critic / Doer / Evaluator), dream consolidation, self-improvement loop, and 19 model backends — all stdlib Python. The core memory architecture the rest of the agent work is built on.</p>
-              <div class="tags"><span class="tag">Python</span><span class="tag">SQLite</span><span class="tag">MCP</span><span class="tag">stdlib</span></div>
+              <p class="desc">Agent memory as infrastructure: a 6-tier memory system with ACT-R decay, offline consolidation, a human-approved self-improvement loop, evals, and 19 model backends behind one API — all stdlib Python, zero runtime dependencies, 290+ tests. The memory layer of the stack.</p>
+              <div class="tags"><span class="tag">Python</span><span class="tag">SQLite</span><span class="tag">MCP</span><span class="tag">evals</span><span class="tag">stdlib</span></div>
               <div class="cta"><a href="https://atxgreene.github.io/Mnemosyne/">Live ↗</a><a href="/writing/mnemosyne-brain.html">Essay ↗</a><a href="https://github.com/atxgreene/Mnemosyne">GitHub ↗</a></div>
             </div>
           </article>
@@ -791,13 +788,166 @@
             </div>
             <div class="body">
               <h3>Tugboat</h3>
-              <p class="desc">Declarative routing for agent harnesses. Four axes, markdown policies. 1.2k LOC, 34 tests, zero dependencies.</p>
-              <div class="tags"><span class="tag">Python</span><span class="tag">stdlib</span></div>
+              <p class="desc">Declarative routing for agent harnesses — memory, subagents, skills, and models as one testable decision, with regret() as a PR diff for routing. 1.2k LOC, 34 tests, zero dependencies. The routing layer.</p>
+              <div class="tags"><span class="tag">Python</span><span class="tag">routing</span><span class="tag">stdlib</span></div>
               <div class="cta"><a href="https://atxgreene.github.io/tugboat/">Live ↗</a><a href="https://github.com/atxgreene/tugboat">GitHub ↗</a></div>
             </div>
           </article>
 
           <article class="card">
+            <div class="cover c-snakepit embed">
+              <iframe src="https://snakepit.dev/" title="snakepit.dev live site preview" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
+              <a class="embed-link" href="https://snakepit.dev/" aria-label="Open the snakepit.dev live site"></a>
+              <span class="badge">live</span>
+            </div>
+            <div class="body">
+              <h3>snakepit.dev</h3>
+              <p class="desc">AI operations command center — token-burn control, model routing, guardrails, and governance for small and mid-market teams running agents in production. The governance layer.</p>
+              <div class="tags"><span class="tag">AI ops</span><span class="tag">governance</span><span class="tag">Vanilla JS</span></div>
+              <div class="cta"><a href="https://snakepit.dev/">Live ↗</a><a href="https://github.com/atxgreene/snakepit-dev">GitHub ↗</a></div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+
+      <div class="cluster">
+        <div class="cluster-head">
+          <h3>Business modernization</h3>
+          <p>adoption, governance &amp; workflow rescue — where the stack deploys</p>
+        </div>
+        <div class="grid">
+
+          <article class="card full">
+            <div class="cover c-diagnostic"><span class="badge">offer · fixed scope</span><span class="symbol">AI Ops Diagnostic</span></div>
+            <div class="body">
+              <h3>AI Ops Diagnostic</h3>
+              <p class="desc">A fixed-scope readiness audit for small and mid-market organizations: workflow map, token / cost-burn analysis, governance gaps, and a 90-day adoption plan. Problem → diagnosis → system design → implementation path → result.</p>
+              <div class="tags"><span class="tag">audit</span><span class="tag">governance</span><span class="tag">adoption</span><span class="tag">ROI</span></div>
+              <div class="cta"><a href="mailto:atxgreene@gmail.com?subject=AI%20Ops%20Diagnostic">Book a diagnostic ↗</a></div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="cover c-bluebonnet embed">
+              <iframe src="https://atxgreene.github.io/bluebonnet-legacy/" title="Bluebonnet Legacy live site preview" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
+              <a class="embed-link" href="https://atxgreene.github.io/bluebonnet-legacy/" aria-label="Open the Bluebonnet Legacy live site"></a>
+              <span class="badge">live</span>
+            </div>
+            <div class="body">
+              <h3>Bluebonnet Legacy</h3>
+              <p class="desc">Helps owners and operators modernize business operations through reporting architecture, process design, incentive alignment, and responsible agentic AI. The deployment arm.</p>
+              <div class="tags"><span class="tag">strategy</span><span class="tag">agentic AI</span><span class="tag">Pages</span></div>
+              <div class="cta"><a href="https://atxgreene.github.io/bluebonnet-legacy/">Live ↗</a><a href="https://github.com/atxgreene/bluebonnet-legacy">GitHub ↗</a></div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="cover c-hermes embed">
+              <iframe src="https://atxgreene.github.io/hermes-play-sheet/" title="Hermes play sheet live site preview" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
+              <a class="embed-link" href="https://atxgreene.github.io/hermes-play-sheet/" aria-label="Open the Hermes play sheet"></a>
+              <span class="badge">live</span>
+            </div>
+            <div class="body">
+              <h3>Hermes Play Sheet</h3>
+              <p class="desc">A single-page command &amp; skill reference for agent operators — enablement collateral that makes a deployed agent stack usable by real teams.</p>
+              <div class="tags"><span class="tag">enablement</span><span class="tag">Tailwind</span><span class="tag">Pages</span></div>
+              <div class="cta"><a href="https://atxgreene.github.io/hermes-play-sheet/">Open ↗</a><a href="https://github.com/atxgreene/hermes-play-sheet">GitHub ↗</a></div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+
+      <div class="cluster">
+        <div class="cluster-head">
+          <h3>Creative systems lab</h3>
+          <p>range, shipped — exhibits, worlds, and playable systems</p>
+        </div>
+        <div class="grid">
+
+          <article class="card full">
+            <div class="cover art" style="background-image:url('assets/projects/greene-halls.jpg')"><span class="badge">2026 · interactive</span><a class="embed-link" href="https://atxgreene.github.io/greene-halls/" aria-label="Enter Greene Halls"></a></div>
+            <div class="body">
+              <h3>Greene Halls</h3>
+              <p class="desc">Twin WebGL exhibits — the Hall of the Watchers and the Hall of the Archangels — rendered in Three.js with 3D models, Doré engraving backdrops, and narrated voice-over for all 24 fallen Watchers and 12 archangels. A served, walk-through companion to the Greene Paleogenomic Museum VR.</p>
+              <div class="tags"><span class="tag">Three.js</span><span class="tag">WebGL</span><span class="tag">glTF</span><span class="tag">audio</span></div>
+              <div class="cta"><a href="https://atxgreene.github.io/greene-halls/">Enter ↗</a><a href="https://github.com/atxgreene/greene-halls">GitHub ↗</a></div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="cover art" style="background-image:url('assets/projects/shadow-of-the-watchers.jpg')"><span class="badge">2026 · playable</span><a class="embed-link" href="https://atxgreene.github.io/Ugh-Guys-/" aria-label="Play Shadow of the Watchers"></a></div>
+            <div class="body">
+              <h3>Shadow of the Watchers</h3>
+              <p class="desc">Browser-based, StarCraft-style asymmetric RTS set in a mythic pre-flood world. Three genuinely asymmetric factions with fog of war, A* pathfinding, full economy/tech trees, and a reactive AI opponent. 100% procedural: every model, sound, and map is generated in code, zero external assets.</p>
+              <div class="tags"><span class="tag">Three.js</span><span class="tag">Vite</span><span class="tag">WebGL</span><span class="tag">RTS</span></div>
+              <div class="cta"><a href="https://atxgreene.github.io/Ugh-Guys-/">Play ↗</a><a href="https://github.com/atxgreene/Ugh-Guys-">GitHub ↗</a></div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="cover art" style="background-image:url('assets/projects/watchers-fall-of-the-giants.jpg')"><span class="badge">2026 · vertical slice</span><a class="embed-link" href="https://atxgreene.github.io/giants/play/" aria-label="Play The Watchers: Fall of the Giants"></a></div>
+            <div class="body">
+              <h3>The Watchers: Fall of the Giants</h3>
+              <p class="desc">Isometric action-roguelike. You are the Appointed Witness, hunting the fallen Watchers and Nephilim across the Desert of Azazel. Hades-style combat with Diablo-flavored pressure and "disclosure as progression" — the loot is knowledge. Built in Godot; sprites, VFX, and music all synthesized procedurally.</p>
+              <div class="tags"><span class="tag">Godot</span><span class="tag">GDScript</span><span class="tag">roguelike</span></div>
+              <div class="cta"><a href="https://atxgreene.github.io/giants/play/">Play ↗</a><a href="https://github.com/atxgreene/giants">GitHub ↗</a></div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="cover aces">
+              <div class="halo"></div>
+              <span class="chip c1">A♠</span><span class="chip rd c2">K♥</span><span class="chip c3">TC +3</span><span class="chip rd c4">Q♦</span>
+              <div class="spade">♠</div>
+              <span class="badge">live · PWA</span>
+              <a class="embed-link" href="https://atxgreene.github.io/Project_Devils_Ace/" aria-label="Open Devil's Ace live"></a>
+            </div>
+            <div class="body">
+              <h3>Devil's Ace</h3>
+              <p class="desc"><em>Don't Bust. Beat the House.</em> — a full blackjack advantage-play trainer: basic-strategy drills with instant feedback, six counting systems, true-count conversion, Illustrious 18 / Fab 4 index deviations, and a Monte-Carlo edge simulator. Offline, zero-dependency PWA.</p>
+              <div class="tags"><span class="tag">PWA</span><span class="tag">Vanilla JS</span><span class="tag">Monte-Carlo</span></div>
+              <div class="cta"><a href="https://atxgreene.github.io/Project_Devils_Ace/">Live ↗</a><a href="https://github.com/atxgreene/Project_Devils_Ace">GitHub ↗</a></div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="cover resonance c-aboveblack">
+              <div class="resonance-rings"><span class="ring"></span><span class="ring"></span><span class="ring"></span><span class="ring"></span></div>
+              <div class="glyph">∞</div>
+              <span class="badge">live · PWA</span>
+              <a class="embed-link" href="https://atxgreene.github.io/above-black-trainer/" aria-label="Open Above Black Trainer live"></a>
+            </div>
+            <div class="body">
+              <h3>Above Black Trainer</h3>
+              <p class="desc">Local-first, offline PWA for structured audio training — multi-band binaural + isochronic generation, progressive session protocols, one-click presets, and a session analytics dashboard built on the Web Audio API.</p>
+              <div class="tags"><span class="tag">PWA</span><span class="tag">Web Audio</span><span class="tag">Chart.js</span></div>
+              <div class="cta"><a href="https://atxgreene.github.io/above-black-trainer/">Live ↗</a><a href="https://github.com/atxgreene/above-black-trainer">GitHub ↗</a></div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+
+      <div class="cluster">
+        <div class="cluster-head">
+          <h3>Experiments &amp; lineage</h3>
+          <p>smaller proofs, and the stack's ancestry</p>
+        </div>
+        <div class="grid">
+
+          <article class="card small">
+            <div class="cover c-apex"><span class="badge">2025 — now</span><span class="symbol">APEX</span></div>
+            <div class="body">
+              <h3>APEX</h3>
+              <p class="desc">Autonomous Kalshi + Polymarket trader with cross-platform arbitrage and meta-thinking validation.</p>
+              <div class="tags"><span class="tag">Python</span><span class="tag">async</span><span class="tag">fintech</span></div>
+              <div class="cta"><span class="soon">private build · case study soon</span></div>
+            </div>
+          </article>
+
+          <article class="card small">
             <div class="cover c-eternal loop">
               <svg class="eternal-loop" viewBox="0 0 100 60" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
                 <defs>
@@ -817,161 +967,19 @@
             </div>
             <div class="body">
               <h3>Eternal Context</h3>
-              <p class="desc">Hybrid AI agent with infinite persistent memory. Hermes 3 + cloud APIs on top of the ICMS/SDI memory stack — the foundation Mnemosyne grew from.</p>
-              <div class="tags"><span class="tag">Python</span><span class="tag">JavaScript</span><span class="tag">Hermes 3</span></div>
+              <p class="desc">Hybrid agent with persistent memory — the ICMS/SDI foundation Mnemosyne grew from.</p>
+              <div class="tags"><span class="tag">Python</span><span class="tag">lineage</span></div>
               <div class="cta"><a href="https://github.com/atxgreene/eternal-context">GitHub ↗</a></div>
             </div>
           </article>
 
-          <article class="card full">
-            <div class="cover art" style="background-image:url('assets/projects/ben-banner.jpg')" role="img" aria-label="BEN — a brass astral-navigator robot charting constellations. Chart new stars. Dream big. Navigate anything."><span class="badge">in progress</span></div>
+          <article class="card small">
+            <div class="cover art" style="background-image:url('assets/projects/ben-banner.jpg')" role="img" aria-label="BEN — a brass astral-navigator robot charting constellations."><span class="badge">in progress</span></div>
             <div class="body">
               <h3>BEN</h3>
-              <p class="desc">Routing agent navigator — a persona-forward front-end to the Mnemosyne / Tugboat stack. <em>Chart new stars. Dream big. Navigate anything.</em> Currently in active development.</p>
-              <div class="tags"><span class="tag">Python</span><span class="tag">agents</span><span class="tag">navigator</span></div>
+              <p class="desc">Agent navigator — a persona-forward front-end to the Mnemosyne / Tugboat stack. In active development.</p>
+              <div class="tags"><span class="tag">agents</span><span class="tag">navigator</span></div>
               <div class="cta"><span class="soon">notes · coming soon</span></div>
-            </div>
-          </article>
-
-        </div>
-      </div>
-
-      <div class="cluster">
-        <div class="cluster-head">
-          <h3>Immersive worlds &amp; research</h3>
-          <p>research made explorable</p>
-        </div>
-        <div class="grid">
-
-          <article class="card full">
-            <div class="cover art" style="background-image:url('assets/projects/greene-halls.jpg')"><span class="badge">2026 · interactive</span><a class="embed-link" href="https://atxgreene.github.io/greene-halls/" aria-label="Enter Greene Halls"></a></div>
-            <div class="body">
-              <h3>Greene Halls</h3>
-              <p class="desc">Twin WebGL exhibits — the Hall of the Watchers and the Hall of the Archangels — rendered in Three.js with 3D models, Doré engraving backdrops, and narrated voice-over for all 24 fallen Watchers and 12 archangels. A served, walk-through companion to the Greene Paleogenomic Museum VR.</p>
-              <div class="tags"><span class="tag">Three.js</span><span class="tag">WebGL</span><span class="tag">glTF</span><span class="tag">audio</span></div>
-              <div class="cta"><a href="https://atxgreene.github.io/greene-halls/">Enter ↗</a><a href="https://github.com/atxgreene/greene-halls">GitHub ↗</a></div>
-            </div>
-          </article>
-
-          <article class="card">
-            <div class="cover art" style="background-image:url('assets/projects/shadow-of-the-watchers.jpg')"><span class="badge">2026 · playable</span><a class="embed-link" href="https://atxgreene.github.io/Ugh-Guys-/" aria-label="Play Shadow of the Watchers"></a></div>
-            <div class="body">
-              <h3>Shadow of the Watchers</h3>
-              <p class="desc">Browser-based, StarCraft-style asymmetric RTS set in a mythic pre-flood world. Three genuinely asymmetric factions — Covenant Cities, Watcher Remnant, Nephilim Clans — with fog of war, A* pathfinding, full economy/tech trees, and a reactive AI opponent. 100% procedural: every model, sound, and map is generated in code, zero external assets.</p>
-              <div class="tags"><span class="tag">Three.js</span><span class="tag">Vite</span><span class="tag">WebGL</span><span class="tag">RTS</span></div>
-              <div class="cta"><a href="https://atxgreene.github.io/Ugh-Guys-/">Play ↗</a><a href="https://github.com/atxgreene/Ugh-Guys-">GitHub ↗</a></div>
-            </div>
-          </article>
-
-          <article class="card">
-            <div class="cover art" style="background-image:url('assets/projects/watchers-fall-of-the-giants.jpg')"><span class="badge">2026 · vertical slice</span><a class="embed-link" href="https://atxgreene.github.io/giants/play/" aria-label="Play The Watchers: Fall of the Giants"></a></div>
-            <div class="body">
-              <h3>The Watchers: Fall of the Giants</h3>
-              <p class="desc">Isometric action-roguelike. You are the Appointed Witness, hunting the fallen Watchers and Nephilim across the Desert of Azazel. Hades-style combat with Diablo-flavored pressure and "disclosure as progression" — the loot is knowledge. Built in Godot; sprites, VFX, and music all synthesized procedurally.</p>
-              <div class="tags"><span class="tag">Godot</span><span class="tag">GDScript</span><span class="tag">roguelike</span></div>
-              <div class="cta"><a href="https://atxgreene.github.io/giants/play/">Play ↗</a><a href="https://github.com/atxgreene/giants">GitHub ↗</a></div>
-            </div>
-          </article>
-
-        </div>
-      </div>
-
-      <div class="cluster">
-        <div class="cluster-head">
-          <h3>AI operations &amp; business</h3>
-          <p>the consulting &amp; enablement edge</p>
-        </div>
-        <div class="grid">
-
-          <article class="card">
-            <div class="cover c-snakepit embed">
-              <iframe src="https://snakepit.dev/" title="snakepit.dev live site preview" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
-              <a class="embed-link" href="https://snakepit.dev/" aria-label="Open the snakepit.dev live site"></a>
-              <span class="badge">live</span>
-            </div>
-            <div class="body">
-              <h3>snakepit.dev</h3>
-              <p class="desc">AI operations command center — helps small and mid-market teams cut token burn, govern AI agents, and run local-first AI ops.</p>
-              <div class="tags"><span class="tag">Static site</span><span class="tag">Vanilla JS</span><span class="tag">Pages</span></div>
-              <div class="cta"><a href="https://snakepit.dev/">Live ↗</a><a href="https://github.com/atxgreene/snakepit-dev">GitHub ↗</a></div>
-            </div>
-          </article>
-
-          <article class="card">
-            <div class="cover c-bluebonnet embed">
-              <iframe src="https://atxgreene.github.io/bluebonnet-legacy/" title="Bluebonnet Legacy live site preview" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
-              <a class="embed-link" href="https://atxgreene.github.io/bluebonnet-legacy/" aria-label="Open the Bluebonnet Legacy live site"></a>
-              <span class="badge">live</span>
-            </div>
-            <div class="body">
-              <h3>Bluebonnet Legacy</h3>
-              <p class="desc">Helps owners and operators modernize business operations through reporting architecture, process design, incentive alignment, and responsible agentic AI.</p>
-              <div class="tags"><span class="tag">Static site</span><span class="tag">Vanilla JS</span><span class="tag">Pages</span></div>
-              <div class="cta"><a href="https://atxgreene.github.io/bluebonnet-legacy/">Live ↗</a><a href="https://github.com/atxgreene/bluebonnet-legacy">GitHub ↗</a></div>
-            </div>
-          </article>
-
-          <article class="card full">
-            <div class="cover c-hermes live">
-              <iframe src="https://atxgreene.github.io/hermes-play-sheet/" title="Hermes play sheet — embedded agent reference" loading="lazy"></iframe>
-              <span class="badge">live · embedded</span>
-            </div>
-            <div class="body">
-              <h3>Hermes Play Sheet</h3>
-              <p class="desc">A single-page command &amp; skill play sheet — a quick visual reference for Hermes agent commands and skills, embedded live above for in-place reading.</p>
-              <div class="tags"><span class="tag">Tailwind</span><span class="tag">Vanilla JS</span><span class="tag">Pages</span></div>
-              <div class="cta"><a href="https://atxgreene.github.io/hermes-play-sheet/">Open full ↗</a><a href="https://github.com/atxgreene/hermes-play-sheet">GitHub ↗</a></div>
-            </div>
-          </article>
-
-        </div>
-      </div>
-
-      <div class="cluster">
-        <div class="cluster-head">
-          <h3>Autonomous systems &amp; experiments</h3>
-          <p>smaller proofs the thesis ships</p>
-        </div>
-        <div class="grid">
-
-          <article class="card small">
-            <div class="cover c-apex"><span class="badge">2025 — now</span><span class="symbol">APEX</span></div>
-            <div class="body">
-              <h3>APEX</h3>
-              <p class="desc">Autonomous Kalshi + Polymarket trader with cross-platform arbitrage and meta-thinking validation.</p>
-              <div class="tags"><span class="tag">Python</span><span class="tag">async</span><span class="tag">fintech</span></div>
-              <div class="cta"><span class="soon">private build · case study soon</span></div>
-            </div>
-          </article>
-
-          <article class="card full">
-            <div class="cover resonance c-aboveblack">
-              <div class="resonance-rings"><span class="ring"></span><span class="ring"></span><span class="ring"></span><span class="ring"></span></div>
-              <div class="glyph">∞</div>
-              <span class="badge">live · PWA</span>
-              <a class="embed-link" href="https://atxgreene.github.io/above-black-trainer/" aria-label="Open Above Black Trainer live"></a>
-            </div>
-            <div class="body">
-              <h3>Above Black Trainer</h3>
-              <p class="desc">Local-first, offline PWA for precision frequency resonance and progressive line training — multi-band Hemi-Sync (binaural + isochronic), Gateway Focus 10–27 protocols, energy-body work, one-click preset modes, and a session analytics dashboard.</p>
-              <div class="tags"><span class="tag">PWA</span><span class="tag">Web Audio</span><span class="tag">Chart.js</span><span class="tag">Hemi-Sync</span></div>
-              <div class="cta"><a href="https://atxgreene.github.io/above-black-trainer/">Live ↗</a><a href="https://github.com/atxgreene/above-black-trainer">GitHub ↗</a></div>
-            </div>
-          </article>
-
-          <article class="card full">
-            <div class="cover aces">
-              <div class="halo"></div>
-              <span class="chip c1">A♠</span><span class="chip rd c2">K♥</span><span class="chip c3">TC +3</span><span class="chip rd c4">Q♦</span>
-              <div class="spade">♠</div>
-              <span class="badge">live · PWA</span>
-              <a class="embed-link" href="https://atxgreene.github.io/Project_Devils_Ace/" aria-label="Open Devil's Ace live"></a>
-            </div>
-            <div class="body">
-              <h3>Devil's Ace</h3>
-              <p class="desc"><em>Don't Bust. Beat the House.</em> — a full blackjack advantage-play trainer: basic-strategy drills with instant feedback, six counting systems, true-count conversion, Illustrious 18 / Fab 4 index deviations, and a Monte-Carlo edge simulator. Offline, zero-dependency PWA.</p>
-              <div class="tags"><span class="tag">PWA</span><span class="tag">Vanilla JS</span><span class="tag">Blackjack</span><span class="tag">Monte-Carlo</span></div>
-              <div class="cta"><a href="https://atxgreene.github.io/Project_Devils_Ace/">Live ↗</a><a href="https://github.com/atxgreene/Project_Devils_Ace">GitHub ↗</a></div>
             </div>
           </article>
 
