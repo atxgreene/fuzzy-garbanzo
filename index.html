@@ -1152,56 +1152,47 @@
 
 
     <section class="private-signal-desk" id="bet-of-day" aria-labelledby="bet-of-day-h">
-      <div class="signal-panel beam">
-        <p class="signal-kicker">Private signal desk · research-only</p>
-        <h2 id="bet-of-day-h">Bet of the day — Saturday World Cup parlay board.</h2>
-        <p class="lead">Hidden operator board for Austin. Prediction-market contracts only; not financial advice. Price-check live on Polymarket and Robinhood/Kalshi before any action.</p>
+          <div class="signal-panel beam">
+            <p class="signal-kicker">Private signal desk · research-only</p>
+            <h2 id="bet-of-day-h">Bet of the day — Sunday World Cup sim board.</h2>
+            <p class="lead">Hidden operator board for Austin. Chonovisor APEX v0.3 paper-first sims. Prediction-market contracts only; not financial advice. Price-check live on Polymarket and Robinhood/Kalshi before any action.</p>
 
-        <div class="parlay-board">
-          <article class="parlay-ticket featured">
-            <div class="ticket-head"><span>High-confidence core</span><strong>~66.2% implied</strong></div>
-            <h3>France advances + Morocco advances</h3>
-            <ol class="legs">
-              <li><span>France advances</span><b>Robinhood/Kalshi ask ~92¢</b></li>
-              <li><span>Morocco advances</span><b>Robinhood/Kalshi ask ~72¢</b></li>
-            </ol>
-            <p>Cleanest two-game survival ticket; avoids forcing Morocco to win in regulation.</p>
-          </article>
+            <div class="parlay-board">
+              <article class="parlay-ticket featured">
+                <div class="ticket-head"><span>Watchlist</span><strong>Edge +1.1%</strong></div>
+                <h3>Brazil vs Norway — Brazil ML / Brazil -0.5</h3>
+                <ol class="legs">
+                  <li><span>Model</span><b>Brazil 56.7%</b></li>
+                  <li><span>Market prior</span><b>Brazil 53.6%</b></li>
+                </ol>
+                <p>Chonovisor: <code>market_prior_follow</code>. Thin edge after haircut — watch only, not a forced play. Brazil 1-1 Norway (10.4%) top simulated score.</p>
+              </article>
 
-          <article class="parlay-ticket">
-            <div class="ticket-head"><span>Conservative</span><strong>~84.6% implied</strong></div>
-            <h3>France advances + Canada/Morocco over 0.5 goals</h3>
-            <ol class="legs">
-              <li><span>France advances</span><b>Robinhood/Kalshi ask ~92¢</b></li>
-              <li><span>Canada/Morocco over 0.5 goals</span><b>Robinhood/Kalshi ask ~92¢</b></li>
-            </ol>
-            <p>Lowest payout but highest confidence from the Saturday board.</p>
-          </article>
+              <article class="parlay-ticket">
+                <div class="ticket-head"><span>Pass</span><strong>Edge -4.5%</strong></div>
+                <h3>Mexico vs England — England at current price</h3>
+                <ol class="legs">
+                  <li><span>Model</span><b>England 36.4%</b></li>
+                  <li><span>Market prior</span><b>England 38.9%</b></li>
+                </ol>
+                <p>Chonovisor: <code>favorite_price_too_rich_pass</code>. Model disagrees with market price — pass. Mexico 1-1 England (13.2%) top simulated score.</p>
+              </article>
 
-          <article class="parlay-ticket">
-            <div class="ticket-head"><span>Polymarket-only</span><strong>~67.2% implied</strong></div>
-            <h3>France regulation win + Canada does not win</h3>
-            <ol class="legs">
-              <li><span>France regulation win</span><b>Polymarket ask ~83¢</b></li>
-              <li><span>Canada “No” in regulation</span><b>Polymarket implied ~81¢</b></li>
-            </ol>
-            <p>Best synthetic version if staying inside Polymarket contracts.</p>
-          </article>
+              <article class="parlay-ticket">
+                <div class="ticket-head"><span>Context</span><strong>No paper plays today</strong></div>
+                <h3>Chonovisor ledger summary</h3>
+                <ol class="legs">
+                  <li><span>Paper plays</span><b>0</b></li>
+                  <li><span>Watchlist</span><b>1</b></li>
+                  <li><span>Pass</span><b>1</b></li>
+                </ol>
+                <p>Paper-first discipline: market prior first, model overlay second, exact score last. Exact scores are color only, not betting anchors.</p>
+              </article>
+            </div>
 
-          <article class="parlay-ticket">
-            <div class="ticket-head"><span>Upside</span><strong>~44.0% implied</strong></div>
-            <h3>France regulation win + Morocco regulation win</h3>
-            <ol class="legs">
-              <li><span>France regulation win</span><b>Polymarket ask ~83¢</b></li>
-              <li><span>Morocco regulation win</span><b>Polymarket/Kalshi ask ~53¢</b></li>
-            </ol>
-            <p>Clean favorites-in-90 ticket, but Morocco regulation is the weak link.</p>
-          </article>
-        </div>
-
-        <p class="signal-note"><strong>Operator rule:</strong> If Robinhood offers France advances + Morocco advances worse than ~66–68¢ combined, split the legs or pass. Lines captured 2026-07-03 23:47 CDT.</p>
-      </div>
-    </section>
+            <p class="signal-note"><strong>Operator rule:</strong> Chonovisor passes when model edge is negative after conservatism haircut. Watchlist entries are thin-edge monitor-only, not position signals. Sims captured 2026-07-05 10:54 local.</p>
+          </div>
+        </section>
 
 
     <section id="contact" aria-labelledby="contact-h">
