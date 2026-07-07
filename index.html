@@ -6,10 +6,10 @@
 <title>Austin Greene — atxgreene.com</title>
 <meta name="description" content="Austin Greene — independent researcher and builder. AI memory systems, agent routing, autonomous trading, and applied math." />
 <meta name="author" content="Austin Greene" />
-<!-- Hashed CSP: script-src allows exactly the four inline script blocks below. If you edit
+<!-- Hashed CSP: script-src allows exactly the five inline script blocks below. If you edit
      ANY inline script, re-run  scripts/verify.py --print-hashes  and update these hashes.
      CI (.github/workflows/ci.yml) fails the build if they drift. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-/x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw=' 'sha256-8OnoVTrXnlIQu1wYXkKLUYyQ6KAmn4Fw0N09F6c7ZK8=' 'sha256-FdaXAC7R5D+JAkBWzyFEYzy3JiKgN8oGxj0/YRuYmpI=' 'sha256-jl9IvifidG+Ks04A3F+ixk+VA+FUxrTEGzGYPX9pgD4='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.github.com; frame-src https://atxgreene.github.io https://snakepit.dev; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-/x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw=' 'sha256-s8o+Hhz5ndtvjuBsXk8+VptCCoDREVWPlYc6yF83VMI=' 'sha256-8OnoVTrXnlIQu1wYXkKLUYyQ6KAmn4Fw0N09F6c7ZK8=' 'sha256-FdaXAC7R5D+JAkBWzyFEYzy3JiKgN8oGxj0/YRuYmpI=' 'sha256-jl9IvifidG+Ks04A3F+ixk+VA+FUxrTEGzGYPX9pgD4='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.github.com; frame-src https://atxgreene.github.io https://snakepit.dev; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests" />
 <meta name="theme-color" content="#071923" />
 <meta name="color-scheme" content="dark" />
 <meta name="robots" content="index, follow, max-image-preview:large" />
@@ -505,11 +505,15 @@
 
 
 
-  /* ───── Discreet casino access button ───── */
+  /* ───── Discreet signal-desk launcher (hidden until unlocked) ───── */
+  /* Not rendered for ordinary visitors. Revealed only after a secret unlock:
+     type "desk", visit /#desk, or a prior unlock remembered on this device. */
   .casino-access {
     position: fixed; right: 18px; bottom: 18px; z-index: 80;
     font-family: 'IBM Plex Mono', monospace;
+    display: none;
   }
+  body.desk-unlocked .casino-access { display: block; }
   .casino-access summary {
     list-style: none; cursor: pointer; user-select: none;
     width: 42px; height: 42px; display: grid; place-items: center;
@@ -543,9 +547,9 @@
   @media (max-width: 640px) { .casino-access { right: 12px; bottom: 12px; } }
 
 
-  /* ───── Private signal desk (hidden by default; reveal with #bet-of-day) ───── */
+  /* ───── Private signal desk (hidden; shows only when unlocked AND targeted) ───── */
   .private-signal-desk { display: none; }
-  .private-signal-desk:target { display: block; }
+  body.desk-unlocked .private-signal-desk:target { display: block; }
   .signal-panel {
     position: relative; overflow: hidden;
     padding: clamp(24px, 4vw, 34px);
@@ -758,6 +762,37 @@
       <a href="#bet-of-day" role="menuitem"><span>Prediction logs</span>same page</a>
     </div>
   </details>
+  <script>
+  /* Private signal-desk gate. The launcher stays hidden for ordinary visitors.
+     Unlock (any of): type "desk", open /#desk (shareable), or a prior unlock on this device.
+     Re-hide with /#desk-lock. State persists in localStorage only. */
+  (function () {
+    var KEY = 'atxg-desk';
+    function unlock(persist) {
+      document.body.classList.add('desk-unlocked');
+      if (persist) { try { localStorage.setItem(KEY, '1'); } catch (e) {} }
+    }
+    function lock() {
+      document.body.classList.remove('desk-unlocked');
+      try { localStorage.removeItem(KEY); } catch (e) {}
+    }
+    try { if (localStorage.getItem(KEY) === '1') unlock(false); } catch (e) {}
+    function checkHash() {
+      if (location.hash === '#desk') unlock(true);
+      else if (location.hash === '#desk-lock') lock();
+    }
+    checkHash();
+    window.addEventListener('hashchange', checkHash);
+    var seq = '', word = 'desk';
+    window.addEventListener('keydown', function (e) {
+      var t = (e.target && e.target.tagName || '');
+      if (/^(INPUT|TEXTAREA|SELECT)$/.test(t)) return;
+      if (!e.key || e.key.length !== 1) return;
+      seq = (seq + e.key.toLowerCase()).slice(-word.length);
+      if (seq === word) unlock(true);
+    });
+  })();
+  </script>
 
 
   <div class="wrap">
