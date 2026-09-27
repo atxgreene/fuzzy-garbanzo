@@ -8,6 +8,7 @@ auto-syncs recent repositories at page load.
 ## Files
 
 - `index.html` — the whole site in one file (HTML + inline CSS + vanilla JS)
+- `about/index.html` — atxgreene.com/about: business-facing page (services, curated work, engagement ladder, the Lab, contact form). Own hashed CSP; checked by `scripts/verify.py`.
 - `404.html` — fallback page for missing URLs
 - `manifest.webmanifest` — PWA manifest (installable app metadata + icons)
 - `sw.js` — service worker: offline shell (network-first HTML, cache-first assets)

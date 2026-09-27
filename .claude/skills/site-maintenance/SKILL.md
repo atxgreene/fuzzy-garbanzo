@@ -28,6 +28,12 @@ JavaScript stops running, or a security header rejects a resource).
 
 - **`index.html`** — the entire site: HTML + one inline `<style>` + several inline
   vanilla-JS `<script>` blocks (IIFEs). No external JS/CSS except Google Fonts.
+- **`about/index.html`** — atxgreene.com/about: the business-facing page
+  (Builder · Problem Solver · Operator; Solve · Build · Advance; services, curated
+  work as Problem → Built → Capability, engagement ladder, the Lab, and a
+  call/text/email contact form with no backend). It has its **own** hashed CSP —
+  `verify.py` checks it too, so the same re-hash rule applies. Use root-absolute
+  asset paths (`/assets/...`) there. The signal desk lives only on the homepage.
 - **`writing/`** — standalone article pages (`mnemosyne-brain.html`,
   `launchpad-civil-mobility.html`) + a PDF. Each is its own self-contained file.
 - **`sw.js`** — service worker (offline shell). `manifest.webmanifest` — PWA metadata.
