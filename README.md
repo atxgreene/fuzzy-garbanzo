@@ -1,14 +1,15 @@
 # atxgreene.com
 
 Personal portfolio site for Austin Greene. Single-page, static, zero build step.
-ATXGreene brand (Midnight Navy + Electric Teal, phoenix mark) with a generative
-constellation background, hero embers, and a **live "from GitHub" feed** that
-auto-syncs recent repositories at page load.
+ATXGreene brand (Midnight Navy + Electric Teal, phoenix mark). The homepage presents
+Austin as a **builder, problem solver, and operator** for businesses; the technical
+work lives in its *selected work* and *Lab* sections and at `/dev`.
 
 ## Files
 
-- `index.html` — the whole site in one file (HTML + inline CSS + vanilla JS)
-- `about/index.html` — atxgreene.com/about: business-facing page (services, curated work, engagement ladder, the Lab, contact form). Own hashed CSP; checked by `scripts/verify.py`.
+- `index.html` — the main, business-facing page (HTML + inline CSS + vanilla JS)
+- `dev/index.html` — atxgreene.com/dev: the earlier technical portfolio, kept live. Own hashed CSP; checked by `scripts/verify.py`.
+- `about/index.html` — redirects to `/` (the business page used to live here).
 - `404.html` — fallback page for missing URLs
 - `manifest.webmanifest` — PWA manifest (installable app metadata + icons)
 - `sw.js` — service worker: offline shell (network-first HTML, cache-first assets)
@@ -66,7 +67,7 @@ Or just double-click `index.html` in a file manager.
 
 ## The live GitHub feed
 
-The `#live` section renders cards from `https://api.github.com/users/atxgreene/repos`
+The `#live` feed (in the Lab on `/`, and on `/dev`) renders cards from `https://api.github.com/users/atxgreene/repos`
 at page load — newest-pushed first, forks/archived/featured repos filtered out, top 6 shown.
 
 - **No key needed.** Uses the unauthenticated GitHub API. Results are cached in
