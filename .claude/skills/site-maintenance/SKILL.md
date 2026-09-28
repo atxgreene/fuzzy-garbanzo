@@ -14,7 +14,7 @@ description: >
 # Maintaining atxgreene.com (fuzzy-garbanzo)
 
 This is Austin Greene's personal portfolio + a small **private, gated dashboard**
-for friends. It is a **single static file** deployed to GitHub Pages on a custom
+for friends. It is a few **static HTML files** deployed to GitHub Pages on a custom
 domain. There is **no build step, no framework, no bundler, no npm install** —
 what's in the repo is what ships.
 
@@ -26,14 +26,14 @@ JavaScript stops running, or a security header rejects a resource).
 
 ## Architecture at a glance
 
-- **`index.html`** — the entire site: HTML + one inline `<style>` + several inline
-  vanilla-JS `<script>` blocks (IIFEs). No external JS/CSS except Google Fonts.
-- **`about/index.html`** — atxgreene.com/about: the business-facing page
-  (Builder · Problem Solver · Operator; Solve · Build · Advance; services, curated
-  work as Problem → Built → Capability, engagement ladder, the Lab, and a
-  call/text/email contact form with no backend). It has its **own** hashed CSP —
-  `verify.py` checks it too, so the same re-hash rule applies. Use root-absolute
-  asset paths (`/assets/...`) there. The signal desk lives only on the homepage.
+- **`index.html`** — atxgreene.com, the main, business-facing page: HTML + one
+  inline `<style>` + inline vanilla-JS `<script>` blocks. Also holds the hidden
+  signal desk. No external JS/CSS except Google Fonts.
+- **`dev/index.html`** — atxgreene.com/dev, the earlier technical portfolio
+  (AI-architect framing, full project shelves, constellation/ember effects), kept
+  live as-is. It has its **own** hashed CSP and uses root-absolute asset paths
+  (`/assets/...`). Don't put business-facing updates here; the root page is primary.
+- **`about/index.html`** — a redirect to `/` (old shared links). Leave it alone.
 - **`writing/`** — standalone article pages (`mnemosyne-brain.html`,
   `launchpad-civil-mobility.html`) + a PDF. Each is its own self-contained file.
 - **`sw.js`** — service worker (offline shell). `manifest.webmanifest` — PWA metadata.
@@ -42,7 +42,10 @@ JavaScript stops running, or a security header rejects a resource).
 - **`.github/workflows/deploy.yml`** — deploys `main` → GitHub Pages on every push.
 - **`CNAME`** — pins the custom domain (`atxgreene.com`). Never delete it.
 - Icons/assets: `favicon.png`, `favicon.svg`, `apple-touch-icon.png`, `og.png`,
-  `assets/brand/*`. `sitemap.xml`, `robots.txt`, `404.html`.
+  `assets/brand/*`. `sitemap.xml`, `robots.txt`, `404.html`. `dev/og.png` is the
+  /dev share image.
+- **Both `index.html` and `dev/index.html` are in `PAGES` in `verify.py`**, so every
+  CSP/re-hash rule below applies to each page separately.
 
 Deploy is automatic: **merge to `main` → GitHub Pages rebuilds → live in ~1–2 min.**
 
@@ -164,32 +167,56 @@ on you. A green check means "won't break," not "is good."
   `--bone #f4f1e8`, `--slate #64748b`. Use the existing vars; don't hardcode new hex.
 - **Fonts:** Space Grotesk (display/headings), Inter (body), IBM Plex Mono
   (labels/eyebrows/mono). Loaded from Google Fonts.
-- **Phoenix mark** is the brand icon (nav, footer, favicon, OG).
-- **Grid:** 6-column. `.card` = span 3, `.card.small` = span 2, `.card.full` = span 6.
-- Motion respects `prefers-reduced-motion` everywhere — keep that guard on any new
-  animation. Canvas/rAF loops should idle when the tab is hidden or off-screen.
+- **Phoenix mark:** `assets/brand/phoenix-mark.png` is the ONE canonical asset
+  (nav, hero, footer, OG). Never redraw or regenerate it — scale, don't reshape.
+- **Grid:** 6-column. `.card` = span 3, `.card.full` = span 6.
+- **Motion on the main page is restrained on purpose:** scroll reveals, a thin
+  accent line between sections, the one-time phoenix ash formation, small hover
+  lifts. Don't add constant background animation, particles, cursor effects,
+  spinning borders, text-scramble, or 3D tilt there. (`/dev` keeps its original
+  effects.) Everything must respect `prefers-reduced-motion`.
 
 ---
 
 ## Site content map
 
-Public sections (top to bottom): hero (identity + "now" card) → **the stack**
-(Memory → Routing → Governance → Deployment: Mnemosyne / Tugboat / Snakepit /
-Bluebonnet) → **selected work**, organized as shelves:
+The main page (`index.html`) is built for a **business visitor first**. Order:
 
-- **Flagship AI systems** — Mnemosyne (`card full`, the flagship), Tugboat, snakepit.dev
-- **Business modernization** — AI Ops Diagnostic offer, Bluebonnet, Hermes
-- **Creative systems lab** — Greene Halls, Shadow of the Watchers, Fall of the
-  Giants, Devil's Ace, Above Black (keep lore *here* only)
-- **Experiments & lineage** — APEX, Eternal Context, BEN (all `card small`)
+1. **Hero** — "Builder · Problem Solver · Operator" / "I build better ways for
+   businesses to work." CTAs *Tell me what's stuck* → `#contact`, *See what I've
+   built* → `#work`. Signature: **AUDE FIERI — Dare to become.**
+2. **Solve · Build · Advance** (`#framework`).
+3. **What I do** (`#services`) — 4 capability cards + "Start with the problem" nudge.
+4. **Small business** (`#small-business`) — "You don't need an AI strategy." Keep it.
+5. **Selected work** (`#work`) — **4–6 projects max**, each a `<dl class="pbc">`
+   with **Problem / Built / Capability**. Currently snakepit.dev, Hermes Play Sheet,
+   Mnemosyne, Tugboat, Greene Halls.
+6. **Ways to work together** (`#engage`) — Diagnose → Build → Transform → Advise.
+   No pricing unless Austin defines it.
+7. **About** (`#about`) — identity, the line *"I don't believe every problem needs
+   AI. I believe every problem deserves the right tool."*, credibility strip.
+8. **The Lab** (`#lab`) — every other project as compact `.lab-item` tiles, plus
+   the live GitHub feed (`#live`).
+9. **Writing** (`#writing`) → hidden signal desk → **Contact** (`#contact`).
 
-Then **writing & research** (a numbered list) → **contact**.
+**Positioning:** Austin is a **builder, problem solver, and operator** who helps
+businesses figure out what's wrong, build the right thing, and implement it. AI is
+one capability, not the identity. Business outcomes before jargon; proof over
+claims; restraint over visual noise. If a change would make the site feel like a
+generic AI consultancy, don't make it. Keep employer references neutral.
 
-**Positioning:** Austin is an **Applied AI Systems Architect** — the memory /
-routing / governance / deployment thesis is the spine. Lead with agent/AI-ops
-vocabulary. The creative games keep their mythic voice; the professional framing
-never does. Keep enterprise/client references employer-neutral and
-executive-safe (no current-employer name on the public site while he's employed).
+**Brand hierarchy:** ATXGreene / Austin Greene is the public brand. **Bluebonnet is
+subordinate** — only "Select consulting engagements are delivered through
+Bluebonnet." Don't promote it to a card or headline.
+
+**Contact facts (verified — reuse exactly):** call/text `[removed]`
+(`tel:[removed]` / `sms:[removed]`), `atxgreene@gmail.com`,
+`https://linkedin.com/in/atxgreene`, `https://github.com/atxgreene`,
+`https://atxgreene.substack.com`, `https://x.com/atxgreene`. Never guess handles.
+
+**The contact form has no backend** — it composes a `mailto:`/`sms:` message in
+the visitor's own app. Don't wire it to a third-party form service without
+Austin's say-so (that needs CSP changes and a privacy decision).
 
 ---
 
@@ -232,12 +259,15 @@ Day" (prediction-market sims), with an "X Social Screener" planned. It must stay
 
 ## Common tasks — quick recipes
 
-**Add / edit a project card** (HTML-only, no re-hash):
-find the right shelf's `.grid`, copy an existing `<article class="card …">`,
-edit the cover class, title, `.desc`, `.tags`, and CTA. Run `verify.py`.
+**Add / edit a selected-work card** (HTML-only, no re-hash): copy an
+`<article class="card">` in `#work`, keep the Problem / Built / Capability
+`<dl class="pbc">`, and stay within 4–6 cards — add one, move one to the Lab.
+
+**Add an experiment to the Lab** (HTML-only, no re-hash): copy a
+`<article class="lab-item">` into the right `.lab-group`.
 
 **Add a writing/research entry** (HTML-only, no re-hash):
-add an `<li>` to the `.writing-list` (bump the "NN / pieces" count), and if it's a
+add an `<li>` to the `.writing-list` (title is an `<h3>`), and if it's a
 new page, drop the file in `writing/` and add a `<url>` to `sitemap.xml`. New
 writing pages are self-contained — match an existing page's structure; they don't
 share the main CSP (each is its own file) but keep them script-light and on-brand.
