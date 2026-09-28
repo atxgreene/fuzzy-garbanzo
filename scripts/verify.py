@@ -21,7 +21,7 @@ import sys
 import tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PAGES = ["index.html", "about/index.html"]
+PAGES = ["index.html", "dev/index.html"]
 failures = []
 
 
