@@ -9,7 +9,7 @@
 <!-- Hashed CSP: script-src allows exactly the five inline script blocks below. If you edit
      ANY inline script, re-run  scripts/verify.py --print-hashes  and update these hashes.
      CI (.github/workflows/ci.yml) fails the build if they drift. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-/x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw=' 'sha256-s8o+Hhz5ndtvjuBsXk8+VptCCoDREVWPlYc6yF83VMI=' 'sha256-DCOdEIqtI5y6VuhaTtHbCKWlDZHMzdrQGAJ438DuKMM=' 'sha256-XGvDbIeDGMohtg4NRs7/4mEy5usPbpbzLU/An9DDTVY=' 'sha256-jl9IvifidG+Ks04A3F+ixk+VA+FUxrTEGzGYPX9pgD4='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.github.com; frame-src https://atxgreene.github.io https://snakepit.dev; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-/x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw=' 'sha256-s8o+Hhz5ndtvjuBsXk8+VptCCoDREVWPlYc6yF83VMI=' 'sha256-DCOdEIqtI5y6VuhaTtHbCKWlDZHMzdrQGAJ438DuKMM=' 'sha256-bLBLmZFoeZuXMynL4RnDe6z1sNkQgmlk3OrdgPOdLIs=' 'sha256-jl9IvifidG+Ks04A3F+ixk+VA+FUxrTEGzGYPX9pgD4='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.github.com; frame-src https://atxgreene.github.io https://snakepit.dev; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests" />
 <meta name="theme-color" content="#071923" />
 <meta name="color-scheme" content="dark" />
 <meta name="robots" content="index, follow, max-image-preview:large" />
@@ -1165,8 +1165,6 @@
           <h2 id="contact-h">Tell me what's <span class="grad">stuck.</span></h2>
           <p>You don't need a scope of work. Tell me what's happening, what you wish were happening instead, and we'll start there.</p>
           <ul class="contact-links">
-            <li><a class="primary-line" href="tel:+15125952875"><span>Call</span><small>512-595-2875</small></a></li>
-            <li><a class="primary-line" href="sms:+15125952875"><span>Text</span><small>512-595-2875</small></a></li>
             <li><a class="primary-line" href="mailto:atxgreene@gmail.com?subject=What%27s%20stuck"><span>Email</span><small>atxgreene@gmail.com</small></a></li>
             <li><a href="https://linkedin.com/in/atxgreene" target="_blank" rel="noopener noreferrer"><span>LinkedIn</span><small>/in/atxgreene ↗</small></a></li>
             <li><a href="https://github.com/atxgreene" target="_blank" rel="noopener noreferrer"><span>GitHub</span><small>@atxgreene ↗</small></a></li>
@@ -1188,9 +1186,8 @@
           <div class="field"><label for="f-problem">What are you trying to solve?</label><textarea id="f-problem" name="problem" required placeholder="What's happening today, and what would you rather be happening?"></textarea></div>
           <div class="form-actions">
             <button class="btn primary" type="submit">Send by email →</button>
-            <button class="btn ghost" type="button" id="stuck-sms">Send as a text</button>
           </div>
-          <p class="form-note">Opens your email or messaging app with this filled in — nothing is stored on this site.</p>
+          <p class="form-note">Opens your email app with this filled in — nothing is stored on this site.</p>
         </form>
       </div>
     </section>
@@ -1205,7 +1202,6 @@
         <span>Austin Greene · Builder · Problem Solver · Operator</span>
         <span class="foot-links">
           <a href="mailto:atxgreene@gmail.com">Email</a>
-          <a href="tel:+15125952875">Call</a>
           <a href="https://linkedin.com/in/atxgreene" target="_blank" rel="noopener noreferrer">LinkedIn</a>
           <a href="https://github.com/atxgreene" target="_blank" rel="noopener noreferrer">GitHub</a>
           <a href="https://atxgreene.substack.com" target="_blank" rel="noopener noreferrer">Substack</a>
@@ -1490,11 +1486,11 @@
     }
   })();
 
-  /* ── "Tell me what's stuck" form: composes an email or text. No backend; nothing is stored. ── */
+  /* ── "Tell me what's stuck" form: composes an email. No backend; nothing is stored. ── */
   (function stuckForm() {
     var form = document.getElementById('stuck-form');
     if (!form) return;
-    var TO = 'atxgreene@gmail.com', PHONE = '+15125952875';
+    var TO = 'atxgreene@gmail.com';
     function val(n) { var el = form.elements[n]; return el ? el.value.trim() : ''; }
     function compose() {
       var lines = [];
@@ -1511,13 +1507,6 @@
       var who = val('business') || val('name');
       var subject = "What's stuck" + (who ? ' — ' + who : '');
       window.location.href = 'mailto:' + TO + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(compose());
-    });
-    var sms = document.getElementById('stuck-sms');
-    if (sms) sms.addEventListener('click', function () {
-      var p = form.elements.problem;
-      if (p && !p.reportValidity()) return;
-      var sep = /iP(hone|ad|od)/.test(navigator.userAgent) ? '&' : '?';
-      window.location.href = 'sms:' + PHONE + sep + 'body=' + encodeURIComponent(compose());
     });
   })();
 })();
