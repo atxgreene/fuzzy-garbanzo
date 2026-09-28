@@ -209,12 +209,11 @@ generic AI consultancy, don't make it. Keep employer references neutral.
 subordinate** — only "Select consulting engagements are delivered through
 Bluebonnet." Don't promote it to a card or headline.
 
-**Contact facts (verified — reuse exactly):** call/text `[removed]`
-(`tel:[removed]` / `sms:[removed]`), `atxgreene@gmail.com`,
+**Contact facts (verified — reuse exactly):** `atxgreene@gmail.com`,
 `https://linkedin.com/in/atxgreene`, `https://github.com/atxgreene`,
-`https://atxgreene.substack.com`, `https://x.com/atxgreene`. Never guess handles.
+`https://atxgreene.substack.com`, `https://x.com/atxgreene`. Never guess handles. **Do not publish Austin's phone number anywhere on the site** (he removed it on purpose).
 
-**The contact form has no backend** — it composes a `mailto:`/`sms:` message in
+**The contact form has no backend** — it composes a `mailto:` message in
 the visitor's own app. Don't wire it to a third-party form service without
 Austin's say-so (that needs CSP changes and a privacy decision).
 
