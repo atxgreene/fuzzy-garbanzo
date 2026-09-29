@@ -5,7 +5,7 @@
    Bump VERSION to invalidate the old cache on the next deploy. */
 'use strict';
 
-var VERSION = 'v2';
+var VERSION = 'v3';
 var CACHE = 'atxgreene-' + VERSION;
 var PRECACHE = [
   '/',
